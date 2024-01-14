@@ -25,7 +25,7 @@ public class ResolutionManager : MonoBehaviour
         for(int i = 0; i < m_resolutions.Length; i++)
         {
             int currentRefreshRate = ((int)m_resolutions[i].refreshRateRatio.value);
-            string resolution = m_resolutions[i].width + " x " + m_resolutions[i].height + " " + currentRefreshRate + " Hz";
+            string resolution = m_resolutions[i].width + " x " + m_resolutions[i].height + " " + currentRefreshRate + "Hz";
             resolutionList.Add(resolution);
 
             if (m_resolutions[i].width == Screen.currentResolution.width && 
