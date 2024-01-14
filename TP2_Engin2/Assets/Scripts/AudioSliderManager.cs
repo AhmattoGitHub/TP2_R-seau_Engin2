@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class volumeslider : MonoBehaviour
 {
-    public Slider volumeSlider;
+    public Slider m_volumeSlider;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,16 +21,16 @@ public class volumeslider : MonoBehaviour
     }
     public void ChangeVolume()
     {
-        AudioListener.volume = volumeSlider.value;
+        AudioListener.volume = m_volumeSlider.value;
         Save();
     }
     public void Save()
     {
-        PlayerPrefs.SetFloat("Music", volumeSlider.value);
+        PlayerPrefs.SetFloat("Music", m_volumeSlider.value);
     }
     public void Load()
     {
-        volumeSlider.value = PlayerPrefs.GetFloat("Music");
-        AudioListener.volume = volumeSlider.value;
+        m_volumeSlider.value = PlayerPrefs.GetFloat("Music");
+        AudioListener.volume = m_volumeSlider.value;
     }
 }

@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject mainMenu;
+    private GameObject m_mainMenu;
     [SerializeField]
-    private GameObject optionsMenu;
+    private GameObject m_optionsMenu;
 
     public void PlayGame()
     {
@@ -20,13 +20,13 @@ public class MainMenuManager : MonoBehaviour
     }
     public void OpenOptionsMenu()
     {
-        mainMenu.SetActive(false);
-        optionsMenu.SetActive(true);
+        m_mainMenu.SetActive(false);
+        m_optionsMenu.SetActive(true);
     }
     public void CloseOptionsMenu()
     {
-        mainMenu.SetActive(true);
-        optionsMenu.SetActive(false);
+        m_mainMenu.SetActive(true);
+        m_optionsMenu.SetActive(false);
     }
     public void QuitGame()
     {
