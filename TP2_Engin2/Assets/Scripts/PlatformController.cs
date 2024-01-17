@@ -5,16 +5,16 @@ public class PlatformController : MonoBehaviour
     [SerializeField] private float m_rotationSpeed = 1.0f;
     [SerializeField] private float m_angleLimits = 15.0f;
 
+    private float m_xMax = 0.0f;
+    private float m_xMin = 0.0f;
+    private float m_zMax = 0.0f;
+    private float m_zMin = 0.0f;
+
     //[field: Header("ANGLE LIMITS")]
     //[SerializeField] private float m_xMax =  15.0f; 
     //[SerializeField] private float m_xMin = -15.0f;
     //[SerializeField] private float m_zMax =  15.0f; 
     //[SerializeField] private float m_zMin = -15.0f;
-
-    private float m_xMax = 0.0f;
-    private float m_xMin = 0.0f;
-    private float m_zMax = 0.0f;
-    private float m_zMin = 0.0f;
 
     private void Start()
     {
@@ -31,11 +31,12 @@ public class PlatformController : MonoBehaviour
         //      and inputing movement to go east, platform would slowly move to east even though that means
         //      that you need to add automatically inputs to make sure it's possible
         //      So like the main direction are N, S, E, W and not in betweens, if that makes sense
+        // TODO Maybe add an automatic return to 0 degree angle if no input is detected
 
         float inputXPositive = 0.0f;
         float inputXNegative = 0.0f;
         float inputZPositive = 0.0f;
-        float inputZNegative = 0.0f;
+        float inputZNegative = 0.0f;        
         
         // First user inputs
         if (Input.GetKey(KeyCode.W))
@@ -43,9 +44,9 @@ public class PlatformController : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
             inputXNegative = -1.0f;
         if (Input.GetKey(KeyCode.D))
-            inputZPositive = -1.0f;
+            inputZNegative = -1.0f;
         if (Input.GetKey(KeyCode.A))
-            inputZNegative = 1.0f;
+            inputZPositive = 1.0f;
 
         // Second user inputs
         if (Input.GetKey(KeyCode.UpArrow))
@@ -53,12 +54,12 @@ public class PlatformController : MonoBehaviour
         if (Input.GetKey(KeyCode.DownArrow))
             inputXNegative = -1.0f;
         if (Input.GetKey(KeyCode.RightArrow))
-            inputZPositive = -1.0f;
+            inputZNegative = -1.0f;
         if (Input.GetKey(KeyCode.LeftArrow))
-            inputZNegative = 1.0f;
+            inputZPositive = 1.0f;
                 
         float rotationX = (inputXPositive + inputXNegative) * m_rotationSpeed * Time.deltaTime;
-        float rotationZ = (inputZNegative + inputZPositive) * m_rotationSpeed * Time.deltaTime;
+        float rotationZ = (inputZPositive + inputZNegative) * m_rotationSpeed * Time.deltaTime;
                 
         float currentOrientationX = ClampAngle(transform.rotation.eulerAngles.x);
         float currentOrientationZ = ClampAngle(transform.rotation.eulerAngles.z);
