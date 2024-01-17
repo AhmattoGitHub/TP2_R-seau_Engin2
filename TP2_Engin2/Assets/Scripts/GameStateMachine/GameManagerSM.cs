@@ -20,6 +20,8 @@ public class GameManagerSM : BaseStateMachine<IState>
         m_possibleStates = new List<IState>();
         m_possibleStates.Add(new MainMenuState());
         m_possibleStates.Add(new LobbyState());
+        m_possibleStates.Add(new TutorialState());
+        m_possibleStates.Add(new MainLevelState());
     }
     public void PlayGame()
     {
