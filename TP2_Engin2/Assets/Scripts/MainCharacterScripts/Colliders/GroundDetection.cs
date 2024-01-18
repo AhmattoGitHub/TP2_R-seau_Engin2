@@ -1,6 +1,7 @@
+using Mirror;
 using UnityEngine;
 
-public class GroundDetection : MonoBehaviour
+public class GroundDetection : NetworkBehaviour
 {
     public bool IsGrounded { get; private set; } = false;
     public bool TouchingGround { get; private set; } = false;
@@ -14,12 +15,18 @@ public class GroundDetection : MonoBehaviour
     {
         IsGrounded = true;
         TouchingGround = false;
-
     }
 
     private void OnTriggerExit(Collider other)
     {
         IsGrounded = false;
         TouchingGround = false;
+
+    }
+
+
+    private void Update()
+    {
+        Debug.Log("GD: " + IsGrounded);
     }
 }

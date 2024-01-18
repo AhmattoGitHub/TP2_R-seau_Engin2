@@ -1,7 +1,8 @@
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseStateMachine<T> : MonoBehaviour where T : IState
+public abstract class BaseStateMachine<T> : NetworkBehaviour where T : IState
 {
     protected T m_currentState;
     protected List<T> m_possibleStates;

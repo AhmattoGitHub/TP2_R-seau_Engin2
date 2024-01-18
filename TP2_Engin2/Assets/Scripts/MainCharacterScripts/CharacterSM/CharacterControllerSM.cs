@@ -1,10 +1,11 @@
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 public class CharacterControllerSM : BaseStateMachine<CharacterState>
 {
-    public static CharacterControllerSM Instance { get; private set; }
+    //public static CharacterControllerSM Instance { get; private set; }
 
     [field: SerializeField] public Camera Camera { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
@@ -33,9 +34,11 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
 
     // /////////////////
 
-    [SerializeField] private GroundDetection m_groundCollider;
+    [SerializeField] private GameObject m_groundCollider;
     [SerializeField] private HitDetection m_hitDetection;
 
+    private float m_lerpedAngleX = 0;
+    private bool m_isGrounded = false;
 
     protected override void CreatePossibleStates()
     {
@@ -47,15 +50,17 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
     protected override void Awake()
     {
         base.Awake();
-    
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
+
+        //Rb.isKinematic = false;
+
+        //if (Instance != null && Instance != this)
+        //{
+        //    Destroy(this);
+        //}
+        //else
+        //{
+        //    Instance = this;
+        //}
     }
 
     protected override void Start()
@@ -82,6 +87,8 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
         {
             Application.Quit();
         }
+
+
     }
 
     protected override void FixedUpdate()
@@ -92,8 +99,13 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
 
     private void RotatePlayer()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         float currentAngleX = Input.GetAxis("Mouse X") * RotationSpeed;
-        MC.transform.RotateAround(ObjectToLookAt.transform.position, ObjectToLookAt.transform.up, currentAngleX);
+        m_lerpedAngleX = Mathf.Lerp(m_lerpedAngleX, currentAngleX, 0.1f);
+        MC.transform.RotateAround(ObjectToLookAt.transform.position, ObjectToLookAt.transform.up, m_lerpedAngleX);
     }
 
     private void SetForwardVectorFromGroundNormal()
@@ -122,12 +134,13 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
 
     public bool IsInContactWithFloor()
     {
-        return m_groundCollider.IsGrounded;
+        return m_groundCollider.GetComponent<GroundDetection>().IsGrounded; 
     }
+
 
     public bool IsTouchingGround()
     {
-        return m_groundCollider.TouchingGround;
+        return m_groundCollider.GetComponent<GroundDetection>().TouchingGround;
     }
 
     public bool HasBeenHit()
@@ -169,9 +182,12 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
             forwardMovement /= BackwardMaxVelocity;
         }
 
+        if (isLocalPlayer)
+        {
+            Animator.SetFloat("MoveLR", lateralMovement);
+            Animator.SetFloat("MoveFB", forwardMovement);
 
-        Animator.SetFloat("MoveLR", lateralMovement);
-        Animator.SetFloat("MoveFB", forwardMovement);
+        }
     }
 
 
@@ -183,6 +199,7 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
     private void SetIsGroundedAnimationBool()
     {
         Animator.SetBool("IsGrounded", IsInContactWithFloor());
+        Debug.Log("CC: " + IsInContactWithFloor());
     }
 
 }

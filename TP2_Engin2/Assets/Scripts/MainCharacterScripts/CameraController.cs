@@ -1,11 +1,10 @@
+using Mirror;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : NetworkBehaviour
 {
-    // UNUSED // NO CINEMACHINE VERSION
 
     [SerializeField] private Transform m_objectToLookAt;
-    [SerializeField] private Vector3 m_offset;
     private Vector3 m_targetPosition;
     [SerializeField] private float m_startDistance = 5.0f;
     private float m_targetDistance;
@@ -23,7 +22,10 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = m_objectToLookAt.position + m_offset;
+        if (!isLocalPlayer)
+        {
+            gameObject.SetActive(false);
+        }
         m_targetDistance = m_startDistance;
     }
 
@@ -32,7 +34,7 @@ public class CameraController : MonoBehaviour
         CalculateDistance();
         CalculateTargetPosition();
 
-        RotateAroundObjectHorizontal();
+        //RotateAroundObjectHorizontal();
         RotateAroundObjectVertical();
 
         transform.position = Vector3.Lerp(transform.position, m_targetPosition, m_lerpF);
