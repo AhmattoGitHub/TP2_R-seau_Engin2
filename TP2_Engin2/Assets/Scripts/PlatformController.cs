@@ -62,12 +62,9 @@ public class PlatformController : MonoBehaviour
                 
         float rotationX = (inputXPositive + inputXNegative) * m_rotationSpeed * Time.deltaTime;
         float rotationZ = (inputZPositive + inputZNegative) * m_rotationSpeed * Time.deltaTime;
-                
-        float currentOrientationX = ClampAngle(transform.rotation.eulerAngles.x);
-        float currentOrientationZ = ClampAngle(transform.rotation.eulerAngles.z);
-
-        rotationX += currentOrientationX;
-        rotationZ += currentOrientationZ;        
+           
+        rotationX += ClampAngle(transform.rotation.eulerAngles.x);
+        rotationZ += ClampAngle(transform.rotation.eulerAngles.z);
 
         rotationX = Mathf.Clamp(rotationX, m_xMin, m_xMax);
         rotationZ = Mathf.Clamp(rotationZ, m_zMin, m_zMax);
