@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 698380565843181682}
   - component: {fileID: 3075177088003192003}
   - component: {fileID: 8860887119150988051}
+  - component: {fileID: -5673297013942308169}
   m_Layer: 0
   m_Name: CameraProjectile
   m_TagString: Untagged
@@ -128,8 +129,21 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5673297013942308169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3649542801580567628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a8d110d9e10ef409030e94b4998dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_timer: 2

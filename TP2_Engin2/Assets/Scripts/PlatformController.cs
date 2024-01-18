@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
-    [SerializeField] private float m_rotationSpeed = 1.0f;
-    [SerializeField] private float m_angleLimits = 15.0f;
+    [SerializeField]
+    private float m_rotationSpeed = 1.0f;
+    [SerializeField]
+    private float m_angleLimits = 15.0f;
 
     private float m_xMax = 0.0f;
     private float m_xMin = 0.0f;
