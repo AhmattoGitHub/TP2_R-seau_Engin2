@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class PlatformController : MonoBehaviour
+public class PlatformControllerTwo : MonoBehaviour
 {
     [SerializeField]
-    private Transform m_pivot = null;
-    [SerializeField]
-    private GameObject m_previewObject = null;
+    private Transform m_pivot = null;    
     [SerializeField]
     private float m_rotationSpeed = 1.0f;
     [SerializeField]
@@ -13,8 +11,13 @@ public class PlatformController : MonoBehaviour
     [SerializeField]
     private float m_pivotRadius = 10.0f;
 
+    private Vector3 m_lastPosition = Vector3.zero;
+    private Vector3 m_lastRotation = Vector3.zero;
+    
     private void Update()
-    {        
+    {
+        // https://gamedevbeginner.com/how-to-rotate-in-unity-complete-beginners-guide/#rotate_towards_object
+
         float inputXPositive = 0.0f;
         float inputXNegative = 0.0f;
         float inputZPositive = 0.0f;
@@ -40,27 +43,25 @@ public class PlatformController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
             inputZPositive = 1.0f;
 
-        if (inputXPositive == 0 && inputXNegative == 0 && inputZPositive == 0 && inputZNegative == 0)
-            return;
-
         float rotationX = (inputXPositive + inputXNegative) * m_rotationSpeed * Time.deltaTime;
         float rotationZ = (inputZPositive + inputZNegative) * m_rotationSpeed * Time.deltaTime;
-                
-        m_previewObject.transform.position = transform.position;
-        m_previewObject.transform.rotation = transform.rotation;
 
-        m_previewObject.transform.position = m_pivot.position - (-transform.up * m_pivotRadius);
-        m_previewObject.transform.RotateAround(m_pivot.position, Vector3.right, rotationX);
-        m_previewObject.transform.RotateAround(m_pivot.position, Vector3.forward, rotationZ);
+        Vector3 pivotDir = m_pivot.position - transform.position;        
+        float angleToPivotDir = Vector3.Angle(-Vector3.up, pivotDir);       
 
-        Vector3 previewObjectPivotDir = m_pivot.position - m_previewObject.transform.position;
-        float previewObjectAngleToPivotDir = Vector3.Angle(-Vector3.up, previewObjectPivotDir);
+        if (angleToPivotDir <= m_angleLimit)
+        {
+            m_lastPosition = transform.position;
+            m_lastRotation = transform.rotation.eulerAngles;
 
-        if (previewObjectAngleToPivotDir >= m_angleLimit)
-            return;
-
-        transform.position = m_pivot.position - (-transform.up * m_pivotRadius);
-        transform.RotateAround(m_pivot.position, Vector3.right, rotationX);
-        transform.RotateAround(m_pivot.position, Vector3.forward, rotationZ);
+            transform.position = m_pivot.position - (-transform.up * m_pivotRadius);            
+            transform.RotateAround(m_pivot.position, Vector3.right, rotationX);
+            transform.RotateAround(m_pivot.position, Vector3.forward, rotationZ);            
+        }
+        else
+        {
+            transform.position = m_lastPosition;
+            transform.rotation = Quaternion.Euler(m_lastRotation);     
+        }
     }
 }
