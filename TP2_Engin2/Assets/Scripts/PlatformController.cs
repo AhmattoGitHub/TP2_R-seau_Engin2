@@ -53,14 +53,13 @@ public class PlatformController : MonoBehaviour
         m_previewObject.transform.RotateAround(m_pivot.position, Vector3.right, rotationX);
         m_previewObject.transform.RotateAround(m_pivot.position, Vector3.forward, rotationZ);
 
-        Vector3 previewObjectPivotDir = m_pivot.position - m_previewObject.transform.position;
-        float previewObjectAngleToPivotDir = Vector3.Angle(-Vector3.up, previewObjectPivotDir);
+        Vector3 pivotToObjectPreviewDir = m_pivot.position - m_previewObject.transform.position;
+        float previewObjectToPivotDirAngle = Vector3.Angle(-Vector3.up, pivotToObjectPreviewDir);
 
-        if (previewObjectAngleToPivotDir >= m_angleLimit)
+        if (previewObjectToPivotDirAngle >= m_angleLimit)
             return;
 
         transform.position = m_pivot.position - (-transform.up * m_pivotRadius);
         transform.RotateAround(m_pivot.position, Vector3.right, rotationX);
         transform.RotateAround(m_pivot.position, Vector3.forward, rotationZ);
-    }
-}
+    }}
