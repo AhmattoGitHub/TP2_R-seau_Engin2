@@ -8,10 +8,10 @@ public class JumpState : CharacterState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering JumpState");
+        //Debug.Log("Entering JumpState");
 
         m_hasDoubleJumped = false;
-        m_stateMachine.Rb.velocity *= 0.5f;
+        //m_stateMachine.Rb.velocity *= 0.5f;
         Jump();
 
         m_currentGCDelayTimer = GROUNDCHECK_DELAY_TIMER;
@@ -23,6 +23,7 @@ public class JumpState : CharacterState
     {
         AddForceFromInputs();
 
+        CapMaximumSpeed();
     }
 
     private void AddForceFromInputs()
@@ -53,6 +54,17 @@ public class JumpState : CharacterState
                 ForceMode.Acceleration);
     }
 
+    private void CapMaximumSpeed()
+    {
+        if (m_stateMachine.Rb.velocity.magnitude < m_stateMachine.InAirMaxVelocity)
+        {
+            return;
+        }
+
+        m_stateMachine.Rb.velocity = Vector3.Normalize(m_stateMachine.Rb.velocity);
+        m_stateMachine.Rb.velocity *= m_stateMachine.InAirMaxVelocity;
+    }
+
     private void Jump()
     {
         m_stateMachine.Rb.AddForce(Vector3.up * m_stateMachine.JumpAccelerationValue,
@@ -65,6 +77,7 @@ public class JumpState : CharacterState
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                m_stateMachine.Rb.velocity = new Vector3(m_stateMachine.Rb.velocity.x, 0, m_stateMachine.Rb.velocity.z);
                 Jump();
                 m_hasDoubleJumped = true;
             }
@@ -75,7 +88,7 @@ public class JumpState : CharacterState
 
     public override void OnExit()
     {
-        Debug.Log("Exiting JumpState");
+        //Debug.Log("Exiting JumpState");
 
         //if (m_stateMachine.IsInContactWithFloor())
         //{

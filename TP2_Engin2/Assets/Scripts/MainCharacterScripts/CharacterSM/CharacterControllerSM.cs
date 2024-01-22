@@ -12,12 +12,13 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
     [field: SerializeField] private Animator Animator { get; set; }
     [field: SerializeField] public BoxCollider HitBox { get; private set; }
     [field: SerializeField] public float AccelerationValue { get; private set; } = 20.0f;
-    [field: SerializeField] public float JumpAccelerationValue { get; private set; } = 320.0f;
+    [field: SerializeField] public float JumpAccelerationValue { get; private set; } = 500.0f;
     [field: SerializeField] public float SlowedDownAccelerationValue { get; private set; } = 7.0f;
     [field: SerializeField] public float ForwardMaxVelocity { get; private set; } = 6.0f;
-    [field: SerializeField] public float LateralMaxVelocity { get; private set; } = 4.0f;
-    [field: SerializeField] public float BackwardMaxVelocity { get; private set; } = 2.0f;
+    [field: SerializeField] public float LateralMaxVelocity { get; private set; } = 5.0f;
+    [field: SerializeField] public float BackwardMaxVelocity { get; private set; } = 3.0f;
     [field: SerializeField] public float SlowingVelocity { get; private set; } = 0.97f;
+    [field: SerializeField] public float InAirMaxVelocity { get; private set; } = 6.0f;
     [field: SerializeField] public float MaxNoDamageFall { get; private set; } = 10.0f;
     [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;
     [field: SerializeField] public GameObject ObjectToLookAt { get; private set; }
@@ -87,8 +88,6 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
         {
             Application.Quit();
         }
-
-
     }
 
     protected override void FixedUpdate()
@@ -199,7 +198,6 @@ public class CharacterControllerSM : BaseStateMachine<CharacterState>
     private void SetIsGroundedAnimationBool()
     {
         Animator.SetBool("IsGrounded", IsInContactWithFloor());
-        Debug.Log("CC: " + IsInContactWithFloor());
     }
 
 }

@@ -737,6 +737,7 @@ GameObject:
   - component: {fileID: 4702501583124893326}
   - component: {fileID: 6616331357813043086}
   - component: {fileID: 5786976965615852489}
+  - component: {fileID: 3484544101821538501}
   - component: {fileID: 8896244389645679937}
   - component: {fileID: 7006531929034974986}
   - component: {fileID: 3484682646060221960}
@@ -841,6 +842,22 @@ CapsuleCollider:
   m_Height: 3.5217566
   m_Direction: 1
   m_Center: {x: 0, y: 1.8273726, z: 0}
+--- !u!114 &3484544101821538501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096930612547086335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d727d8e0ca8ad7c47b19e965ee66c27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CanHit>k__BackingField: 0
+  <CanReceiveHit>k__BackingField: 1
+  <AgentType>k__BackingField: 0
+  <AffectedAgents>k__BackingField: 
 --- !u!114 &8896244389645679937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2600,12 +2617,13 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 4702501583124893326}
   <HitBox>k__BackingField: {fileID: 0}
   <AccelerationValue>k__BackingField: 20
-  <JumpAccelerationValue>k__BackingField: 320
+  <JumpAccelerationValue>k__BackingField: 500
   <SlowedDownAccelerationValue>k__BackingField: 7
   <ForwardMaxVelocity>k__BackingField: 6
-  <LateralMaxVelocity>k__BackingField: 4
-  <BackwardMaxVelocity>k__BackingField: 2
+  <LateralMaxVelocity>k__BackingField: 5
+  <BackwardMaxVelocity>k__BackingField: 3
   <SlowingVelocity>k__BackingField: 0.97
+  <InAirMaxVelocity>k__BackingField: 6
   <MaxNoDamageFall>k__BackingField: 10
   <RotationSpeed>k__BackingField: 8
   <ObjectToLookAt>k__BackingField: {fileID: 4928195406050657157}

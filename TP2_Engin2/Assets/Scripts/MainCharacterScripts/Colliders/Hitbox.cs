@@ -29,6 +29,8 @@ public class Hitbox : MonoBehaviour
         {
 			Vector3 contactPoint = collision.GetContact(0).point;
 			//FXManager.Instance.OnHit(AgentType, contactPoint);
+
+			Debug.Log(gameObject.name + " script hit " + otherHitbox.name);
         }
     }
 

@@ -24,9 +24,4 @@ public class GroundDetection : NetworkBehaviour
 
     }
 
-
-    private void Update()
-    {
-        Debug.Log("GD: " + IsGrounded);
-    }
 }
