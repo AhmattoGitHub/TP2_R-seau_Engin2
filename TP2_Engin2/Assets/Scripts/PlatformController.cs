@@ -9,11 +9,10 @@ public class PlatformController : MonoBehaviour
     [SerializeField] private float m_angleLimit = 15.0f;    
     [SerializeField] private float m_dampingSpeed = 10.0f;
     [SerializeField] private float m_pivotRadius = 0.01f;
-    
-    private float m_rotationX = 0.0f;
-    private float m_rotationZ = 0.0f;
 
-    private Vector2 m_worldInputs = Vector2.zero;    
+    private Vector2 m_worldInputs = Vector2.zero;
+    private float m_rotationX = 0.0f;
+    private float m_rotationZ = 0.0f;        
 
     private void Update()
     {
