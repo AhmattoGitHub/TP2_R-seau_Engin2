@@ -43,6 +43,7 @@ public class LevelPlayerController : MonoBehaviour
         }
 
         Vector2 worldInput = TransformLocalInputToWorld(localInput);
+        
         m_platformController.ReceiveWorldInputs(worldInput);
     }
 

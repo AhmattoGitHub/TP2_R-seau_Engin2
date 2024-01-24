@@ -13,7 +13,7 @@ public class PlatformController : MonoBehaviour
     private float m_rotationX = 0.0f;
     private float m_rotationZ = 0.0f;
 
-    private Vector2 m_worldInputs = Vector2.zero;
+    private Vector2 m_worldInputs = Vector2.zero;    
 
     private void Update()
     {
