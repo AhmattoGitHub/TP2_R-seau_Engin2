@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlatformController : MonoBehaviour
+public class PlatformControllerPivot : MonoBehaviour
 {
     [SerializeField]
     private Transform m_pivot = null;
@@ -14,6 +14,8 @@ public class PlatformController : MonoBehaviour
     private float m_pivotRadius = 10.0f;
     [SerializeField]
     private float m_dampingSpeed = 10.0f;
+    [SerializeField]
+    private GameObject m_platform = null;
 
     private Vector3 m_localForward = Vector3.zero;
     private Vector3 m_localRight = Vector3.zero;
@@ -52,6 +54,7 @@ public class PlatformController : MonoBehaviour
 
         //Vector2 combinedInputs = inputPlayerOne + inputPlayerTwo;
         Vector2 combinedInputs = inputPlayerOne;
+        //Vector2 combinedInputs = inputPlayerTwo;
         combinedInputs = combinedInputs.normalized; // If we want to increase more rapidly if same direction remove normalized
 
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A)
@@ -61,12 +64,6 @@ public class PlatformController : MonoBehaviour
         {
             Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, m_pivot.up);
             gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, targetRotation, m_dampingSpeed * Time.deltaTime);
-            return;
-        }
-
-        if(combinedInputs == Vector2.zero)
-        {
-            Debug.Log("Combined Inputs = Zero");
             return;
         }
 
@@ -86,8 +83,9 @@ public class PlatformController : MonoBehaviour
         Vector2 returnInput = Vector2.zero;
         Vector3 localInput = Vector3.zero;
 
-        m_localForward = Camera.main.transform.TransformDirection(Vector3.forward);
-        m_localRight = Camera.main.transform.TransformDirection(Vector3.right);
+        Camera activeCamera = GetActiveCamera();
+        m_localForward = activeCamera.transform.TransformDirection(Vector3.forward);
+        m_localRight = activeCamera.transform.TransformDirection(Vector3.right);
 
         if (Input.GetKey(KeyCode.W))
             localInput += m_localForward;
@@ -98,12 +96,6 @@ public class PlatformController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
             localInput += m_localRight;
 
-        if (localInput == Vector3.zero)
-        {
-            Debug.Log("Local Inputs = Zero");
-            return Vector2.zero;
-        }
-
         float forwardThreshold = 0.5f;
         float rightThreshold = 0.5f;
 
@@ -112,8 +104,8 @@ public class PlatformController : MonoBehaviour
         {
             // South
             Debug.Log("Entered 1");
-            localInput += 2 * Vector3.Dot(localInput, m_localForward) * m_localForward;
-            localInput += 2 * Vector3.Dot(localInput, m_localRight) * m_localRight;
+            localInput += Vector3.Dot(localInput, m_localForward) * m_localForward;
+            localInput += Vector3.Dot(localInput, m_localRight) * m_localRight;
         }
         else if (Mathf.Abs(m_localForward.x) > forwardThreshold && Mathf.Abs(m_localForward.z) < forwardThreshold
             && Mathf.Abs(m_localRight.x) < rightThreshold && Mathf.Abs(m_localRight.z) > rightThreshold)
@@ -128,8 +120,8 @@ public class PlatformController : MonoBehaviour
         {
             // North
             Debug.Log("Entered 3");
-            localInput += 2 * Vector3.Dot(localInput, m_localForward) * m_localForward;
-            localInput += 2 * Vector3.Dot(localInput, m_localRight) * m_localRight;
+            localInput += Vector3.Dot(localInput, m_localForward) * m_localForward;
+            localInput += Vector3.Dot(localInput, m_localRight) * m_localRight;
         }
         else if (Mathf.Abs(m_localForward.x) > forwardThreshold && Mathf.Abs(m_localForward.z) > forwardThreshold
             && Mathf.Abs(m_localRight.x) < rightThreshold && Mathf.Abs(m_localRight.z) < rightThreshold)
@@ -155,8 +147,9 @@ public class PlatformController : MonoBehaviour
         Vector2 returnInput = Vector2.zero;
         Vector3 localInput = Vector3.zero;
 
-        m_localForward = Camera.main.transform.TransformDirection(Vector3.forward);
-        m_localRight = Camera.main.transform.TransformDirection(Vector3.right);
+        Camera activeCamera = GetActiveCamera();
+        m_localForward = activeCamera.transform.TransformDirection(Vector3.forward);
+        m_localRight = activeCamera.transform.TransformDirection(Vector3.right);
 
         if (Input.GetKey(KeyCode.UpArrow))
             localInput += m_localForward;
@@ -167,11 +160,24 @@ public class PlatformController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
             localInput += m_localRight;
 
-        if (localInput == Vector3.zero)
-        {
-            Debug.Log("Local Inputs = Zero");
-            return Vector2.zero;
-        }
+        /*
+         
+         Quaternion cameraRotationRelativeToPlatform = Quaternion.Inverse(platformTransform.rotation) * cameraTransform.rotation;
+
+        // Convertissez les entrées locales en entrées du monde en fonction de la rotation de la caméra
+        Vector3 worldInput = cameraRotationRelativeToPlatform * localInput;
+        
+        // Appliquez les entrées transformées à la plateforme
+        // Vous pouvez ajuster cela en fonction de votre logique spécifique de transformation de la plateforme
+        platformTransform.Translate(worldInput * Time.deltaTime * speed, Space.World);
+         
+         */
+
+        //Quaternion cameraRotationRelativeToPlatform = Quaternion.Inverse(m_platform.transform.rotation) * activeCamera.transform.rotation;
+        //
+        //Vector3 worldInput = cameraRotationRelativeToPlatform * localInput;
+        //
+        //return worldInput;
 
         if (m_localForward.x < 0.5 && m_localForward.x > -0.5
             && m_localForward.z > 0.5
@@ -180,8 +186,8 @@ public class PlatformController : MonoBehaviour
         {
             // South
             Debug.Log("Entered 1");
-            localInput += 2 * Vector3.Dot(localInput, m_localForward) * m_localForward;
-            localInput += 2 * Vector3.Dot(localInput, m_localRight) * m_localRight;
+            localInput += Vector3.Dot(localInput, m_localForward) * m_localForward;
+            localInput += Vector3.Dot(localInput, m_localRight) * m_localRight;
         }
         else if (m_localForward.x < -0.5
             && m_localForward.z < 0.5 && m_localForward.z > -0.5
@@ -200,8 +206,8 @@ public class PlatformController : MonoBehaviour
         {
             // North
             Debug.Log("Entered 3");
-            localInput += 2 * Vector3.Dot(localInput, m_localForward) * m_localForward;
-            localInput += 2 * Vector3.Dot(localInput, m_localRight) * m_localRight;
+            localInput += Vector3.Dot(localInput, m_localForward) * m_localForward;
+            localInput += Vector3.Dot(localInput, m_localRight) * m_localRight;
         }
         else if (m_localForward.x > 0.5
             && m_localForward.z > -0.5 && m_localForward.z < 0.5
@@ -226,22 +232,22 @@ public class PlatformController : MonoBehaviour
 
     private float CalculatePreviewAngleFromPivot()
     {
-        Vector3 pivotToObjectPreviewDir = m_pivot.position - m_previewObject.transform.position;
+        Vector3 pivotToObjectPreviewDir = gameObject.transform.position - m_previewObject.transform.position;
         float previewObjectToPivotDirAngle = Vector3.Angle(-Vector3.up, pivotToObjectPreviewDir);
         //Debug.Log("Angle with preview object " + previewObjectToPivotDirAngle);
         return previewObjectToPivotDirAngle;
     }
 
-    private void ApplyRotate(GameObject gameObject)
+    private void ApplyRotate(GameObject gO)
     {
-        if (gameObject == null) return;
+        if (gO == null) return;
 
         m_previewObject.transform.position = transform.position;
         m_previewObject.transform.rotation = transform.rotation;
 
-        gameObject.transform.position = m_pivot.position - (-transform.up * m_pivotRadius);
-        gameObject.transform.RotateAround(m_pivot.position, Vector3.right, m_rotationX);
-        gameObject.transform.RotateAround(m_pivot.position, Vector3.forward, m_rotationZ);
+        gO.transform.position = m_pivot.position - (-transform.up * m_pivotRadius);
+        gO.transform.RotateAround(m_pivot.position, Vector3.right, m_rotationX);
+        gO.transform.RotateAround(m_pivot.position, Vector3.forward, m_rotationZ);
     }
 
     private void CameraChanges()
