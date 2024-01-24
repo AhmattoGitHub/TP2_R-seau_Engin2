@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LevelPlayerController : MonoBehaviour
 {
-    [SerializeField] private NewPlatformController m_platformController;
+    [SerializeField] private PlatformController m_platformController;
 
     private Vector3 m_localForward = Vector3.zero;
     private Vector3 m_localRight = Vector3.zero;
@@ -93,23 +93,7 @@ public class LevelPlayerController : MonoBehaviour
             Debug.Log("Entered 2");
             localInput -= 2 * Vector3.Dot(localInput, m_localForward) * m_localForward;
             localInput -= 2 * Vector3.Dot(localInput, m_localRight) * m_localRight;
-        }
-        else if (Mathf.Abs(m_localForward.x) < forwardThreshold && Mathf.Abs(m_localForward.z) < forwardThreshold
-            && Mathf.Abs(m_localRight.x) > rightThreshold && Mathf.Abs(m_localRight.z) < rightThreshold)
-        {
-            // North
-            Debug.Log("Entered 3");
-            localInput += 2 * Vector3.Dot(localInput, m_localForward) * m_localForward;
-            localInput += 2 * Vector3.Dot(localInput, m_localRight) * m_localRight;
-        }
-        else if (Mathf.Abs(m_localForward.x) > forwardThreshold && Mathf.Abs(m_localForward.z) > forwardThreshold
-            && Mathf.Abs(m_localRight.x) < rightThreshold && Mathf.Abs(m_localRight.z) < rightThreshold)
-        {
-            // West
-            Debug.Log("Entered 4");
-            localInput -= 2 * Vector3.Dot(localInput, m_localForward) * m_localForward;
-            localInput -= 2 * Vector3.Dot(localInput, m_localRight) * m_localRight;
-        }
+        }         
         else
         {
             Debug.Log("Did not enter anything");
@@ -120,8 +104,6 @@ public class LevelPlayerController : MonoBehaviour
 
         return returnWorldInput;
     }
-
-
 
     private void SwitchCameraPosition()
     {
