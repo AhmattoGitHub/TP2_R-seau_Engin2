@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelPlayerController : MonoBehaviour
+public class LevelPlayerController : NetworkBehaviour
 {
     [SerializeField] private Camera m_camera;
     [SerializeField] private GameObject m_projectilePrefab;
@@ -20,22 +21,23 @@ public class LevelPlayerController : MonoBehaviour
     private float m_lerpedInputY;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        if (!isLocalPlayer)
+        {
+            m_camera.gameObject.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         MoveHorizontally();
         MoveVertically();
-        Shoot();
-    }
-    private void FixedUpdate()
-    {
-
         //Shoot();
     }
 
