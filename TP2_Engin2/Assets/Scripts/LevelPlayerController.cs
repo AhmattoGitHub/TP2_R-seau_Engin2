@@ -1,6 +1,7 @@
 using UnityEngine;
+using Mirror;
 
-public class LevelPlayerController : MonoBehaviour
+public class LevelPlayerController : NetworkBehaviour
 {
     [SerializeField] private PlatformController m_platformController;
 

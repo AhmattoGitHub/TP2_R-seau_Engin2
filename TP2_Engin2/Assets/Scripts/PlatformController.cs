@@ -1,6 +1,7 @@
+using Mirror;
 using UnityEngine;
 
-public class PlatformController : MonoBehaviour
+public class PlatformController : NetworkBehaviour
 {    
     [SerializeField] private GameObject m_platform = null;
     [SerializeField] private GameObject m_previewObject = null;
