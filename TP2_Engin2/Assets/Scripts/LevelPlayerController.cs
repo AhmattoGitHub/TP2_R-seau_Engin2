@@ -27,17 +27,17 @@ public class LevelPlayerController : NetworkBehaviour
     private void Awake()
     {
         transform.position = positionSouth.position;
-        transform.rotation = positionSouth.rotation;
-        m_platformController = null;
+        transform.rotation = positionSouth.rotation;        
     }
 
     private void Update()
     {
         if (m_platformController == null) 
         {
-            m_platformController = GameObject.Find("Pivot(Clone)").GetComponent<PlatformController>();
+            m_platformController = PlatformController._Instance.GetComponent<PlatformController>();            
         }
 
+        // TODO remove switch camera feature, only for testing purposes
         if (Input.GetKeyDown(KeyCode.Q))
             SwitchCameraPosition();
 
@@ -49,13 +49,15 @@ public class LevelPlayerController : NetworkBehaviour
             return;
         }
 
-        Vector2 worldInput = TransformLocalInputToWorld(localInput);
+        Vector2 worldInputs = TransformLocalInputToWorld(localInput);
         
-        // Je ne suis pas certain que ce soit nécessaire
-        if (isLocalPlayer)
-        {
-            m_platformController.ReceiveWorldInputs(worldInput);
-        }        
+        CMD_SendWorldInputs(worldInputs);       
+    }
+
+    [Command]
+    public void CMD_SendWorldInputs(Vector2 worldInput)
+    {
+        m_platformController.ReceiveWorldInputs(worldInput);
     }
 
     Vector3 GetLocalInput()

@@ -10,6 +10,11 @@ public class NetworkSpawner : NetworkBehaviour
     {
         GameObject platformInstance = Instantiate(m_platformPrefab);
 
-        NetworkServer.Spawn(platformInstance);        
+        NetworkServer.Spawn(platformInstance);
     }
+
+    // Platformcontroller.instance
+
+
+
 }
