@@ -17,6 +17,7 @@ public class PlatformController : NetworkBehaviour
 
     private void Update()
     {
+        // Ne prend pas en compte les inputs de plusieurs joueurs pour le moment
         m_worldInputs = m_worldInputs.normalized;
 
         if (m_worldInputs != Vector2.zero)

@@ -51,7 +51,11 @@ public class LevelPlayerController : NetworkBehaviour
 
         Vector2 worldInput = TransformLocalInputToWorld(localInput);
         
-        m_platformController.ReceiveWorldInputs(worldInput);
+        // Je ne suis pas certain que ce soit nécessaire
+        if (isLocalPlayer)
+        {
+            m_platformController.ReceiveWorldInputs(worldInput);
+        }        
     }
 
     Vector3 GetLocalInput()
