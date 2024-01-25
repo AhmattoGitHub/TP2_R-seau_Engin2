@@ -107,7 +107,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d40fb421b54e84f8fcc76413971f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_platformController: {fileID: 9079913831427304840, guid: f02f2e2f9c4a1004d85412d3df338e66, type: 3}
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_platformController: {fileID: 0}
   positionSouth: {fileID: 3666686025762059608, guid: d38ed2e248114e84f837e8951faee776, type: 3}
   positionWest: {fileID: 6774853473176745328, guid: 933ab0cd9fd110f418e65e3a9c885df6, type: 3}
   positionEast: {fileID: 8623432191530253139, guid: 42cc568352f2b3d4d9a35d14d801e18c, type: 3}

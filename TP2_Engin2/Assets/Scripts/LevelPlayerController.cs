@@ -3,7 +3,7 @@ using Mirror;
 
 public class LevelPlayerController : NetworkBehaviour
 {
-    [SerializeField] private PlatformController m_platformController;
+    [SerializeField] private PlatformController m_platformController = null;    
 
     private Vector3 m_localForward = Vector3.zero;
     private Vector3 m_localRight = Vector3.zero;
@@ -28,10 +28,16 @@ public class LevelPlayerController : NetworkBehaviour
     {
         transform.position = positionSouth.position;
         transform.rotation = positionSouth.rotation;
+        m_platformController = null;
     }
 
     private void Update()
     {
+        if (m_platformController == null) 
+        {
+            m_platformController = GameObject.Find("Pivot(Clone)").GetComponent<PlatformController>();
+        }
+
         if (Input.GetKeyDown(KeyCode.Q))
             SwitchCameraPosition();
 
@@ -105,7 +111,7 @@ public class LevelPlayerController : NetworkBehaviour
         returnWorldInput.y = Vector3.Dot(localInput, Vector3.forward);
 
         return returnWorldInput;
-    }
+    }    
 
     private void SwitchCameraPosition()
     {

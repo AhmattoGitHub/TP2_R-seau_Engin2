@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8990418543645324144}
+  - component: {fileID: 3711953777587778132}
   m_Layer: 0
   m_Name: PlatformPreviewObject
   m_TagString: Untagged
@@ -32,6 +33,40 @@ Transform:
   - {fileID: 5815431401926881945}
   m_Father: {fileID: 7580378316296297020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3711953777587778132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3742304605908490036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 8990418543645324144}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  compressRotation: 1
+  bufferResetMultiplier: 3
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &5612190740083514417
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +400,7 @@ GameObject:
   - component: {fileID: 2163514328563402130}
   - component: {fileID: 1219308609471466784}
   - component: {fileID: 8607318157279153387}
-  - component: {fileID: 9193252452844161786}
+  - component: {fileID: 2451811598631471952}
   m_Layer: 0
   m_Name: CylinderPlatform
   m_TagString: Untagged
@@ -461,32 +496,40 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &9193252452844161786
+--- !u!114 &2451811598631471952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7879411252516579268}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdde8179bd8098741916c4389e397011, type: 3}
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pivot: {fileID: 7580378316296297020}
-  m_previewObject: {fileID: 3742304605908490036}
-  m_rotationSpeed: 25
-  m_angleLimit: 15
-  m_pivotRadius: 0.01
-  m_dampingSpeed: 1
-  south: {fileID: 0}
-  east: {fileID: 0}
-  north: {fileID: 0}
-  west: {fileID: 0}
-  southEast: {fileID: 0}
-  southWest: {fileID: 0}
-  northEast: {fileID: 0}
-  northWest: {fileID: 0}
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 5543377561770148415}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  compressRotation: 1
+  bufferResetMultiplier: 3
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &8468962070958663633
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,6 +539,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5815431401926881945}
+  - component: {fileID: 8674704984865947236}
   m_Layer: 0
   m_Name: EmptyObjectForAngle
   m_TagString: Untagged
@@ -518,6 +562,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8990418543645324144}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8674704984865947236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8468962070958663633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 5815431401926881945}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  compressRotation: 1
+  bufferResetMultiplier: 3
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &8524952856941926680
 GameObject:
   m_ObjectHideFlags: 0

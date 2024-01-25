@@ -10,11 +10,6 @@ public class NetworkSpawner : NetworkBehaviour
     {
         GameObject platformInstance = Instantiate(m_platformPrefab);
 
-        NetworkServer.Spawn(platformInstance);
-
-        // Peut-être transférer le netIdentity au LevelPlayer somehow
-        m_platformNetIdentity = platformInstance.GetComponent<NetworkIdentity>();
+        NetworkServer.Spawn(platformInstance);        
     }
-
-
 }
