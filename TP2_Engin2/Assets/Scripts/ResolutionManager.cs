@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,27 +18,27 @@ public class ResolutionManager : MonoBehaviour
 
         m_resolutions = Screen.resolutions;
 
+        InitDropdownList(m_resolutions.Length);
+    }
+
+    private void InitDropdownList(int listLength)
+    {
         m_resolutionDropdown.ClearOptions();
-
         List<string> resolutionList = new List<string>();
-
-        int currentResolutionIndex = 0;
-
-        for(int i = 0; i < m_resolutions.Length; i++)
+        int currentResolution = 0;
+        for(int i = 0; i < listLength; i++)
         {
-            int currentRefreshRate = ((int)m_resolutions[i].refreshRateRatio.value);
-            string resolution = m_resolutions[i].width + " x " + m_resolutions[i].height + " " + currentRefreshRate + "Hz";
+            int refreshRate = (int)m_resolutions[i].refreshRateRatio.value;
+            string resolution = "w: " + m_resolutions[i].width + " h: " + m_resolutions[i].height + "- " + refreshRate + "Hz";
             resolutionList.Add(resolution);
-
-            if (m_resolutions[i].width == Screen.currentResolution.width && 
+            if (m_resolutions[i].width == Screen.currentResolution.width &&
                 m_resolutions[i].height == Screen.currentResolution.height)
             {
-                currentResolutionIndex = i;
+                currentResolution = i;
             }
         }
-
         m_resolutionDropdown.AddOptions(resolutionList);
-        m_resolutionDropdown.value = currentResolutionIndex;
+        m_resolutionDropdown.value = currentResolution;
         m_resolutionDropdown.RefreshShownValue();
     }
 

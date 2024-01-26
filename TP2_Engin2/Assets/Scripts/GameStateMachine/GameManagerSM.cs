@@ -10,7 +10,7 @@ public class GameManagerSM : BaseStateMachine<IState>
     [SerializeField]
     private GameObject m_optionsMenu;
 
-    private void Awake() 
+    protected override void Awake() 
     {
         DontDestroyOnLoad(this.gameObject);
         CreatePossibleStates();
