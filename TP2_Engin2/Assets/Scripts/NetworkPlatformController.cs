@@ -28,7 +28,7 @@ public class NetworkPlatformController : NetworkBehaviour
         _Instance = this;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isServer)
         {
@@ -45,6 +45,7 @@ public class NetworkPlatformController : NetworkBehaviour
 
         if (m_worldInputs != Vector3.zero)
         {
+            Debug.Log("inputs");
             //m_rotationAxis soit m_worldInputs, mais avec une rotation de 90 degré
             m_rotationAxis = Quaternion.Euler(0, 90, 0) * m_worldInputs;
             
@@ -67,10 +68,17 @@ public class NetworkPlatformController : NetworkBehaviour
             //ApplyRotate(m_platform); // à enlever
         }
 
-        // TODO Not working perfectly, stays stuck at max angle if no input
-        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A)
-            && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))    
+         //TODO Not working perfectly, stays stuck at max angle if no input
+        //if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A)
+        //    && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))    
+        //{
+        //    Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, transform.up);
+        //    m_platform.transform.rotation = Quaternion.Slerp(m_platform.transform.rotation, targetRotation, m_dampingSpeed * Time.deltaTime);            
+        //}
+
+        if (m_worldInputs == Vector3.zero)    
         {
+            Debug.Log("no input");
             Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, transform.up);
             m_platform.transform.rotation = Quaternion.Slerp(m_platform.transform.rotation, targetRotation, m_dampingSpeed * Time.deltaTime);            
         }
@@ -100,9 +108,10 @@ public class NetworkPlatformController : NetworkBehaviour
         //Debug.Log("Preview Angle is " + previewObjectToPivotDirAngle);        
         return previewObjectToPivotDirAngle;
     }
-       
+
+    [Server]
     public void ReceiveWorldInputs(Vector3 worldInputs)
-    {        
-        m_worldInputs = worldInputs;
+    {
+        m_worldInputs += worldInputs;
     }
 }

@@ -280,7 +280,6 @@ GameObject:
   - component: {fileID: 7886196215830048583}
   - component: {fileID: 560860950240349457}
   - component: {fileID: 7911863394547282303}
-  - component: {fileID: 4082279495397715668}
   m_Layer: 0
   m_Name: LevelPlayer
   m_TagString: Untagged
@@ -384,20 +383,3 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!114 &4082279495397715668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8929833347540090403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d40fb421b54e84f8fcc76413971f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  m_platformController: {fileID: 0}
-  m_camera: {fileID: 5260066427887703831}

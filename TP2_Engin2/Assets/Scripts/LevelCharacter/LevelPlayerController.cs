@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LevelPlayerController : NetworkBehaviour
 {
+    private NetworkPlatformController m_platformController = null;
+
     [SerializeField] private Camera m_camera;
     [SerializeField] private GameObject m_projectilePrefab;
     [SerializeField] private Transform m_objectToLookAt;
@@ -31,6 +33,10 @@ public class LevelPlayerController : NetworkBehaviour
 
     void Update()
     {
+        if (m_platformController == null)
+        {
+            m_platformController = NetworkPlatformController._Instance.GetComponent<NetworkPlatformController>();
+        }
         if (!isLocalPlayer)
         {
             return;
@@ -39,6 +45,20 @@ public class LevelPlayerController : NetworkBehaviour
         MoveHorizontally();
         MoveVertically();
         //Shoot();
+
+
+        //////////////////////////
+
+
+        Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
+
+
+        Vector3 localInput = GetLocalInput();
+
+        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
+
+
+        CMD_SendWorldInputs(localInput);
     }
 
     private void MoveHorizontally()
@@ -93,4 +113,33 @@ public class LevelPlayerController : NetworkBehaviour
         }
 
     }
+
+    [Command]
+    public void CMD_SendWorldInputs(Vector3 worldInput)
+    {
+        m_platformController.ReceiveWorldInputs(worldInput);
+    }
+
+    Vector3 GetLocalInput()
+    {
+        Vector3 localInput = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.W))
+            localInput += m_camera.transform.forward;
+        if (Input.GetKey(KeyCode.S))
+            localInput -= m_camera.transform.forward;
+        if (Input.GetKey(KeyCode.D))
+            localInput += m_camera.transform.right;
+        if (Input.GetKey(KeyCode.A))
+            localInput -= m_camera.transform.right;
+
+        if (localInput == Vector3.zero)
+        {
+            Debug.Log("Local Inputs = Zero");
+            return Vector3.zero;
+        }
+
+        return localInput;
+    }
+
 }

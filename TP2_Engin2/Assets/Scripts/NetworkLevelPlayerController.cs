@@ -33,6 +33,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
 
     private void Update()
     {
+        
         Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
         
         
