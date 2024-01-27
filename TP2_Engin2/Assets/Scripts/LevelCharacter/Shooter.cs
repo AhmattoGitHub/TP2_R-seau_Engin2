@@ -53,7 +53,8 @@ public class Shooter : NetworkBehaviour
         //Vector3 direction = (transform.position - screenPosition).normalized;
 
 
-        projectile.GetComponent<Projectile>().SetTrajectoryRpc(direction);
+        //projectile.GetComponent<Projectile>().SetTrajectoryRpc(direction);
+        projectile.GetComponent<Rigidbody>().AddForce(direction * 10, ForceMode.Impulse);
 
     }
 
