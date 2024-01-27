@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class PlatformController : NetworkBehaviour
+public class NetworkPlatformController : NetworkBehaviour
 {    
     [SerializeField] private GameObject m_platform = null;
     [SerializeField] private GameObject m_previewObject = null;
@@ -15,7 +15,7 @@ public class PlatformController : NetworkBehaviour
     private float m_rotationX = 0.0f;
     private float m_rotationZ = 0.0f;
 
-    public static PlatformController _Instance { get; private set; }
+    public static NetworkPlatformController _Instance { get; private set; }
 
     private void Awake()
     {

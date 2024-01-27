@@ -1,9 +1,9 @@
 using UnityEngine;
 using Mirror;
 
-public class LevelPlayerController : NetworkBehaviour
+public class NetworkLevelPlayerController : NetworkBehaviour
 {
-    [SerializeField] private PlatformController m_platformController = null;    
+    [SerializeField] private NetworkPlatformController m_platformController = null;    
 
     private Vector3 m_localForward = Vector3.zero;
     private Vector3 m_localRight = Vector3.zero;
@@ -34,7 +34,7 @@ public class LevelPlayerController : NetworkBehaviour
     {
         if (m_platformController == null) 
         {
-            m_platformController = PlatformController._Instance.GetComponent<PlatformController>();            
+            m_platformController = NetworkPlatformController._Instance.GetComponent<NetworkPlatformController>();            
         }
 
         // TODO remove switch camera feature, only for testing purposes
