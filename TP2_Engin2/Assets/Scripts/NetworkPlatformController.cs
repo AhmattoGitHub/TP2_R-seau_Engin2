@@ -5,9 +5,9 @@ public class NetworkPlatformController : NetworkBehaviour
 {    
     [SerializeField] private GameObject m_platform = null;
     [SerializeField] private GameObject m_previewObject = null;
-    [SerializeField] private GameObject m_previewAngleObject = null;    
+    [SerializeField] private GameObject m_previewAngleObject = null;
     [SerializeField] private float m_rotationSpeed = 25.0f;
-    [SerializeField] private float m_angleLimit = 15.0f;    
+    [SerializeField] private float m_angleLimit = 15.0f;
     [SerializeField] private float m_dampingSpeed = 10.0f;
     [SerializeField] private float m_pivotRadius = 0.01f;
 

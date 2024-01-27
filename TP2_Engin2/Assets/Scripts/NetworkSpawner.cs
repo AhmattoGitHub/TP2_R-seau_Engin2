@@ -12,9 +12,4 @@ public class NetworkSpawner : NetworkBehaviour
 
         NetworkServer.Spawn(platformInstance);
     }
-
-    // Platformcontroller.instance
-
-
-
 }
