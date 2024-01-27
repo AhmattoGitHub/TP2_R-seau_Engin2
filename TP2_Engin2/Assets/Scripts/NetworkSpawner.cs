@@ -4,7 +4,6 @@ using Mirror;
 public class NetworkSpawner : NetworkBehaviour
 {
     [SerializeField] private GameObject m_platformPrefab;
-    public NetworkIdentity m_platformNetIdentity;
 
     public override void OnStartServer()
     {
@@ -12,9 +11,6 @@ public class NetworkSpawner : NetworkBehaviour
 
         NetworkServer.Spawn(platformInstance);
     }
-
-    // Platformcontroller.instance
-
 
 
 }

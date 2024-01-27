@@ -4,58 +4,65 @@ using Mirror;
 public class NetworkLevelPlayerController : NetworkBehaviour
 {
     [SerializeField] private NetworkPlatformController m_platformController = null;    
+    [SerializeField] private Camera m_camera;    
 
     private Vector3 m_localForward = Vector3.zero;
     private Vector3 m_localRight = Vector3.zero;
 
-    [SerializeField] private Transform positionSouth;
-    [SerializeField] private Transform positionWest;
-    [SerializeField] private Transform positionEast;
-    [SerializeField] private Transform positionNorth;
+    //[SerializeField] private Transform positionSouth;
+    //[SerializeField] private Transform positionWest;
+    //[SerializeField] private Transform positionEast;
+    //[SerializeField] private Transform positionNorth;
 
-    private enum CameraPosition
-    {
-        South,
-        West,
-        East,
-        North,
-        Count
-    }
+    //private enum CameraPosition
+    //{
+    //    South,
+    //    West,
+    //    East,
+    //    North,
+    //    Count
+    //}
 
-    private CameraPosition currentCameraPosition = CameraPosition.South;
+    //private CameraPosition currentCameraPosition = CameraPosition.South;
 
     private void Awake()
     {
-        transform.position = positionSouth.position;
-        transform.rotation = positionSouth.rotation;        
+        //transform.position = positionSouth.position;
+        //transform.rotation = positionSouth.rotation;        
     }
 
     private void Update()
     {
+        Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
+        
+        
         if (m_platformController == null) 
         {
             m_platformController = NetworkPlatformController._Instance.GetComponent<NetworkPlatformController>();            
         }
 
         // TODO remove switch camera feature, only for testing purposes
-        if (Input.GetKeyDown(KeyCode.Q))
-            SwitchCameraPosition();
+        //if (Input.GetKeyDown(KeyCode.Q))
+            //SwitchCameraPosition();
 
         Vector3 localInput = GetLocalInput();
 
-        if (localInput == Vector3.zero)
-        {
-            Debug.Log("Local input is 0");
-            return;
-        }
+        Debug.DrawRay(transform.position + new Vector3(0,1,0), localInput * 5, Color.green);
 
-        Vector2 worldInputs = TransformLocalInputToWorld(localInput);
+
+        //if (localInput == Vector3.zero)
+        //{
+        //    Debug.Log("Local input is 0");
+        //    return;
+        //}
+
+        //Vector2 worldInputs = TransformLocalInputToWorld(localInput);
         
-        CMD_SendWorldInputs(worldInputs);       
+        CMD_SendWorldInputs(localInput);       
     }
 
     [Command]
-    public void CMD_SendWorldInputs(Vector2 worldInput)
+    public void CMD_SendWorldInputs(Vector3 worldInput)
     {
         m_platformController.ReceiveWorldInputs(worldInput);
     }
@@ -64,26 +71,51 @@ public class NetworkLevelPlayerController : NetworkBehaviour
     {
         Vector3 localInput = Vector3.zero;
 
-        m_localForward = Camera.main.transform.TransformDirection(Vector3.forward);
-        m_localRight = Camera.main.transform.TransformDirection(Vector3.right);
+        //m_localForward = m_camera.transform.TransformDirection(Vector3.forward);
+        //m_localRight = m_camera.transform.TransformDirection(Vector3.right);
 
         if (Input.GetKey(KeyCode.W))
-            localInput += m_localForward;
+            localInput += m_camera.transform.forward;
         if (Input.GetKey(KeyCode.S))
-            localInput -= m_localForward;
+            localInput -= m_camera.transform.forward;
         if (Input.GetKey(KeyCode.D))
-            localInput -= m_localRight;
+            localInput += m_camera.transform.right;
         if (Input.GetKey(KeyCode.A))
-            localInput += m_localRight;
+            localInput -= m_camera.transform.right;
 
         if (localInput == Vector3.zero)
         {
             Debug.Log("Local Inputs = Zero");
-            return Vector2.zero;
+            return Vector3.zero;
         }
 
         return localInput;
     }
+
+    //Vector3 GetLocalInput()
+    //{
+    //    Vector3 localInput = Vector3.zero;
+    //
+    //    m_localForward = m_camera.transform.TransformDirection(Vector3.forward);
+    //    m_localRight = m_camera.transform.TransformDirection(Vector3.right);
+    //
+    //    if (Input.GetKey(KeyCode.W))
+    //        localInput += m_localForward;
+    //    if (Input.GetKey(KeyCode.S))
+    //        localInput -= m_localForward;
+    //    if (Input.GetKey(KeyCode.D))
+    //        localInput -= m_localRight;
+    //    if (Input.GetKey(KeyCode.A))
+    //        localInput += m_localRight;
+    //
+    //    if (localInput == Vector3.zero)
+    //    {
+    //        Debug.Log("Local Inputs = Zero");
+    //        return Vector2.zero;
+    //    }
+    //
+    //    return localInput;
+    //}
 
     Vector2 TransformLocalInputToWorld(Vector3 localInput)
     {
@@ -119,7 +151,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
         return returnWorldInput;
     }    
 
-    private void SwitchCameraPosition()
+    /*private void SwitchCameraPosition()
     {
         currentCameraPosition = (CameraPosition)(((int)currentCameraPosition + 1) % (int)CameraPosition.Count);
 
@@ -144,5 +176,35 @@ public class NetworkLevelPlayerController : NetworkBehaviour
             default:
                 break;
         }
-    }
+    }*/
 }
+
+
+
+
+
+/*
+ 
+ prendre le m_camera.transform.forward 
+ 
+ 
+ 
+ Quand on recoit un input
+
+    W = cam.transf.forward
+    S = -cam.transf.forward
+    A = -cam.transf.right
+    D = cam.transf.right
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ */
