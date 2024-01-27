@@ -1,27 +1,23 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelPlayerController : NetworkBehaviour
+public class NetworkLevelPlayerController : NetworkBehaviour
 {
-    private NetworkPlatformController m_platformController = null;
+    private NetworkPlatformManager m_platformController = null;
 
     [SerializeField] private Camera m_camera;
     [SerializeField] private GameObject m_projectilePrefab;
     [SerializeField] private Transform m_objectToLookAt;
+    [SerializeField] private Vector2 m_verticalLimits;
     [SerializeField] private float m_startDistance = 5.0f;
     [SerializeField] private float m_lerpF = 0.1f;
     [SerializeField] private float m_rotationSpeed = 2.0f;
     [SerializeField] private float m_moveSpeed = 0.1f;
     [SerializeField] private float m_edgeDistance = 50.0f;
     [SerializeField] private float m_projectileSpeed = 10.0f;
-    [SerializeField] private Vector2 m_verticalLimits;
-
-
+    
     private float m_lerpedAngleX;
     private float m_lerpedInputY;
-
 
     void Start()
     {
@@ -35,8 +31,9 @@ public class LevelPlayerController : NetworkBehaviour
     {
         if (m_platformController == null)
         {
-            m_platformController = NetworkPlatformController._Instance.GetComponent<NetworkPlatformController>();
+            m_platformController = NetworkPlatformManager._Instance.GetComponent<NetworkPlatformManager>();
         }
+
         if (!isLocalPlayer)
         {
             return;
@@ -45,20 +42,8 @@ public class LevelPlayerController : NetworkBehaviour
         MoveHorizontally();
         MoveVertically();
         //Shoot();
+        SendInputsToMovePlatform();
 
-
-        //////////////////////////
-
-
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
-
-
-        Vector3 localInput = GetLocalInput();
-
-        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
-
-
-        CMD_SendWorldInputs(localInput);
     }
 
     private void MoveHorizontally()
@@ -95,6 +80,17 @@ public class LevelPlayerController : NetworkBehaviour
 
         m_lerpedInputY = Mathf.Lerp(m_lerpedInputY, inputY, m_lerpF);
         transform.position += new Vector3(0, m_lerpedInputY, 0);
+    }
+
+    private void SendInputsToMovePlatform()
+    {
+        Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
+
+        Vector3 localInput = GetLocalInput();
+
+        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
+
+        CMD_SendWorldInputs(localInput);
     }
 
     private void Shoot()

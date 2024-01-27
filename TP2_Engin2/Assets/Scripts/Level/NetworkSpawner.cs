@@ -8,9 +8,6 @@ public class NetworkSpawner : NetworkBehaviour
     public override void OnStartServer()
     {
         GameObject platformInstance = Instantiate(m_platformPrefab);
-
         NetworkServer.Spawn(platformInstance);
     }
-
-
 }
