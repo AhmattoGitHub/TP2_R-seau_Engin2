@@ -2,7 +2,7 @@ using Mirror;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-public class CameraController : MonoBehaviour
+public class CameraController_LevelPlayer : MonoBehaviour       // Level
 {
 
     [SerializeField] private Transform m_objectToLookAt;
@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Vector2 m_clampingXRotationValues;
     [SerializeField] private Vector2 m_clampingCameraDistance;
 
-    [SerializeField] private float m_edgeDistance = 10.0f;
+    [SerializeField] private float m_edgeDistance = 10.0f;  //new
 
 
     // Start is called before the first frame update
@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
         CalculateDistance();
         CalculateTargetPosition();
 
-        RotateAroundObjectHorizontal();
+        RotateAroundObjectHorizontal();   //new
         //RotateAroundObjectVertical();
 
         transform.position = Vector3.Lerp(transform.position, m_targetPosition, m_lerpF);
