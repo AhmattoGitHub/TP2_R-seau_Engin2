@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CharacterControllerSM : BaseStateMachine<CharacterState>
+public class CharacterControllerSM : CC_BaseStateMachine<CharacterState>
 {
     //public static CharacterControllerSM Instance { get; private set; }
 

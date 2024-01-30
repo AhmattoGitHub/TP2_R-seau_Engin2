@@ -2,7 +2,7 @@ using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseStateMachine<T> : NetworkBehaviour where T : IState
+public abstract class CC_BaseStateMachine<T> : NetworkBehaviour where T : CC_IState
 {
     protected T m_currentState;
     protected List<T> m_possibleStates;
@@ -14,7 +14,7 @@ public abstract class BaseStateMachine<T> : NetworkBehaviour where T : IState
 
     protected virtual void Start()
     {
-        foreach (IState state in m_possibleStates)
+        foreach (CC_IState state in m_possibleStates)
         {
             state.OnStart();
         }

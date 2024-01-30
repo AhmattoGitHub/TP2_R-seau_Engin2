@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseStateMachine<T> : MonoBehaviour where T : IState
+public abstract class GM_BaseStateMachine<T> : MonoBehaviour where T : GM_IState
 {
     protected T m_currentState;
     protected List<T> m_possibleStates;
@@ -13,7 +13,7 @@ public abstract class BaseStateMachine<T> : MonoBehaviour where T : IState
 
     protected virtual void Start()
     {
-        foreach (IState state in m_possibleStates)
+        foreach (GM_IState state in m_possibleStates)
         {
             state.OnStart();
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LobbyState : IState
+public class LobbyState : GM_IState
 {
-    public bool CanEnter(IState currentState)
+    public bool CanEnter(GM_IState currentState)
     {
         return SceneManager.GetActiveScene().buildIndex == 1;
     }

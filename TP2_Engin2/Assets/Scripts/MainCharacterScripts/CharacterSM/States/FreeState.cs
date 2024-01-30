@@ -140,7 +140,7 @@ public class FreeState : CharacterState
         //Debug.Log("Exiting FreeState");
     }
 
-    public override bool CanEnter(IState currentState)
+    public override bool CanEnter(CC_IState currentState)
     {
         if (currentState is JumpState)
         {

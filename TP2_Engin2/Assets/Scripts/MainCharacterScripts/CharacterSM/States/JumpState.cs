@@ -96,7 +96,7 @@ public class JumpState : CharacterState
         //}
     }
 
-    public override bool CanEnter(IState currentState)
+    public override bool CanEnter(CC_IState currentState)
     {
         if (currentState is FreeState)
         {
