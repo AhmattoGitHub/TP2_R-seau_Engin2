@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 
-public class GameManagerSM : BaseStateMachine<IState>
+public class GameManagerSM : GM_BaseStateMachine<GM_IState>
 {
     [SerializeField]
     private GameObject m_mainMenu;
@@ -18,7 +18,7 @@ public class GameManagerSM : BaseStateMachine<IState>
     }
     protected override void CreatePossibleStates()
     {
-        m_possibleStates = new List<IState>();
+        m_possibleStates = new List<GM_IState>();
         m_possibleStates.Add(new MainMenuState());
         m_possibleStates.Add(new LobbyState());
         m_possibleStates.Add(new TutorialState());
