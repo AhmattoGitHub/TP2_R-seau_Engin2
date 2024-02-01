@@ -20,7 +20,7 @@ public class TestShooter : MonoBehaviour
             var projectile = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
 
             //projectile.GetComponent<Rigidbody>().AddForce(direction * 10, ForceMode.Impulse);
-            projectile.GetComponent<Bomb>().Shoot(direction);
+            projectile.GetComponent<TestBullet>().Shoot(direction);
         }
     }
 }

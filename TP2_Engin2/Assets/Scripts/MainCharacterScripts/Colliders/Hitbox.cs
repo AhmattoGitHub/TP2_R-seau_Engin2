@@ -33,7 +33,7 @@ public class Hitbox : MonoBehaviour
 			Debug.Log(gameObject.name + " script hit " + otherHitbox.name);
         }
 
-		if (gameObject.GetComponent<Bullet>() != null)
+		if (gameObject.GetComponent<TestBullet>() != null)
 		{
 			Destroy(gameObject);
 		}
