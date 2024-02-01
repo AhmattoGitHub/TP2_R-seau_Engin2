@@ -42,7 +42,6 @@ public class Shooter : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void ShootProjectileCmd(Vector3 direction)
     {
-        Debug.Log(netId + "   " + Input.mousePosition);
         
         var projectile = Instantiate(m_projectilePrefab, transform.position, Quaternion.identity);
         NetworkServer.Spawn(projectile);

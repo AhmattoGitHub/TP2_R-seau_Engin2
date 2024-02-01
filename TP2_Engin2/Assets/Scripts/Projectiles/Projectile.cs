@@ -36,6 +36,7 @@ public class Projectile : NetworkBehaviour
 
     }
 
+    //useless
     [ClientRpc]
     public void SetTrajectoryRpc(Vector3 direction)
     {

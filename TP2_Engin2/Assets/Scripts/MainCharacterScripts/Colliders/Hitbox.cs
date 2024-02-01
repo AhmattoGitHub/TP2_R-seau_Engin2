@@ -32,6 +32,11 @@ public class Hitbox : MonoBehaviour
 
 			Debug.Log(gameObject.name + " script hit " + otherHitbox.name);
         }
+
+		if (gameObject.GetComponent<Bullet>() != null)
+		{
+			Destroy(gameObject);
+		}
     }
 
     protected bool CanGetHit(Hitbox otherHitbox)
