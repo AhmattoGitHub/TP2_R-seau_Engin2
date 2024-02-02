@@ -11,7 +11,7 @@ public class LobbyManager : NetworkBehaviour
 {
     private static LobbyManager _instance;
     [SerializeField]
-    private TMP_Text[] m_uiTextSlots;
+    private GameObject[] m_uiTextSlots;
     [SerializeField]
     private List<NetworkConnectionToClient> m_connectedPlayers = new List<NetworkConnectionToClient>();
     [SerializeField]
