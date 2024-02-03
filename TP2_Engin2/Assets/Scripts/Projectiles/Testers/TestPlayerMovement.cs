@@ -17,12 +17,20 @@ public class TestPlayerMovement : MonoBehaviour
     private float m_lerpedAngleX;
     private float m_lerpedInputY;
 
-
+    private bool m_cannotMove = false;
 
     void Update()
     {
-        MoveHorizontally();
-        MoveVertically();
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            m_cannotMove = !m_cannotMove;
+        }
+
+        if (!m_cannotMove)
+        {
+            MoveHorizontally();
+            MoveVertically();
+        }
 
         float mouseInput = Input.mouseScrollDelta.y * m_scrollSpeed;
 
