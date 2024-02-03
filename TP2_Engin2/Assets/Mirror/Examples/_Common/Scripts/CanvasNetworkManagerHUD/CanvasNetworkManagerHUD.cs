@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using TMPro;
 
 namespace Mirror.Examples.Common
 {
@@ -16,11 +17,11 @@ namespace Mirror.Examples.Common
         [SerializeField] private Button startClientButton;
 
         [SerializeField] private Button mainStopButton;
-        [SerializeField] private Text mainStopButtonText;
+        [SerializeField] private TMP_Text mainStopButtonText;
         [SerializeField] private Button secondaryStopButton;
-        [SerializeField] private Text statusText;
+        [SerializeField] private TMP_Text statusText;
 
-        [SerializeField] private InputField inputNetworkAddress;
+        [SerializeField] private TMP_InputField inputNetworkAddress;
 
         private void Start()
         {
@@ -132,23 +133,23 @@ namespace Mirror.Examples.Common
             mainStopButtonText.text = "Cancel Connection Attempt";
         }
 
-        private void OnClickStartHostButton()
+        public void OnClickStartHostButton()
         {
             NetworkManager.singleton.StartHost();
         }
 
-        private void OnClickStartServerButton()
+        public void OnClickStartServerButton()
         {
             NetworkManager.singleton.StartServer();
         }
 
-        private void OnClickStartClientButton()
+        public void OnClickStartClientButton()
         {
             NetworkManager.singleton.StartClient();
             //ShowConnectingStatus();
         }
 
-        private void OnClickMainStopButton()
+        public void OnClickMainStopButton()
         {
             if (NetworkClient.active)
             {
@@ -160,12 +161,12 @@ namespace Mirror.Examples.Common
             }
         }
 
-        private void OnClickSecondaryStopButton()
+        public void OnClickSecondaryStopButton()
         {
             NetworkManager.singleton.StopHost();
         }
 
-        private void OnNetworkAddressChange()
+        public void OnNetworkAddressChange()
         {
             NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
         }

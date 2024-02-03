@@ -28,7 +28,6 @@ public class LobbyNetworkManager : NetworkManager
             LobbyManager.Instance.AddPlayerToLevelTeam(conn);
 
     }
-
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         m_playerCount--;
