@@ -19,21 +19,11 @@ public class LobbyNetworkManager : NetworkManager
     {
         m_playerCount++;
         base.OnServerAddPlayer(conn);
-        LobbyManager.Instance.UpdateUI(m_playerCount);
-        LobbyManager.Instance.AddPlayerToList(conn);
-
-        if (m_playerCount == 1 || m_playerCount == 3)
-            LobbyManager.Instance.AddPlayerToPlayerTeam(conn);
-        else
-            LobbyManager.Instance.AddPlayerToLevelTeam(conn);
-
+        LobbyManager.Instance.WaitForTeamSelection(conn);
     }
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         m_playerCount--;
         base.OnServerDisconnect(conn);
-
-        LobbyManager.Instance.UpdateUI(m_playerCount);
-        LobbyManager.Instance.RemovePlayerFromList(conn);
     }
 }

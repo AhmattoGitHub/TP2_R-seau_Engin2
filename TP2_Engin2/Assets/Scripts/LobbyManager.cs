@@ -13,11 +13,17 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField]
     private GameObject[] m_uiTextSlots;
     [SerializeField]
+    private GameObject m_conigureMenu;
+    [SerializeField]
     private List<NetworkConnectionToClient> m_connectedPlayers = new List<NetworkConnectionToClient>();
     [SerializeField]
     private List<NetworkConnectionToClient> m_players = new List<NetworkConnectionToClient>();
     [SerializeField]
-    private List<NetworkConnectionToClient> m_levelPlayers = new List<NetworkConnectionToClient>();
+    private List<NetworkConnectionToClient> m_enemies = new List<NetworkConnectionToClient>();
+
+    private bool m_selectingTeam;
+    private bool m_selectedPlayer = false;
+    private bool m_selectedEnemy = false;
 
     public static LobbyManager Instance
     {
@@ -64,7 +70,7 @@ public class LobbyManager : NetworkBehaviour
     {
         m_connectedPlayers.Remove(player);
         m_players.Remove(player);
-        m_levelPlayers.Remove(player);
+        m_enemies.Remove(player);
     }
 
     public void AddPlayerToPlayerTeam(NetworkConnectionToClient player)
@@ -74,6 +80,21 @@ public class LobbyManager : NetworkBehaviour
 
     public void AddPlayerToLevelTeam(NetworkConnectionToClient player)
     {
-        m_levelPlayers.Add(player);
+        m_enemies.Add(player);
+    }
+
+    public void IsAPlayer()
+    {
+        m_selectedPlayer = true;
+    }
+
+    public void IsAnEnemy()
+    {
+        m_selectedEnemy = true;
+    }
+
+    public void WaitForTeamSelection(NetworkConnectionToClient player)
+    {
+
     }
 }
