@@ -5,18 +5,53 @@ public class FreeState : CharacterState
     private bool m_isMovingForward = false;
     private bool m_isMovingLateral = false;
     private bool m_isMovingBackward = false;
+    // PMM_ADDITION
+    private float m_frictionTimer = 0.0f;
+    private bool m_highFrictionEnabled = false;
+    private bool m_highFrictionEnabledOnce = false;
+    private CapsuleCollider m_capsuleCollider;
 
     public override void OnEnter()
     {
         //Debug.Log("Entering FreeState");
+
+        // PMM_ADDITION 
+        m_capsuleCollider = m_stateMachine.MC.GetComponent<CapsuleCollider>();
     }
 
     public override void OnFixedUpdate()
     {
-        AddForceFromInputs();
+        AddForceFromInputs();          
 
+        ApplySlopeForce();
+        
         CapMaximumSpeed();
     }
+
+    void ApplySlopeForce()
+    {
+        RaycastHit hit;
+        float slopeForceMagnitude = 1000.0f;
+                
+        if (Physics.Raycast(m_stateMachine.MC.transform.position, Vector3.down, out hit))
+        {            
+            float groundAngle = Vector3.Angle(hit.normal, Vector3.up);
+
+            Debug.Log("Angle " + groundAngle);
+                        
+            if (groundAngle > 0 && groundAngle < 90)
+            {               
+                float forceMagnitude = slopeForceMagnitude * Mathf.Sin(Mathf.Deg2Rad * groundAngle);
+                                
+                Vector3 slopeForce = -hit.normal * forceMagnitude;
+
+                //Debug.Log("Slope Force Magnitude: " + slopeForce.magnitude);
+                //Debug.Log("Slope Force Direction: " + slopeForce.normalized);
+                //Debug.Log("Slopeforce" + slopeForce);
+                m_stateMachine.Rb.AddForce(slopeForce, ForceMode.Force);
+            }
+        }
+    }   
 
     private void AddForceFromInputs()
     {

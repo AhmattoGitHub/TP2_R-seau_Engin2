@@ -800,9 +800,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096930612547086335}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10000
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -826,7 +826,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096930612547086335}
-  m_Material: {fileID: 13400000, guid: 78c8ad2f9d5dbcd4186be2c3c64293ca, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2626,6 +2626,7 @@ MonoBehaviour:
   <InAirMaxVelocity>k__BackingField: 6
   <MaxNoDamageFall>k__BackingField: 10
   <RotationSpeed>k__BackingField: 8
+  <FrictionCooldown>k__BackingField: 0.2
   <ObjectToLookAt>k__BackingField: {fileID: 4928195406050657157}
   <MC>k__BackingField: {fileID: 2096930612547086335}
   m_groundCollider: {fileID: 8540017536000206558}

@@ -21,6 +21,8 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState>
     [field: SerializeField] public float InAirMaxVelocity { get; private set; } = 6.0f;
     [field: SerializeField] public float MaxNoDamageFall { get; private set; } = 10.0f;
     [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;
+    // PMM_ADDITION
+    [field: SerializeField] public float FrictionCooldown { get; private set; } = 0.2f;
     [field: SerializeField] public GameObject ObjectToLookAt { get; private set; }
     [field: SerializeField] public GameObject MC { get; private set; }
 
