@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3650290939963765736}
   - component: {fileID: 7512098613970853556}
   - component: {fileID: 9081581376267939097}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4458741885312251879}
   - component: {fileID: 7937652051109758207}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Angle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 3619321949936791368}
   - component: {fileID: 5188935270678746880}
   - component: {fileID: 2309709850291294219}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4046168634545429813}
-  m_Material: {fileID: 13400000, guid: 46b6aebc0f685fd4a9bed05ae5c8f374, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -359,7 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 320911248796454375}
   - component: {fileID: 6053618079872026729}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 5361901793968820975}
   - component: {fileID: 6923941631907710628}
   - component: {fileID: 2578475757612381233}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,6 +489,6 @@ MonoBehaviour:
   m_previewObject: {fileID: 4800337866428794275}
   m_previewAngleObject: {fileID: 2375095123224098259}
   m_rotationSpeed: 5
-  m_angleLimit: 45
+  m_angleLimit: 15
   m_dampingSpeed: 0.5
   m_pivotRadius: 0.01

@@ -20,12 +20,10 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState>
     [field: SerializeField] public float SlowingVelocity { get; private set; } = 0.97f;
     [field: SerializeField] public float InAirMaxVelocity { get; private set; } = 6.0f;
     [field: SerializeField] public float MaxNoDamageFall { get; private set; } = 10.0f;
-    [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;
-    // PMM_ADDITION
-    [field: SerializeField] public float FrictionCooldown { get; private set; } = 0.2f;
+    [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;    
     [field: SerializeField] public GameObject ObjectToLookAt { get; private set; }
     [field: SerializeField] public GameObject MC { get; private set; }
-
+    
     // /////////////////
     public Vector3 ForwardVectorOnFloor { get; private set; }
     public Vector3 ForwardVectorForPlayer { get; private set; }
@@ -42,6 +40,13 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState>
 
     private float m_lerpedAngleX = 0;
     private bool m_isGrounded = false;
+
+    // /////////////////
+
+    [field: Header("SLOPE FORCE MECANICS")]
+    [field: SerializeField] public float SlopeForceMagnitude { get; private set; } = 10.0f;
+    [field: SerializeField] public float SlopeForceAngleMultiplier { get; private set; } = 1.0f;
+    [field: SerializeField] public float SteepnessBeforeSlopeForce { get; private set; } = 5.0f;
 
     protected override void CreatePossibleStates()
     {
