@@ -2617,7 +2617,7 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 4702501583124893326}
   <HitBox>k__BackingField: {fileID: 0}
   <AccelerationValue>k__BackingField: 20
-  <JumpAccelerationValue>k__BackingField: 500
+  <JumpAccelerationValue>k__BackingField: 650
   <SlowedDownAccelerationValue>k__BackingField: 7
   <ForwardMaxVelocity>k__BackingField: 6
   <LateralMaxVelocity>k__BackingField: 5
@@ -2632,7 +2632,7 @@ MonoBehaviour:
   m_hitDetection: {fileID: 0}
   <SlopeForceMagnitude>k__BackingField: 25
   <SlopeForceAngleMultiplier>k__BackingField: 1
-  <PreSlopeForceAngle>k__BackingField: 5
+  <SteepnessBeforeSlopeForce>k__BackingField: 5
 --- !u!1 &7191069299810554893
 GameObject:
   m_ObjectHideFlags: 0
