@@ -14,7 +14,7 @@ public class testMoveAround : MonoBehaviour
         transform.Rotate(new Vector3(m_rotSpeed, 0, 0));
         transform.Translate(new Vector3(m_moveSpeed, 0, 0));
 
-        if (m_timer > 1.0f)
+        if (m_timer > 5.0f)
         {
             m_timer = 0.0f;
             m_moveSpeed *= -1.0f;

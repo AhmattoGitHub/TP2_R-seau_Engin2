@@ -69,7 +69,10 @@ public class TestBomb : MonoBehaviour
             Debug.Log("already stuck!");
             return;
         }
-        
+        if (collision.gameObject.GetComponent<TestBullet>() != null ||
+            collision.gameObject.GetComponent<TestBomb>() != null) return;
+
+
         m_rb.velocity = Vector3.zero;
 
         Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);

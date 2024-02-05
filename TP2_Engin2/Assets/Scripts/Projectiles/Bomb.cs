@@ -4,22 +4,6 @@ using UnityEngine;
 using Mirror;
 
 
-/*
- 
-Could be fun if bombs go faster and in straight line
-but stick to whatever they hit
-
-Potentially:
-    OnCollisionEnter
-        velocity = 0
-        become child object of what you hit
-???
- 
- */
-
-
-
-
 public class Bomb : NetworkBehaviour
 {
     [SerializeField] private Rigidbody m_rb;
@@ -30,8 +14,7 @@ public class Bomb : NetworkBehaviour
     [SerializeField] private float m_explosionTimer = 5;
 
     private float m_timer = 0;
-    //private const float EXPLOSION_TIMER = 5;
-
+    private bool m_stuck = false;
 
     void Start()
     {
@@ -47,6 +30,7 @@ public class Bomb : NetworkBehaviour
         }
 
         HandleTimer();
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     [Server]
@@ -91,4 +75,59 @@ public class Bomb : NetworkBehaviour
         m_rb.AddForce(direction * m_projectileSpeed, ForceMode.Impulse);
     }
 
+    //[Server]
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!isServer)
+        {
+            Debug.Log("not server");
+            return;
+        }
+
+
+        if (m_stuck) return;
+        if (collision.gameObject.GetComponent<Bullet>() != null ||
+            collision.gameObject.GetComponent<Bomb>() != null) return;
+
+        m_rb.velocity = Vector3.zero;
+
+        //Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        CMD_SetParent(collision.transform);
+
+        //float x = prevScale.x / collision.transform.localScale.x;
+        //float y = prevScale.y / collision.transform.localScale.y;
+        //float z = prevScale.z / collision.transform.localScale.z;
+
+        //transform.localScale = new Vector3(x, y, z);
+
+
+        //CMD_SetParent(collision.transform);
+        
+        m_stuck = true;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CMD_SetParent(Transform collidedTransform)
+    {
+        Debug.Log("CMD_SetParent");
+
+        Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        transform.SetParent(collidedTransform);
+
+        float x = prevScale.x / collidedTransform.localScale.x;
+        float y = prevScale.y / collidedTransform.localScale.y;
+        float z = prevScale.z / collidedTransform.localScale.z;
+
+        transform.localScale = new Vector3(x, y, z);
+
+        //transform.SetParent(collidedTransform);
+        RPC_SetParent(collidedTransform);
+    }
+
+    [ClientRpc]
+    private void RPC_SetParent(Transform collidedTransform)
+    {
+        Debug.Log("rpc_setParent");
+        transform.SetParent(collidedTransform);
+    }
 }

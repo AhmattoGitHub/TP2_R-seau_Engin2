@@ -132,7 +132,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   target: {fileID: 8277261771781214766}
   syncPosition: 1
   syncRotation: 1
-  syncScale: 0
+  syncScale: 1
   interpolatePosition: 1
   interpolateRotation: 1
   interpolateScale: 1
@@ -239,7 +239,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_rb: {fileID: 7486974967253324845}
-  m_projectileSpeed: 10
+  m_projectileSpeed: 100
   m_explosionForce: 10
   m_explosionRadius: 10
   m_height: 20

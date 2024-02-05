@@ -317,6 +317,8 @@ MonoBehaviour:
   - {fileID: 4528891954548822954, guid: ab9f301df18e44942ada9d1a724ee360, type: 3}
   - {fileID: 8334479332174648469, guid: 547b0c6eca7a435449e29093efc7dbc7, type: 3}
   - {fileID: 2203433315003131131, guid: df6be8767474cc14cb9ef7ff4e6e8deb, type: 3}
+  - {fileID: 8390748021214884285, guid: c1cdef1f5324aff4c98cef0d72c8543a, type: 3}
+  - {fileID: 1200794387166239814, guid: 6872b66a4ce516b419c8b064c9ee56fe, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -364,7 +366,9 @@ MonoBehaviour:
   syncInterval: 0
   m_platformPrefab: {fileID: 5113868473312909018, guid: f3184c7ce8a2f39419df3802c775f265, type: 3}
   m_dummyPrefab: {fileID: 2203433315003131131, guid: df6be8767474cc14cb9ef7ff4e6e8deb, type: 3}
+  m_movingObjPrefab: {fileID: 1200794387166239814, guid: 6872b66a4ce516b419c8b064c9ee56fe, type: 3}
   m_dummySpawnPos: {x: 0, y: 1, z: 3}
+  m_movingObjSpawnPos: {x: -5, y: 3, z: -5}
 --- !u!114 &2111642039
 MonoBehaviour:
   m_ObjectHideFlags: 0

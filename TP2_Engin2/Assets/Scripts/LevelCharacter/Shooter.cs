@@ -15,6 +15,10 @@ public class Shooter : NetworkBehaviour
     [SerializeField] private GameObject m_bulletPrefab;
     [SerializeField] private GameObject m_bombPrefab;
     [SerializeField] private Camera m_camera;
+    [SerializeField] private float m_bulletCooldownTimer = 0;
+    [SerializeField] private float m_bombCooldownTimer = 0;
+    [SerializeField] private float m_bulletCooldownTimerMax = 2;
+    [SerializeField] private float m_bombCooldownTimerMax = 5;
 
     private EProjectileType m_currentProjectile;
 
@@ -35,10 +39,18 @@ public class Shooter : NetworkBehaviour
             switch (m_currentProjectile)
             {
                 case EProjectileType.Bullet:
-                    CMD_ShootBullet(direction);
+                    if (m_bulletCooldownTimer < 0)
+                    {
+                        CMD_ShootBullet(direction);
+                        m_bulletCooldownTimer = m_bulletCooldownTimerMax;
+                    }
                     break;
                 case EProjectileType.Bomb:
-                    CMD_ShootBomb(direction);
+                    if (m_bombCooldownTimer < 0)
+                    {
+                        CMD_ShootBomb(direction);
+                        m_bombCooldownTimer = m_bombCooldownTimerMax;
+                    }
                     break;
                 default:
                     break;
@@ -52,6 +64,10 @@ public class Shooter : NetworkBehaviour
         {
             m_currentProjectile = EProjectileType.Bomb;
         }
+
+        m_bulletCooldownTimer -= Time.deltaTime;
+        m_bombCooldownTimer -= Time.deltaTime;
+
     }
 
     [Command(requiresAuthority = false)]
