@@ -1,5 +1,5 @@
 
-public abstract class CharacterState : IState
+public abstract class CharacterState : CC_IState
 {
 
     protected CharacterControllerSM m_stateMachine;
@@ -28,7 +28,7 @@ public abstract class CharacterState : IState
     {
     }
 
-    public virtual bool CanEnter(IState currentState)
+    public virtual bool CanEnter(CC_IState currentState)
     {
         return true;
     }

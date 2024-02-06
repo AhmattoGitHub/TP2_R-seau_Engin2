@@ -4,7 +4,7 @@ public class FreeState : CharacterState
 {
     private bool m_isMovingForward = false;
     private bool m_isMovingLateral = false;
-    private bool m_isMovingBackward = false;
+    private bool m_isMovingBackward = false;    
 
     public override void OnEnter()
     {
@@ -13,10 +13,37 @@ public class FreeState : CharacterState
 
     public override void OnFixedUpdate()
     {
-        AddForceFromInputs();
+        AddForceFromInputs();          
 
+        ApplySlopeForce();
+        
         CapMaximumSpeed();
     }
+
+    void ApplySlopeForce()
+    {
+        RaycastHit hit;
+        int layerMask = 1 << 8; // Ground layer devrait être à 8
+
+        if (Physics.Raycast(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), Vector3.down, out hit, Mathf.Infinity, layerMask))
+        {            
+            float groundAngle = Vector3.Angle(hit.normal, Vector3.up);                      
+
+            if (groundAngle > m_stateMachine.SteepnessBeforeSlopeForce && groundAngle < 90)
+            {
+                // peut-être à changer pour un lerp?
+                float slopeMultiplier = m_stateMachine.SlopeForceAngleMultiplier + (groundAngle / 90.0f); // À ajuster
+                float forceMagnitude = m_stateMachine.SlopeForceMagnitude * slopeMultiplier * Mathf.Sin(Mathf.Deg2Rad * groundAngle);
+
+                Vector3 slopeDirection = Vector3.ProjectOnPlane(-hit.normal, Vector3.up).normalized;
+                Vector3 slopeForce = -slopeDirection * forceMagnitude;
+                
+                Debug.DrawRay(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), slopeForce, Color.blue);
+                
+                m_stateMachine.Rb.AddForce(slopeForce, ForceMode.Acceleration);
+            }
+        }
+    }   
 
     private void AddForceFromInputs()
     {
@@ -60,6 +87,117 @@ public class FreeState : CharacterState
     }
 
     private void CapMaximumSpeed()
+    {
+        RaycastHit hit;
+        int layerMask = 1 << 8; // Ground layer devrait être à 8
+        
+        if (Physics.Raycast(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), Vector3.down, out hit, Mathf.Infinity, layerMask))
+        {
+            float groundAngle = Vector3.Angle(hit.normal, Vector3.up);
+        
+            if (groundAngle > m_stateMachine.SteepnessBeforeSlopeForce) 
+            {
+                SlopedTerrainCapMaximumSpeed(hit, groundAngle); // À peaufiner
+
+                return;
+            }
+        }
+
+        FlatTerrainCapMaximumSpeed();
+    }   
+
+    private void SlopedTerrainCapMaximumSpeed(RaycastHit hit, float groundAngle)
+    {
+        float slopeMultiplier = 1.0f + (groundAngle / 90.0f); // À ajuster maybe
+
+        float forwardMaxVelocity = 0.0f;
+        float lateralMaxVelocity = 0.0f;
+        float backwardMaxVelocity = 0.0f;
+
+        if (m_stateMachine.Rb.velocity.magnitude > 0)
+        {
+            float velocityDirection = Vector3.Dot(m_stateMachine.Rb.velocity.normalized, -hit.normal);
+
+            if (velocityDirection > 0) // On bouge contre la pente
+            {
+                forwardMaxVelocity = Mathf.Lerp(m_stateMachine.ForwardMaxVelocity, m_stateMachine.ForwardMaxVelocity * 2, slopeMultiplier);
+                lateralMaxVelocity = Mathf.Lerp(m_stateMachine.LateralMaxVelocity, m_stateMachine.LateralMaxVelocity, slopeMultiplier);
+                backwardMaxVelocity = Mathf.Lerp(m_stateMachine.BackwardMaxVelocity, m_stateMachine.BackwardMaxVelocity * 2, slopeMultiplier);
+            }
+            else
+            {
+                forwardMaxVelocity = Mathf.Lerp(m_stateMachine.ForwardMaxVelocity, m_stateMachine.ForwardMaxVelocity / 2, slopeMultiplier);
+                lateralMaxVelocity = Mathf.Lerp(m_stateMachine.LateralMaxVelocity, m_stateMachine.LateralMaxVelocity, slopeMultiplier);
+                backwardMaxVelocity = Mathf.Lerp(m_stateMachine.BackwardMaxVelocity, m_stateMachine.BackwardMaxVelocity / 2, slopeMultiplier);
+            }
+
+            Debug.DrawRay(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), m_stateMachine.Rb.velocity, Color.green);
+        }
+
+        if (m_isMovingForward)
+        {
+            if (m_isMovingLateral)
+            {
+                float diagonalMaxVelocity = (forwardMaxVelocity + lateralMaxVelocity) / 2;
+
+                if (m_stateMachine.Rb.velocity.magnitude < diagonalMaxVelocity)
+                {
+                    return;
+                }
+                m_stateMachine.Rb.velocity = Vector3.Normalize(m_stateMachine.Rb.velocity);
+                m_stateMachine.Rb.velocity *= diagonalMaxVelocity;
+                return;
+            }
+            if (m_stateMachine.Rb.velocity.magnitude < forwardMaxVelocity)
+            {
+                return;
+            }
+
+            m_stateMachine.Rb.velocity = Vector3.Normalize(m_stateMachine.Rb.velocity);
+            m_stateMachine.Rb.velocity *= forwardMaxVelocity;
+            return;
+        }
+        if (m_isMovingLateral)
+        {
+            if (m_isMovingBackward)
+            {
+                float diagonalMaxVelocity = (lateralMaxVelocity + backwardMaxVelocity) / 2;
+
+                if (m_stateMachine.Rb.velocity.magnitude < diagonalMaxVelocity)
+                {
+                    return;
+                }
+                m_stateMachine.Rb.velocity = Vector3.Normalize(m_stateMachine.Rb.velocity);
+                m_stateMachine.Rb.velocity *= diagonalMaxVelocity;
+                return;
+            }
+            if (m_stateMachine.Rb.velocity.magnitude < lateralMaxVelocity)
+            {
+                return;
+            }
+            m_stateMachine.Rb.velocity = Vector3.Normalize(m_stateMachine.Rb.velocity);
+            m_stateMachine.Rb.velocity *= lateralMaxVelocity;
+            return;
+        }
+        if (m_isMovingBackward)
+        {
+            if (m_stateMachine.Rb.velocity.magnitude < backwardMaxVelocity)
+            {
+                return;
+            }
+            m_stateMachine.Rb.velocity = Vector3.Normalize(m_stateMachine.Rb.velocity);
+            m_stateMachine.Rb.velocity *= backwardMaxVelocity;
+        }
+        else
+        {
+            if (m_stateMachine.Rb.velocity.magnitude > 0)
+            {
+                m_stateMachine.Rb.velocity *= m_stateMachine.SlowingVelocity;
+            }
+        }
+    }
+
+    private void FlatTerrainCapMaximumSpeed()
     {
         if (m_isMovingForward)
         {
@@ -124,10 +262,12 @@ public class FreeState : CharacterState
         }
     }
 
+
     public override void OnUpdate()
     {
         SendAnimatorValuesToSM();
     }
+
     private void SendAnimatorValuesToSM()
     {
         float forwardComponent = Vector3.Dot(m_stateMachine.Rb.velocity, m_stateMachine.ForwardVectorForPlayer); 
@@ -140,7 +280,7 @@ public class FreeState : CharacterState
         //Debug.Log("Exiting FreeState");
     }
 
-    public override bool CanEnter(IState currentState)
+    public override bool CanEnter(CC_IState currentState)
     {
         if (currentState is JumpState)
         {

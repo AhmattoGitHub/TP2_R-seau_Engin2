@@ -110,7 +110,12 @@ namespace Mirror
         [Header("Player Object")]
         [FormerlySerializedAs("m_PlayerPrefab")]
         [Tooltip("Prefab of the player object. Prefab must have a Network Identity component. May be an empty game object or a full avatar.")]
+        // PMM_CHANGES
+        // MADE DIFFERENT TYPES OF PLAYERS TO BE INSTANTIATED
+        // levelPlayerPrefab was originally playerPrefab (I think)
         public GameObject playerPrefab;
+        public GameObject levelPlayerPrefab;
+        public GameObject characterPlayerPrefab;
 
         /// <summary>Enable to automatically create player objects on connect and on scene change.</summary>
         [FormerlySerializedAs("m_AutoCreatePlayer")]
@@ -199,13 +204,25 @@ namespace Mirror
             // always >= 0
             maxConnections = Mathf.Max(maxConnections, 0);
 
+            // PMM_CHANGES COPIED FOLLOWING IF STATEMENTS
             if (playerPrefab != null && !playerPrefab.TryGetComponent(out NetworkIdentity _))
             {
                 Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
                 playerPrefab = null;
             }
 
+            if (levelPlayerPrefab != null && !levelPlayerPrefab.TryGetComponent(out NetworkIdentity _))
+            {
+                Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
+                levelPlayerPrefab = null;
+            }
+
             // This avoids the mysterious "Replacing existing prefab with assetId ... Old prefab 'Player', New prefab 'Player'" warning.
+            if (levelPlayerPrefab != null && spawnPrefabs.Contains(levelPlayerPrefab))
+            {
+                Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
+                spawnPrefabs.Remove(levelPlayerPrefab);
+            }
             if (playerPrefab != null && spawnPrefabs.Contains(playerPrefab))
             {
                 Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
@@ -789,8 +806,12 @@ namespace Mirror
             NetworkClient.RegisterHandler<NotReadyMessage>(OnClientNotReadyMessageInternal);
             NetworkClient.RegisterHandler<SceneMessage>(OnClientSceneInternal, false);
 
-            if (playerPrefab != null)
-                NetworkClient.RegisterPrefab(playerPrefab);
+            // PMM_CHANGES
+            // ADDED CONDITION AND ADDED THE DIFFERENT TYPES OF PLAYERS
+            if (levelPlayerPrefab != null)
+                NetworkClient.RegisterPrefab(levelPlayerPrefab);            
+            if (characterPlayerPrefab != null)
+                NetworkClient.RegisterPrefab(characterPlayerPrefab);
 
             foreach (GameObject prefab in spawnPrefabs.Where(t => t != null))
                 NetworkClient.RegisterPrefab(prefab);
@@ -1208,13 +1229,13 @@ namespace Mirror
         {
             //Debug.Log("NetworkManager.OnServerAddPlayer");
 
-            if (autoCreatePlayer && playerPrefab == null)
+            if (autoCreatePlayer && levelPlayerPrefab == null)
             {
                 Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
                 return;
             }
 
-            if (autoCreatePlayer && !playerPrefab.TryGetComponent(out NetworkIdentity _))
+            if (autoCreatePlayer && !levelPlayerPrefab.TryGetComponent(out NetworkIdentity _))
             {
                 Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
                 return;
@@ -1226,7 +1247,19 @@ namespace Mirror
                 return;
             }
 
-            OnServerAddPlayer(conn);
+            // PMM_CHANGES
+            // REMOVED FROM METHOD
+            //  OnServerAddPlayer(conn);
+            // ADDED WHAT FOLLOWS
+            
+            if (conn.connectionId == 0)
+            {                
+                OnServerAddPlayer(conn, levelPlayerPrefab);
+            }
+            else
+            {                
+                OnServerAddPlayer(conn, characterPlayerPrefab);
+            }
         }
 
         void OnClientConnectInternal()
@@ -1377,6 +1410,21 @@ namespace Mirror
         /// <summary>Called on server when a client requests to add the player. Adds playerPrefab by default. Can be overwritten.</summary>
         // The default implementation for this function creates a new player object from the playerPrefab.
         public virtual void OnServerAddPlayer(NetworkConnectionToClient conn)
+        {
+            Transform startPos = GetStartPosition();
+            GameObject player = startPos != null
+                ? Instantiate(levelPlayerPrefab, startPos.position, startPos.rotation)
+                : Instantiate(levelPlayerPrefab);
+        
+            // instantiating a "Player" prefab gives it the name "Player(clone)"
+            // => appending the connectionId is WAY more useful for debugging!
+            player.name = $"{levelPlayerPrefab.name} [connId={conn.connectionId}]";
+            NetworkServer.AddPlayerForConnection(conn, player);
+        }
+
+        // PMM_CHANGES
+        // ADDED COPIED LAST METHOD BUT CHANGED PARAMETERS
+        public virtual void OnServerAddPlayer(NetworkConnectionToClient conn, GameObject playerPrefab)
         {
             Transform startPos = GetStartPosition();
             GameObject player = startPos != null

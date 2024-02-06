@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class CameraController : NetworkBehaviour
+public class CameraController_CharacterPlayer : NetworkBehaviour        // Character
 {
 
     [SerializeField] private Transform m_objectToLookAt;
@@ -22,7 +22,7 @@ public class CameraController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer)   //new
         {
             gameObject.SetActive(false);
         }
@@ -35,7 +35,7 @@ public class CameraController : NetworkBehaviour
         CalculateTargetPosition();
 
         //RotateAroundObjectHorizontal();
-        RotateAroundObjectVertical();
+        RotateAroundObjectVertical();     //new
 
         transform.position = Vector3.Lerp(transform.position, m_targetPosition, m_lerpF);
 

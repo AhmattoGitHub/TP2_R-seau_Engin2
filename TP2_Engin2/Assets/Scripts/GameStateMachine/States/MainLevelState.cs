@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainLevelState : IState
+public class MainLevelState : GM_IState
 {
-    public bool CanEnter(IState currentState)
+    public bool CanEnter(GM_IState currentState)
     {
         return SceneManager.GetActiveScene().buildIndex == 2;
     }
