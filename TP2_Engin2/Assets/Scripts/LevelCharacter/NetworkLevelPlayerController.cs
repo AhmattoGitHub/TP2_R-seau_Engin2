@@ -6,7 +6,6 @@ public class NetworkLevelPlayerController : NetworkBehaviour
     private NetworkPlatformManager m_platformController = null;
 
     [SerializeField] private Camera m_camera;
-    [SerializeField] private GameObject m_projectilePrefab;
     [SerializeField] private Transform m_objectToLookAt;
     [SerializeField] private Vector2 m_verticalLimits;
     [SerializeField] private float m_startDistance = 5.0f;
@@ -14,10 +13,11 @@ public class NetworkLevelPlayerController : NetworkBehaviour
     [SerializeField] private float m_rotationSpeed = 2.0f;
     [SerializeField] private float m_moveSpeed = 0.1f;
     [SerializeField] private float m_edgeDistance = 50.0f;
-    [SerializeField] private float m_projectileSpeed = 10.0f;
     
     private float m_lerpedAngleX;
     private float m_lerpedInputY;
+
+    private bool m_inputPaused = false;
 
     void Start()
     {
@@ -39,9 +39,17 @@ public class NetworkLevelPlayerController : NetworkBehaviour
             return;
         }
 
+        if (Input.GetKeyDown(KeyCode.P))    //For easier testing    //Feature ?
+        {
+            m_inputPaused = !m_inputPaused;
+        }
+
+        if (m_inputPaused == true)
+        {
+            return;
+        }
         MoveHorizontally();
         MoveVertically();
-        //Shoot();
         SendInputsToMovePlatform();
 
     }
@@ -93,30 +101,13 @@ public class NetworkLevelPlayerController : NetworkBehaviour
         CMD_SendWorldInputs(localInput);
     }
 
-    private void Shoot()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = m_camera.nearClipPlane;
-            Vector3 screenPosition = m_camera.ScreenToWorldPoint(mousePosition);
-
-            Vector3 direction = (screenPosition - transform.position).normalized;
-
-            GameObject projectile = Instantiate(m_projectilePrefab, transform.position, Quaternion.identity);
-
-            projectile.GetComponent<Rigidbody>().velocity = direction * m_projectileSpeed;
-        }
-
-    }
-
     [Command]
     public void CMD_SendWorldInputs(Vector3 worldInput)
     {
         m_platformController.ReceiveWorldInputs(worldInput);
     }
 
-    Vector3 GetLocalInput()
+    Vector3 GetLocalInput() //private ?
     {
         Vector3 localInput = Vector3.zero;
 
@@ -131,7 +122,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
 
         if (localInput == Vector3.zero)
         {
-            Debug.Log("Local Inputs = Zero");
+            //Debug.Log("Local Inputs = Zero");
             return Vector3.zero;
         }
 
