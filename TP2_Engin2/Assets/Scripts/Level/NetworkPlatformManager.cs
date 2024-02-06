@@ -57,7 +57,7 @@ public class NetworkPlatformManager : NetworkBehaviour
         // TODO still locking at max angle, needs fix
         if (m_playersInputs == Vector3.zero)    
         {
-            Debug.Log("no input");
+            //Debug.Log("no input");
             Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, transform.up);
             m_platform.transform.rotation = Quaternion.Slerp(m_platform.transform.rotation, targetRotation, m_dampingSpeed * Time.deltaTime);            
         }
