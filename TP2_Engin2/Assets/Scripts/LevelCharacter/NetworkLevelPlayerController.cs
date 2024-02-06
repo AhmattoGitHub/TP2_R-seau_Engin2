@@ -31,7 +31,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
     {
         if (m_platformController == null)
         {
-            //m_platformController = NetworkPlatformManager._Instance.GetComponent<NetworkPlatformManager>();
+            m_platformController = NetworkPlatformManager._Instance.GetComponent<NetworkPlatformManager>();
         }
 
         if (!isLocalPlayer)
@@ -50,7 +50,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
         }
         MoveHorizontally();
         MoveVertically();
-        //SendInputsToMovePlatform();
+        SendInputsToMovePlatform();
 
     }
 

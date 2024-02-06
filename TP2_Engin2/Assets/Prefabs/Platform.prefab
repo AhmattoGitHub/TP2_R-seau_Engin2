@@ -426,7 +426,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5361901793968820975}
   - component: {fileID: 2578475757612381233}
-  - component: {fileID: 8679628406345299001}
+  - component: {fileID: 8357263287898836412}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_angleLimit: 15
   m_dampingSpeed: 10
   m_pivotRadius: 0.01
---- !u!114 &8679628406345299001
+--- !u!114 &8357263287898836412
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

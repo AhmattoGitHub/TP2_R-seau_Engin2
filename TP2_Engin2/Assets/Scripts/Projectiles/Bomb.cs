@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEditor;
 
 
 public class Bomb : NetworkBehaviour
@@ -39,7 +40,7 @@ public class Bomb : NetworkBehaviour
         if (m_timer < 0)
         {
             //Debug.Log("explode");
-            CMD_Explode();
+            //CMD_Explode();
             return;
         }
         m_timer -= Time.deltaTime;
@@ -85,14 +86,16 @@ public class Bomb : NetworkBehaviour
         }
 
 
-        if (m_stuck) return;
-        if (collision.gameObject.GetComponent<Bullet>() != null ||
-            collision.gameObject.GetComponent<Bomb>() != null) return;
+        //if (m_stuck) return;
+        //if (collision.gameObject.GetComponent<Bullet>() != null ||
+        //    collision.gameObject.GetComponent<Bomb>() != null) return;
 
         m_rb.velocity = Vector3.zero;
 
         //Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        CMD_SetParent(collision.transform);
+
+        string name = collision.gameObject.name;
+        CMD_SetParent(collision.transform.root, name);
 
         //float x = prevScale.x / collision.transform.localScale.x;
         //float y = prevScale.y / collision.transform.localScale.y;
@@ -107,27 +110,35 @@ public class Bomb : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    private void CMD_SetParent(Transform collidedTransform)
+    private void CMD_SetParent(Transform collidedTransformRoot, string objectName)
     {
         Debug.Log("CMD_SetParent");
 
-        Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        transform.SetParent(collidedTransform);
+        //Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        transform.SetParent(collidedTransformRoot);
+        //transform.SetParent(collidedTransform);
+        //Debug.Log(objectName);
+        var Go = GameObject.Find(objectName);
+        transform.SetParent(Go.transform);
 
-        float x = prevScale.x / collidedTransform.localScale.x;
-        float y = prevScale.y / collidedTransform.localScale.y;
-        float z = prevScale.z / collidedTransform.localScale.z;
+        //float x = prevScale.x / collidedTransformRoot.localScale.x;
+        //float y = prevScale.y / collidedTransformRoot.localScale.y;
+        //float z = prevScale.z / collidedTransformRoot.localScale.z;
 
-        transform.localScale = new Vector3(x, y, z);
+        //transform.localScale = new Vector3(x, y, z);
 
         //transform.SetParent(collidedTransform);
-        RPC_SetParent(collidedTransform);
+        RPC_SetParent(collidedTransformRoot, objectName);
     }
 
     [ClientRpc]
-    private void RPC_SetParent(Transform collidedTransform)
+    private void RPC_SetParent(Transform collidedTransformRoot, string objectName)
     {
         Debug.Log("rpc_setParent");
-        transform.SetParent(collidedTransform);
+        transform.SetParent(collidedTransformRoot);
+
+        var Go = GameObject.Find(objectName);
+        transform.SetParent(Go.transform);
+
     }
 }
