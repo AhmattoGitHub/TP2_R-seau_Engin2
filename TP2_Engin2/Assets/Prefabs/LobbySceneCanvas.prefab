@@ -146,7 +146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2305794306265380662
 RectTransform:
   m_ObjectHideFlags: 0
@@ -752,7 +752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &191839918361845835
 Transform:
   m_ObjectHideFlags: 0
@@ -2216,7 +2216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8485976266194296427, guid: deb78a7b6b80a4f4fad05e103073a5a1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2246,11 +2246,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_fontSize
-      value: 100
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
+      propertyPath: m_margin.z
+      value: -24.86206
       objectReference: {fileID: 0}
     - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_fontSizeBase
-      value: 100
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -2262,19 +2266,19 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ccacd3358098ea54aa9d08dcde25971a, type: 2}
     - target: {fileID: 4189508448294112005, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 800
+      value: 459.5831
       objectReference: {fileID: 0}
     - target: {fileID: 4189508448294112005, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 294.7612
+      value: 225.9128
       objectReference: {fileID: 0}
     - target: {fileID: 4189508448294112005, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -20
+      value: -190.20844
       objectReference: {fileID: 0}
     - target: {fileID: 4189508448294112005, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8
+      value: -26.424194
       objectReference: {fileID: 0}
     - target: {fileID: 6339643411378006269, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2514,7 +2518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8485976266194296427, guid: deb78a7b6b80a4f4fad05e103073a5a1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2620,7 +2624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546952575063900486, guid: ab9ce7602f6cae74b9be4bbc12c5c906, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7742686672106105318, guid: ab9ce7602f6cae74b9be4bbc12c5c906, type: 3}
       propertyPath: m_text
@@ -2646,12 +2650,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_text
-      value: Enemy
+      value: Shooter
       objectReference: {fileID: 0}
     - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_fontColorGradientPreset
       value: 
       objectReference: {fileID: 11400000, guid: 9e701ee289da6f14792ab1a43e71a52e, type: 2}
+    - target: {fileID: 4189508448294112005, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 575
+      objectReference: {fileID: 0}
     - target: {fileID: 8534443675491555394, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_Name
       value: EnemyTeam
@@ -2682,7 +2690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2718,7 +2726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 300
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2756,12 +2764,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_text
-      value: Player
+      value: Runner
       objectReference: {fileID: 0}
     - target: {fileID: 3139230086998865653, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_fontColorGradientPreset
       value: 
       objectReference: {fileID: 11400000, guid: 6b9e1cdf110a0184e8635193171a80b8, type: 2}
+    - target: {fileID: 6339643411378006269, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: JoinPlayerTeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339643411378006269, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LobbyManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8534443675491555394, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_Name
       value: PlayerTeam
@@ -2792,7 +2808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2828,7 +2844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -300
+      value: -350
       objectReference: {fileID: 0}
     - target: {fileID: 8732854146742725524, guid: 0186840830bb6af409f2d55a7293d2f4, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3256,7 +3272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4546952575063900486, guid: ab9ce7602f6cae74b9be4bbc12c5c906, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4779292703171031865, guid: ab9ce7602f6cae74b9be4bbc12c5c906, type: 3}
       propertyPath: m_text

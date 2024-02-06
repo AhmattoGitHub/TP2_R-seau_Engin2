@@ -2,28 +2,34 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.CompilerServices;
 using TMPro;
-using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyManager : NetworkBehaviour
 {
     private static LobbyManager _instance;
     [SerializeField]
-    private GameObject[] m_uiTextSlots;
+    private TMP_InputField m_nameField;
     [SerializeField]
-    private GameObject m_conigureMenu;
+    private TMP_Text[] m_uiTextSlots;
+    [SerializeField]
+    private GameObject m_configureMenu;
     [SerializeField]
     private List<NetworkConnectionToClient> m_connectedPlayers = new List<NetworkConnectionToClient>();
     [SerializeField]
-    private List<NetworkConnectionToClient> m_players = new List<NetworkConnectionToClient>();
+    private GameObject m_slotsMenu;
     [SerializeField]
-    private List<NetworkConnectionToClient> m_enemies = new List<NetworkConnectionToClient>();
+    private Button m_runnerButton;
+    [SerializeField]
+    private Button m_shooterButton;
+    [SerializeField]
+    private LobbyNetworkManager m_networkManager;
 
-    private bool m_selectingTeam;
-    private bool m_selectedPlayer = false;
-    private bool m_selectedEnemy = false;
+    private bool m_selectedRunner = false;
+    private bool m_selectedShooter = false;
 
     public static LobbyManager Instance
     {
@@ -49,52 +55,62 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void UpdateUI(int numberOfPlayers)
-    {
-        for (int i = 0; i < m_uiTextSlots.Length; i++)
-        {
-            if(i < numberOfPlayers)
-                m_uiTextSlots[i].gameObject.SetActive(true);
-            else
-                m_uiTextSlots[i].gameObject.SetActive(false);
-        }
-    }
-
-    public void AddPlayerToList(NetworkConnectionToClient player)
+    [Server]
+    public void AddToConnections(NetworkConnectionToClient player)
     {
         m_connectedPlayers.Add(player);
     }
 
-    public void RemovePlayerFromList(NetworkConnectionToClient player)
+    [Server]
+    public void RemoveFromConnections(NetworkConnectionToClient player)
     {
         m_connectedPlayers.Remove(player);
-        m_players.Remove(player);
-        m_enemies.Remove(player);
     }
 
-    public void AddPlayerToPlayerTeam(NetworkConnectionToClient player)
+    [Client]
+    public void WaitForConfig()
     {
-        m_players.Add(player);
+
+        GoToConfigurationMenu();
+        PlayerConfig();
     }
 
-    public void AddPlayerToLevelTeam(NetworkConnectionToClient player)
+    private void PlayerConfig()
     {
-        m_enemies.Add(player);
+        m_runnerButton.onClick.AddListener(() => JoinRunnerTeam(m_nameField.text)); 
+        m_shooterButton.onClick.AddListener(() => JoinShooterTeam(m_nameField.text));
+        m_runnerButton.onClick.AddListener(() => GoToSlotsMenu());
+        m_shooterButton.onClick.AddListener(() => GoToSlotsMenu());
+        m_nameField.onEndEdit.AddListener((text) => ChangeName(text));
     }
 
-    public void IsAPlayer()
+    [Command(requiresAuthority = false)]
+    private void JoinRunnerTeam(string newName, NetworkConnectionToClient player = null)
     {
-        m_selectedPlayer = true;
+        player.identity.tag = "Runner";
+        Debug.Log(player.identity.name + " " + player.connectionId + " joined Runner team");
     }
 
-    public void IsAnEnemy()
+    [Command(requiresAuthority = false)]
+    private void JoinShooterTeam(string newName, NetworkConnectionToClient player = null)
     {
-        m_selectedEnemy = true;
+        player.identity.tag = "Shooter";
+        Debug.Log(player.identity.name + " " + player.connectionId + " joined Shooter team");
     }
 
-    public void WaitForTeamSelection(NetworkConnectionToClient player)
+    [Command(requiresAuthority = false)]
+    private void ChangeName(string text, NetworkConnectionToClient player = null)
     {
-
+        player.identity.name = text;
+        Debug.Log(player.identity.name + " has joined the lobby!");
+    }
+    private void GoToSlotsMenu()
+    {
+        m_configureMenu.SetActive(false);
+        m_slotsMenu.SetActive(true);
+    }
+    private void GoToConfigurationMenu()
+    {
+        m_configureMenu.SetActive(true);
     }
 }

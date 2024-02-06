@@ -5,25 +5,42 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
+using Mirror.Discovery;
+using UnityEngine.UI;
 
 public class LobbyNetworkManager : NetworkManager
 {
     private int m_playerCount = 0;
-    private string ipAdress;
 
     private void Start()
     {
-        
+
     }
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+    }
+
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+        LobbyManager.Instance.WaitForConfig();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+    }
+
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        m_playerCount++;
         base.OnServerAddPlayer(conn);
-        LobbyManager.Instance.WaitForTeamSelection(conn);
+        conn.identity.name = "NoName";
+        LobbyManager.Instance.AddToConnections(conn);
     }
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        m_playerCount--;
         base.OnServerDisconnect(conn);
+        LobbyManager.Instance.RemoveFromConnections(conn);
     }
 }
