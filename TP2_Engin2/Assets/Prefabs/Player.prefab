@@ -800,9 +800,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096930612547086335}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 10000
+  m_Drag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -826,7 +826,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096930612547086335}
-  m_Material: {fileID: 13400000, guid: 78c8ad2f9d5dbcd4186be2c3c64293ca, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2617,7 +2617,7 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 4702501583124893326}
   <HitBox>k__BackingField: {fileID: 0}
   <AccelerationValue>k__BackingField: 20
-  <JumpAccelerationValue>k__BackingField: 500
+  <JumpAccelerationValue>k__BackingField: 650
   <SlowedDownAccelerationValue>k__BackingField: 7
   <ForwardMaxVelocity>k__BackingField: 6
   <LateralMaxVelocity>k__BackingField: 5
@@ -2630,6 +2630,9 @@ MonoBehaviour:
   <MC>k__BackingField: {fileID: 2096930612547086335}
   m_groundCollider: {fileID: 8540017536000206558}
   m_hitDetection: {fileID: 0}
+  <SlopeForceMagnitude>k__BackingField: 25
+  <SlopeForceAngleMultiplier>k__BackingField: 1
+  <SteepnessBeforeSlopeForce>k__BackingField: 5
 --- !u!1 &7191069299810554893
 GameObject:
   m_ObjectHideFlags: 0
