@@ -29,9 +29,20 @@ public class NetworkLevelPlayerController : NetworkBehaviour
 
     void Update()
     {
+        bool controllingPlatform = false;
+        
         if (m_platformController == null)
         {
-            m_platformController = NetworkPlatformManager._Instance.GetComponent<NetworkPlatformManager>();
+            var platformController = NetworkPlatformManager._Instance?.GetComponent<NetworkPlatformManager>();
+            if (platformController == null)
+            {
+                Debug.LogError("No platform controller in scene");
+            }
+            else
+            {
+                m_platformController = platformController;
+                controllingPlatform = true;
+            }
         }
 
         if (!isLocalPlayer)
@@ -50,7 +61,11 @@ public class NetworkLevelPlayerController : NetworkBehaviour
         }
         MoveHorizontally();
         MoveVertically();
-        SendInputsToMovePlatform();
+
+        if (controllingPlatform)
+        {
+            SendInputsToMovePlatform();
+        }
 
     }
 
