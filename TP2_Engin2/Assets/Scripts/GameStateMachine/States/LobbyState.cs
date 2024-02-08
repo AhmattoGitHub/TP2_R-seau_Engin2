@@ -39,9 +39,10 @@ public class LobbyState : GM_IState
 
     public void OnUpdate()
     {
-        if(NetworkClient.isConnected)
+        if(NetworkServer.active)
         {
             LobbyManager.Instance.CheckIfTeamsAreFull();
+            LobbyManager.Instance.UpdatePlayerStatusUI();
         }
     }
 }

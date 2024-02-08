@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Mirror;
 using Mirror.Examples.Pong;
 using System.Collections;
@@ -72,7 +73,8 @@ public class LobbyManager : NetworkBehaviour
         m_connectedPlayers.Remove(player);
         RemovePlayerSlotUI(player);
         UpdateTeamCount(player);
-        UpdateSlotsUI();
+        SetOfflineStatus(player.m_uiSlotIndex);
+        UpdateSlotsNameUI();
     }
 
     [Client]
@@ -82,6 +84,7 @@ public class LobbyManager : NetworkBehaviour
         PlayerConfig();
     }
 
+    [Client]
     private void PlayerConfig()
     {
         m_nameField.onEndEdit.AddListener((text) => ChangeName(text));
@@ -98,9 +101,10 @@ public class LobbyManager : NetworkBehaviour
         {
             player.identity.tag = "Runner";
             player.m_uiSlotIndex = m_numberOfRunners;
+            player.m_isOnline = true;
             m_numberOfRunners++;
+            UpdateSlotsNameUI();
             Debug.Log(player.identity.name + " joined Runner team");
-            UpdateSlotsUI();
         }
     }
 
@@ -111,9 +115,10 @@ public class LobbyManager : NetworkBehaviour
         {
             player.identity.tag = "Shooter";
             player.m_uiSlotIndex = m_numberOfShooters + 2;
+            player.m_isOnline = true;
             m_numberOfShooters++;
+            UpdateSlotsNameUI();
             Debug.Log(player.identity.name + " joined Shooter team");
-            UpdateSlotsUI();
         }
     }
 
@@ -138,15 +143,15 @@ public class LobbyManager : NetworkBehaviour
         m_slotsMenu.SetActive(false);
     }
     [Server]
-    private void UpdateSlotsUI()
+    public void UpdateSlotsNameUI()
     {
         foreach (var player in m_connectedPlayers)
         {
-            RpcUpdateSlotUI(player.m_uiSlotIndex, player.identity.name);
+            RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.identity.name);
         }
     }
     [ClientRpc]
-    private void RpcUpdateSlotUI(int uiSlotIndex, string playerName)
+    private void RpcUpdateSlotsNameUI(int uiSlotIndex, string playerName)
     {
         m_nameSection[uiSlotIndex].text = playerName;
     }
@@ -177,5 +182,40 @@ public class LobbyManager : NetworkBehaviour
         {
             m_shooterButton.gameObject.SetActive(false);
         }
+    }
+
+    [Server]
+    public void UpdatePlayerStatusUI()
+    {
+        foreach(var player in m_connectedPlayers)
+        {
+            if(player.m_isOnline)
+            {
+                m_readyStatus[player.m_uiSlotIndex].text = "Online";
+                if(player.m_isReady)
+                {
+                    m_readyStatus[player.m_uiSlotIndex].text = "Ready";
+                }
+                RpcUpdatePlayerStatusUI(player.m_uiSlotIndex, m_readyStatus[player.m_uiSlotIndex].text);
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void RpcUpdatePlayerStatusUI(int index, string status)
+    {
+        m_readyStatus[index].text = status;
+    }
+
+    [Server]
+    private void SetOfflineStatus(int index)
+    {
+        m_readyStatus[index].text = "Offline";
+    }
+
+    [ClientRpc]
+    private void RpcSetOfflineStatus(int index)
+    {
+        m_readyStatus[index].text = "Offline";
     }
 }
