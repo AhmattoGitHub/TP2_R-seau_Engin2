@@ -31,6 +31,8 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField]
     private Button m_shooterButton;
     [SerializeField]
+    private TMP_Text m_readyText;
+    [SerializeField]
     private LobbyNetworkManager m_networkManager;
     [SyncVar]
     private int m_numberOfRunners = 0;
@@ -59,6 +61,12 @@ public class LobbyManager : NetworkBehaviour
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+            CmdSetReadyStatus();
     }
 
     [Server]
@@ -217,5 +225,38 @@ public class LobbyManager : NetworkBehaviour
     private void RpcSetOfflineStatus(int index)
     {
         m_readyStatus[index].text = "Offline";
+    }
+
+    [Command(requiresAuthority =false)]
+    public void CmdSetReadyStatus(NetworkConnectionToClient player = null)
+    {
+        SetReadyStatus(player);
+    }
+
+    private void SetReadyStatus(NetworkConnectionToClient player) 
+    {
+        DisableReadyText(player);
+        player.m_isReady = true;
+    }
+
+    [TargetRpc]
+    private void DisableReadyText(NetworkConnectionToClient player)
+    {
+        m_readyText.gameObject.SetActive(false);
+    }
+
+    private bool IsLobbyReady()
+    {
+        int numberOfReady = 0;
+
+        foreach(var player in m_connectedPlayers)
+        {
+            if(player.m_isReady)
+            {
+                numberOfReady++;
+            }
+        }
+
+        return numberOfReady == m_connectedPlayers.Count;
     }
 }
