@@ -255,7 +255,27 @@ public class LobbyManager : NetworkBehaviour
 
     private bool LobbyIsReady()
     {
-        if(m_connectedPlayers.Count == 0)
+        int numberOfRunners = 0;
+        int numberOfShooters = 0;
+
+        foreach (var player in m_connectedPlayers)
+        {
+            if (player.identity.tag == "Runner")
+            {
+                numberOfRunners++;
+            }
+            else
+            {
+                numberOfShooters++;
+            }
+        }
+
+        if (numberOfRunners == 0 || numberOfShooters == 0)
+        {
+            return false;
+        }
+
+        if (m_connectedPlayers.Count == 0)
         {
             return false;
         }
