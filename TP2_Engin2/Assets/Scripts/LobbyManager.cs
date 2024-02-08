@@ -64,7 +64,6 @@ public class LobbyManager : NetworkBehaviour
     public void AddToConnections(NetworkConnectionToClient player)
     {
         m_connectedPlayers.Add(player);
-
     }
 
     [Server]
@@ -166,6 +165,17 @@ public class LobbyManager : NetworkBehaviour
         else
         {
             m_numberOfShooters--;
+        }
+    }
+    public void CheckIfTeamsAreFull()
+    {
+        if(m_numberOfRunners == 2)
+        {
+            m_runnerButton.gameObject.SetActive(false);
+        }
+        else if (m_numberOfShooters == 2)
+        {
+            m_shooterButton.gameObject.SetActive(false);
         }
     }
 }
