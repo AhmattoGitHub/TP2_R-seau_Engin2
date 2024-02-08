@@ -15,7 +15,14 @@ public class NetManagerCustom : NetworkManager
 
         //var go = Instantiate(characterPlayerPrefab);
         //NetworkServer.Spawn(go, conn);
-        OnServerAddPlayer(conn, characterPlayerPrefab);
+        if (spawnRunner)
+        {
+            OnServerAddPlayer(conn, characterPlayerPrefab);
+        }
+        else
+        {
+            OnServerAddPlayer(conn, levelPlayerPrefab);
+        }
     }
 
     public override void OnValidate()

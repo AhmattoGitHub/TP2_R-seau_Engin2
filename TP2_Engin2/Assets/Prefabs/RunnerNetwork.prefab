@@ -957,8 +957,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_localPlayerPrefab: {fileID: 2096930612547086335, guid: 76be8e50320d7cd42ac75726243dd83c, type: 3}
+  isRunner: 1
   m_animator: {fileID: 4342733284951135377}
   m_rb: {fileID: 3109528093335577887}
+  m_controller: {fileID: 0}
+  m_camera: {fileID: 0}
 --- !u!1 &2199112103997872482
 GameObject:
   m_ObjectHideFlags: 0

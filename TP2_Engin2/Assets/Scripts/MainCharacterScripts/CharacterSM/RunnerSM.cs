@@ -243,7 +243,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
         Animator.SetBool("IsGrounded", IsInContactWithFloor());
     }
 
-    public void SetCharacterGo(GameObject go)
+    public void SetParentGo(GameObject go)
     {
         MC = go;
     }
