@@ -7,6 +7,10 @@ namespace Mirror
 {
     public class NetworkConnectionToClient : NetworkConnection
     {
+        //The following variable members were added by Ahmed Yassine in order to add properties to the players
+        public int m_uiSlotIndex;
+        public bool m_isReady = false;
+
         // rpcs are collected in a buffer, and then flushed out together.
         // this way we don't need one NetworkMessage per rpc.
         // => prepares for LocalWorldState as well.

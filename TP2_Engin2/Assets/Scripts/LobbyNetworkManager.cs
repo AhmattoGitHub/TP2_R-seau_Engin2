@@ -35,12 +35,12 @@ public class LobbyNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
-        conn.identity.name = "NoName";
+        conn.identity.name = "";
         LobbyManager.Instance.AddToConnections(conn);
     }
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        base.OnServerDisconnect(conn);
         LobbyManager.Instance.RemoveFromConnections(conn);
+        base.OnServerDisconnect(conn);
     }
 }
