@@ -21,6 +21,8 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState>
     [field: SerializeField] public float InAirMaxVelocity { get; private set; } = 6.0f;
     [field: SerializeField] public float MaxNoDamageFall { get; private set; } = 10.0f;
     [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;    
+    [field: SerializeField] public float Stamina { get; private set; } = 100.0f;    
+    [field: SerializeField] public float StaminaMaxValue { get; private set; } = 100.0f;    
     [field: SerializeField] public GameObject ObjectToLookAt { get; private set; }
     [field: SerializeField] public GameObject MC { get; private set; }
     
@@ -91,6 +93,8 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState>
         SetIsGroundedAnimationBool();
         //SetTouchingGroundAnimationBool();
 
+        UpdateStaminaWhileRunning();
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -101,6 +105,51 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState>
     {
         RotatePlayer();
         base.FixedUpdate();
+    }
+
+    private void UpdateStaminaWhileRunning()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+        if (Rb.velocity.magnitude < 0.5f)
+        {
+            if (Stamina == StaminaMaxValue)
+            {
+                return;
+            }
+            
+            Stamina += 0.1f;
+            
+            if (Stamina > StaminaMaxValue)
+            {
+                Stamina = StaminaMaxValue;
+            }            
+            return;
+        }
+
+        Stamina -= Rb.velocity.magnitude / 100.0f;
+        if (Stamina < 0.0f)
+        {
+            Stamina = 0.0f;
+        }
+    }
+
+    public void UpdateStaminaWhileJumping(float value)
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+        Stamina -= value;
+
+        if (Stamina < 0.0f)
+        {
+            Stamina = 0.0f;
+        }
     }
 
     private void RotatePlayer()

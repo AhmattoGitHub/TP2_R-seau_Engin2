@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class JumpState : CharacterState
 {
+    private const float STAMINA_DECREASE = 10.0f;
     private const float GROUNDCHECK_DELAY_TIMER = 1.0f;
     private float m_currentGCDelayTimer = 0.0f;
     private bool m_hasDoubleJumped = false;
@@ -11,9 +12,7 @@ public class JumpState : CharacterState
         //Debug.Log("Entering JumpState");
 
         m_hasDoubleJumped = false;
-        //m_stateMachine.Rb.velocity *= 0.5f;
         Jump();
-
         m_currentGCDelayTimer = GROUNDCHECK_DELAY_TIMER;
 
         //FXManager.Instance.PlaySound(EFXType.McJump, m_stateMachine.transform.position);
@@ -69,11 +68,16 @@ public class JumpState : CharacterState
     {
         m_stateMachine.Rb.AddForce(Vector3.up * m_stateMachine.JumpAccelerationValue,
         ForceMode.Acceleration);
+
+        m_stateMachine.UpdateStaminaWhileJumping(STAMINA_DECREASE);
+
     }
 
     public override void OnUpdate()
     {
-        if (!m_hasDoubleJumped && m_currentGCDelayTimer < GROUNDCHECK_DELAY_TIMER - 0.2f)
+        if (!m_hasDoubleJumped && 
+            m_stateMachine.Stamina > STAMINA_DECREASE &&
+            m_currentGCDelayTimer < GROUNDCHECK_DELAY_TIMER - 0.2f)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -101,6 +105,10 @@ public class JumpState : CharacterState
         if (currentState is FreeState)
         {
             if (!m_stateMachine.IsInContactWithFloor())
+            {
+                return false;
+            }
+            if (m_stateMachine.Stamina < STAMINA_DECREASE)
             {
                 return false;
             }
