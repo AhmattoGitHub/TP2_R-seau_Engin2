@@ -1,23 +1,47 @@
+using JetBrains.Annotations;
 using Mirror;
+using Mirror.Examples.Pong;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using TMPro;
-using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyManager : NetworkBehaviour
 {
     private static LobbyManager _instance;
     [SerializeField]
-    private TMP_Text[] m_uiTextSlots;
+    private TMP_InputField m_nameField;
+    [SerializeField]
+    private GameObject m_configureMenu;
     [SerializeField]
     private List<NetworkConnectionToClient> m_connectedPlayers = new List<NetworkConnectionToClient>();
     [SerializeField]
-    private List<NetworkConnectionToClient> m_players = new List<NetworkConnectionToClient>();
+    private GameObject m_slotsMenu;
     [SerializeField]
-    private List<NetworkConnectionToClient> m_levelPlayers = new List<NetworkConnectionToClient>();
+    private TMP_Text[] m_nameSection;
+    [SerializeField]
+    private TMP_Text[] m_readyStatus;
+    [SerializeField]
+    private Button m_runnerButton;
+    [SerializeField]
+    private Button m_shooterButton;
+    [SerializeField]
+    private TMP_Text m_readyText;
+    [SerializeField]
+    private TMP_Text m_vsText;
+    [SerializeField]
+    private LobbyNetworkManager m_networkManager;
+    [SyncVar]
+    private int m_numberOfRunners = 0;
+    [SyncVar]
+    private int m_numberOfShooters = 0;
+    [SyncVar]
+    private float m_timer = 4;
 
     public static LobbyManager Instance
     {
@@ -43,37 +67,240 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void UpdateUI(int numberOfPlayers)
+    private void Update()
     {
-        for (int i = 0; i < m_uiTextSlots.Length; i++)
+        if(Input.GetKeyDown(KeyCode.Space))
+            CmdSetReadyStatus();
+        if(LobbyIsReady())
         {
-            if(i < numberOfPlayers)
-                m_uiTextSlots[i].gameObject.SetActive(true);
-            else
-                m_uiTextSlots[i].gameObject.SetActive(false);
+            StartTimer();
         }
     }
 
-    public void AddPlayerToList(NetworkConnectionToClient player)
+    [Server]
+    public void AddToConnections(NetworkConnectionToClient player)
     {
         m_connectedPlayers.Add(player);
     }
 
-    public void RemovePlayerFromList(NetworkConnectionToClient player)
+    [Server]
+    public void RemoveFromConnections(NetworkConnectionToClient player)
     {
         m_connectedPlayers.Remove(player);
-        m_players.Remove(player);
-        m_levelPlayers.Remove(player);
+        RemovePlayerSlotUI(player);
+        UpdateTeamCount(player);
+        SetOfflineStatus(player.m_uiSlotIndex);
+        UpdateSlotsNameUI();
     }
 
-    public void AddPlayerToPlayerTeam(NetworkConnectionToClient player)
+    [Client]
+    public void WaitForConfig()
     {
-        m_players.Add(player);
+        GoToConfigurationMenu();
+        PlayerConfig();
     }
 
-    public void AddPlayerToLevelTeam(NetworkConnectionToClient player)
+    [Client]
+    private void PlayerConfig()
     {
-        m_levelPlayers.Add(player);
+        m_nameField.onEndEdit.AddListener((text) => ChangeName(text));
+        m_runnerButton.onClick.AddListener(() => JoinRunnerTeam(m_nameField.text)); 
+        m_shooterButton.onClick.AddListener(() => JoinShooterTeam(m_nameField.text));
+        m_runnerButton.onClick.AddListener(() => GoToSlotsMenu());
+        m_shooterButton.onClick.AddListener(() => GoToSlotsMenu());
+    }
+
+    [Command(requiresAuthority = false)]
+    private void JoinRunnerTeam(string newName, NetworkConnectionToClient player = null)
+    {
+        if (m_numberOfRunners < 2)
+        {
+            player.identity.tag = "Runner";
+            player.m_uiSlotIndex = m_numberOfRunners;
+            player.m_isOnline = true;
+            m_numberOfRunners++;
+            UpdateSlotsNameUI();
+            Debug.Log(player.identity.name + " joined Runner team");
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    private void JoinShooterTeam(string newName, NetworkConnectionToClient player = null)
+    {
+        if (m_numberOfShooters < 2)
+        {
+            player.identity.tag = "Shooter";
+            player.m_uiSlotIndex = m_numberOfShooters + 2;
+            player.m_isOnline = true;
+            m_numberOfShooters++;
+            UpdateSlotsNameUI();
+            Debug.Log(player.identity.name + " joined Shooter team");
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    private void ChangeName(string text, NetworkConnectionToClient player = null)
+    {
+        player.identity.name = text;
+        Debug.Log(player.identity.name + " has joined the lobby!");
+    }
+
+    [Client]
+    private void GoToSlotsMenu()
+    {
+        m_configureMenu.SetActive(false);
+        m_slotsMenu.SetActive(true);
+    }
+
+    [Client]
+    private void GoToConfigurationMenu()
+    {
+        m_configureMenu.SetActive(true);
+        m_slotsMenu.SetActive(false);
+    }
+    [Server]
+    public void UpdateSlotsNameUI()
+    {
+        foreach (var player in m_connectedPlayers)
+        {
+            RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.identity.name);
+        }
+    }
+    [ClientRpc]
+    private void RpcUpdateSlotsNameUI(int uiSlotIndex, string playerName)
+    {
+        m_nameSection[uiSlotIndex].text = playerName;
+    }
+
+    private void RemovePlayerSlotUI(NetworkConnectionToClient player)
+    {
+        m_nameSection[player.m_uiSlotIndex].text = "";
+    }
+
+    private void UpdateTeamCount(NetworkConnectionToClient player)
+    {
+        if(player.identity.tag == "Runner")
+        {
+            m_numberOfRunners--;
+        }
+        else
+        {
+            m_numberOfShooters--;
+        }
+    }
+    public void CheckIfTeamsAreFull()
+    {
+        if(m_numberOfRunners == 2)
+        {
+            m_runnerButton.gameObject.SetActive(false);
+        }
+        else if (m_numberOfShooters == 2)
+        {
+            m_shooterButton.gameObject.SetActive(false);
+        }
+    }
+
+    [Server]
+    public void UpdatePlayerStatusUI()
+    {
+        foreach(var player in m_connectedPlayers)
+        {
+            if(player.m_isOnline)
+            {
+                m_readyStatus[player.m_uiSlotIndex].text = "Online";
+                if(player.m_isReady)
+                {
+                    m_readyStatus[player.m_uiSlotIndex].text = "Ready";
+                }
+                RpcUpdatePlayerStatusUI(player.m_uiSlotIndex, m_readyStatus[player.m_uiSlotIndex].text);
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void RpcUpdatePlayerStatusUI(int index, string status)
+    {
+        m_readyStatus[index].text = status;
+    }
+
+    [Server]
+    private void SetOfflineStatus(int index)
+    {
+        m_readyStatus[index].text = "Offline";
+    }
+
+    [ClientRpc]
+    private void RpcSetOfflineStatus(int index)
+    {
+        m_readyStatus[index].text = "Offline";
+    }
+
+    [Command(requiresAuthority =false)]
+    public void CmdSetReadyStatus(NetworkConnectionToClient player = null)
+    {
+        SetReadyStatus(player);
+    }
+
+    private void SetReadyStatus(NetworkConnectionToClient player) 
+    {
+        DisableReadyText(player);
+        player.m_isReady = true;
+    }
+
+    [TargetRpc]
+    private void DisableReadyText(NetworkConnectionToClient player)
+    {
+        m_readyText.gameObject.SetActive(false);
+    }
+
+    private bool LobbyIsReady()
+    {
+        int numberOfRunners = 0;
+        int numberOfShooters = 0;
+
+        foreach (var player in m_connectedPlayers)
+        {
+            if (player.identity.tag == "Runner")
+            {
+                numberOfRunners++;
+            }
+            else
+            {
+                numberOfShooters++;
+            }
+        }
+
+        if (numberOfRunners == 0 || numberOfShooters == 0)
+        {
+            return false;
+        }
+
+        if (m_connectedPlayers.Count == 0)
+        {
+            return false;
+        }
+
+        int numberOfReady = 0;
+
+        foreach(var player in m_connectedPlayers)
+        {
+            if(player.m_isReady)
+            {
+                numberOfReady++;
+            }
+        }
+
+        return (numberOfReady == m_connectedPlayers.Count);
+    }
+
+    [ClientRpc]
+    private void StartTimer()
+    {
+        if(m_timer <= 0)
+        {
+            LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
+        }
+        m_timer -= Time.deltaTime;
+        m_vsText.text = ((int)m_timer).ToString();
     }
 }
