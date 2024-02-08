@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class CameraController_CharacterPlayer : NetworkBehaviour        // Character
+public class CameraController_CharacterPlayer : MonoBehaviour        // Character
 {
 
     [SerializeField] private Transform m_objectToLookAt;
@@ -22,10 +22,10 @@ public class CameraController_CharacterPlayer : NetworkBehaviour        // Chara
     // Start is called before the first frame update
     void Start()
     {
-        if (!isLocalPlayer)   //new
-        {
-            gameObject.SetActive(false);
-        }
+        //if (!isLocalPlayer)   //new
+        //{
+        //    gameObject.SetActive(false);
+        //}
         m_targetDistance = m_startDistance;
     }
 

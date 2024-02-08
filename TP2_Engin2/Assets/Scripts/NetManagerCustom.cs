@@ -9,6 +9,15 @@ public class NetManagerCustom : NetworkManager
     public GameObject characterPlayerPrefab;
     public bool spawnRunner = true;
 
+    public override void OnServerReady(NetworkConnectionToClient conn)
+    {
+        base.OnServerReady(conn);
+
+        //var go = Instantiate(characterPlayerPrefab);
+        //NetworkServer.Spawn(go, conn);
+        OnServerAddPlayer(conn, characterPlayerPrefab);
+    }
+
     public override void OnValidate()
     {
         base.OnValidate();
@@ -48,7 +57,7 @@ public class NetManagerCustom : NetworkManager
 
     public override void OnServerAddPlayerInternal(NetworkConnectionToClient conn, AddPlayerMessage msg)
     {
-        //base.OnServerAddPlayerInternal(conn, msg);
+        base.OnServerAddPlayerInternal(conn, msg);
 
         if (conn.identity != null)
         {

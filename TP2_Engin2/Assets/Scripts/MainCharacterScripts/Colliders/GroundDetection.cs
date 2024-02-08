@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class GroundDetection : NetworkBehaviour
+public class GroundDetection : MonoBehaviour
 {
     public bool IsGrounded { get; private set; } = false;
     public bool TouchingGround { get; private set; } = false;

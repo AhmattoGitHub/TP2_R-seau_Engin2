@@ -1,9 +1,9 @@
 
-public abstract class CharacterState : GM_IState
+public abstract class CharacterState1 : CC_IState
 {
 
-    protected RunnerSM m_stateMachine;
-    public void OnStart(RunnerSM controller)
+    protected CharacterControllerSM m_stateMachine;
+    public void OnStart(CharacterControllerSM controller)
     {
         m_stateMachine = controller;
     }
@@ -28,7 +28,7 @@ public abstract class CharacterState : GM_IState
     {
     }
 
-    public virtual bool CanEnter(GM_IState currentState)
+    public virtual bool CanEnter(CC_IState currentState)
     {
         return true;
     }
