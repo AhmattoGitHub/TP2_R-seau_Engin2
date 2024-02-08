@@ -33,11 +33,15 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField]
     private TMP_Text m_readyText;
     [SerializeField]
+    private TMP_Text m_vsText;
+    [SerializeField]
     private LobbyNetworkManager m_networkManager;
     [SyncVar]
     private int m_numberOfRunners = 0;
     [SyncVar]
     private int m_numberOfShooters = 0;
+    [SyncVar]
+    private float m_timer = 4;
 
     public static LobbyManager Instance
     {
@@ -67,6 +71,10 @@ public class LobbyManager : NetworkBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
             CmdSetReadyStatus();
+        if(LobbyIsReady())
+        {
+            StartTimer();
+        }
     }
 
     [Server]
@@ -245,8 +253,13 @@ public class LobbyManager : NetworkBehaviour
         m_readyText.gameObject.SetActive(false);
     }
 
-    private bool IsLobbyReady()
+    private bool LobbyIsReady()
     {
+        if(m_connectedPlayers.Count == 0)
+        {
+            return false;
+        }
+
         int numberOfReady = 0;
 
         foreach(var player in m_connectedPlayers)
@@ -257,6 +270,17 @@ public class LobbyManager : NetworkBehaviour
             }
         }
 
-        return numberOfReady == m_connectedPlayers.Count;
+        return (numberOfReady == m_connectedPlayers.Count);
+    }
+
+    [ClientRpc]
+    private void StartTimer()
+    {
+        if(m_timer <= 0)
+        {
+            LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
+        }
+        m_timer -= Time.deltaTime;
+        m_vsText.text = ((int)m_timer).ToString();
     }
 }
