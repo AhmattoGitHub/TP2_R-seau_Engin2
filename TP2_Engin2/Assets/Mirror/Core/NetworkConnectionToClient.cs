@@ -11,6 +11,8 @@ namespace Mirror
         public int m_uiSlotIndex;
         public bool m_isReady = false;
         public bool m_isOnline = false;
+        public string m_name;
+        public string m_tag;
 
         // rpcs are collected in a buffer, and then flushed out together.
         // this way we don't need one NetworkMessage per rpc.

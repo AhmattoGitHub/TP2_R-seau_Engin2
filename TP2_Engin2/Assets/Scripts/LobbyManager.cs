@@ -115,7 +115,7 @@ public class LobbyManager : NetworkBehaviour
     {
         if (m_numberOfRunners < 2)
         {
-            player.identity.tag = "Runner";
+            player.m_tag = "Runner";
             player.m_uiSlotIndex = m_numberOfRunners;
             player.m_isOnline = true;
             m_numberOfRunners++;
@@ -129,7 +129,7 @@ public class LobbyManager : NetworkBehaviour
     {
         if (m_numberOfShooters < 2)
         {
-            player.identity.tag = "Shooter";
+            player.m_tag = "Shooter";
             player.m_uiSlotIndex = m_numberOfShooters + 2;
             player.m_isOnline = true;
             m_numberOfShooters++;
@@ -141,7 +141,7 @@ public class LobbyManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void ChangeName(string text, NetworkConnectionToClient player = null)
     {
-        player.identity.name = text;
+        player.m_name = text;
         Debug.Log(player.identity.name + " has joined the lobby!");
     }
 
@@ -163,7 +163,7 @@ public class LobbyManager : NetworkBehaviour
     {
         foreach (var player in m_connectedPlayers)
         {
-            RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.identity.name);
+            RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.m_name);
         }
     }
     [ClientRpc]
@@ -179,7 +179,7 @@ public class LobbyManager : NetworkBehaviour
 
     private void UpdateTeamCount(NetworkConnectionToClient player)
     {
-        if(player.identity.tag == "Runner")
+        if(player.m_tag == "Runner")
         {
             m_numberOfRunners--;
         }
@@ -260,7 +260,7 @@ public class LobbyManager : NetworkBehaviour
 
         foreach (var player in m_connectedPlayers)
         {
-            if (player.identity.tag == "Runner")
+            if (player.m_tag == "Runner")
             {
                 numberOfRunners++;
             }
