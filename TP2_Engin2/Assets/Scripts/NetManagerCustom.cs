@@ -62,51 +62,53 @@ public class NetManagerCustom : NetworkManager
             NetworkClient.RegisterPrefab(characterPlayerPrefab);
     }
 
-    public override void OnServerAddPlayerInternal(NetworkConnectionToClient conn, AddPlayerMessage msg)
-    {
-        base.OnServerAddPlayerInternal(conn, msg);
-
-        if (conn.identity != null)
-        {
-            Debug.LogError("There is already a player for this connection.");
-            return;
-        }
-
-        if (spawnRunner)
-        {
-            if (autoCreatePlayer && characterPlayerPrefab == null)
-            {
-                Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
-                return;
-            }
-
-            if (autoCreatePlayer && !characterPlayerPrefab.TryGetComponent(out NetworkIdentity _))
-            {
-                Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
-                return;
-            }
-
-            OnServerAddPlayer(conn, characterPlayerPrefab);
-        }
-        else
-        {
-            if (autoCreatePlayer && levelPlayerPrefab == null)
-            {
-                Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
-                return;
-            }
-
-            if (autoCreatePlayer && !levelPlayerPrefab.TryGetComponent(out NetworkIdentity _))
-            {
-                Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
-                return;
-            }
-
-            OnServerAddPlayer(conn, levelPlayerPrefab);
-        }
-
-
-
-    }
-
+    //public override void OnServerAddPlayerInternal(NetworkConnectionToClient conn, AddPlayerMessage msg)
+    //{
+    //        Debug.Log("AddPlayerInternal");
+    //    
+    //    base.OnServerAddPlayerInternal(conn, msg);
+    //
+    //    if (conn.identity != null)
+    //    {
+    //        Debug.LogError("There is already a player for this connection.");
+    //        return;
+    //    }
+    //
+    //    if (spawnRunner)
+    //    {
+    //        if (autoCreatePlayer && characterPlayerPrefab == null)
+    //        {
+    //            Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
+    //            return;
+    //        }
+    //
+    //        if (autoCreatePlayer && !characterPlayerPrefab.TryGetComponent(out NetworkIdentity _))
+    //        {
+    //            Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
+    //            return;
+    //        }
+    //
+    //        OnServerAddPlayer(conn, characterPlayerPrefab);
+    //    }
+    //    else
+    //    {
+    //        if (autoCreatePlayer && levelPlayerPrefab == null)
+    //        {
+    //            Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
+    //            return;
+    //        }
+    //
+    //        if (autoCreatePlayer && !levelPlayerPrefab.TryGetComponent(out NetworkIdentity _))
+    //        {
+    //            Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
+    //            return;
+    //        }
+    //        
+    //        OnServerAddPlayer(conn, levelPlayerPrefab);
+    //    }
+    //
+    //
+    //
+    //}
+    
 }
