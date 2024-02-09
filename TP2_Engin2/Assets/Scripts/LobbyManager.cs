@@ -284,9 +284,25 @@ public class LobbyManager : NetworkBehaviour
     {
         if(m_timer <= 0)
         {
-            LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
+            //LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
+            LobbyNetworkManager.singleton.autoCreatePlayer = false;
+            ChangeScene();
+            return;
+
         }
         m_timer -= Time.deltaTime;
         m_vsText.text = ((int)m_timer).ToString();
+    }
+
+    [Server]
+    private void ChangeScene()
+    {
+        if (!isServer)
+        {
+            Debug.Log("blocked");
+            return;
+        }
+        Debug.Log("Change scene");
+        LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
     }
 }

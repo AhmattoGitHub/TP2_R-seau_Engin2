@@ -34,6 +34,7 @@ public class LobbyNetworkManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
+        Debug.Log("OnserverAddPlayer");
         base.OnServerAddPlayer(conn);
         conn.identity.name = "";
         LobbyManager.Instance.AddToConnections(conn);
