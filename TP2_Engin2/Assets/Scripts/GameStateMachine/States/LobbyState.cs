@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,6 +39,11 @@ public class LobbyState : GM_IState
 
     public void OnUpdate()
     {
-
+        if(NetworkServer.active)
+        {
+            LobbyManager.Instance.CheckIfTeamsAreFull();
+            LobbyManager.Instance.UpdatePlayerStatusUI();
+            LobbyManager.Instance.UpdateSlotsNameUI();
+        }
     }
 }

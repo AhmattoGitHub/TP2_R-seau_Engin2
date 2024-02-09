@@ -88,4 +88,8 @@ public class Shooter : NetworkBehaviour
         bomb.GetComponent<Bomb>().CMD_Shoot(direction);
     }
 
+    public void SetCamera(Camera camera)
+    {
+        m_camera = camera;
+    }
 }

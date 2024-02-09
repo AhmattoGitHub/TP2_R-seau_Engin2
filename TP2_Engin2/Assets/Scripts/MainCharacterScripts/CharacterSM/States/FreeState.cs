@@ -80,6 +80,10 @@ public class FreeState : CharacterState
 
         inputs.Normalize();
 
+        if (m_stateMachine.Stamina <= 0.0f)
+        {
+            return;
+        }
         m_stateMachine.Rb.AddForce(inputs.y * m_stateMachine.ForwardVectorForPlayer * m_stateMachine.AccelerationValue,
                 ForceMode.Acceleration);
         m_stateMachine.Rb.AddForce(inputs.x * m_stateMachine.RightVectorForPlayer * m_stateMachine.AccelerationValue,
@@ -280,7 +284,7 @@ public class FreeState : CharacterState
         //Debug.Log("Exiting FreeState");
     }
 
-    public override bool CanEnter(CC_IState currentState)
+    public override bool CanEnter(GM_IState currentState)
     {
         if (currentState is JumpState)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
+public class RunnerSM : GM_BaseStateMachine<CharacterState>
 {
 
     [field: SerializeField] public Camera Camera { get; private set; }
@@ -19,12 +19,12 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
     [field: SerializeField] public float SlowingVelocity { get; private set; } = 0.97f;
     [field: SerializeField] public float InAirMaxVelocity { get; private set; } = 6.0f;
     [field: SerializeField] public float MaxNoDamageFall { get; private set; } = 10.0f;
-    [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;    
-    [field: SerializeField] public float Stamina { get; private set; } = 100.0f;    
-    [field: SerializeField] public float StaminaMaxValue { get; private set; } = 100.0f;    
+    [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;
+    [field: SerializeField] public float Stamina { get; private set; } = 100.0f;
+    [field: SerializeField] public float StaminaMaxValue { get; private set; } = 100.0f;
     [field: SerializeField] public GameObject ObjectToLookAt { get; private set; }
     [field: SerializeField] public GameObject MC { get; private set; }
-    
+
     // /////////////////
     public Vector3 ForwardVectorOnFloor { get; private set; }
     public Vector3 ForwardVectorForPlayer { get; private set; }
@@ -51,9 +51,9 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
 
     protected override void CreatePossibleStates()
     {
-        m_possibleStates = new List<CharacterState1>();
-        //m_possibleStates.Add(new FreeState());
-        //m_possibleStates.Add(new JumpState());
+        m_possibleStates = new List<CharacterState>();
+        m_possibleStates.Add(new FreeState());
+        m_possibleStates.Add(new JumpState());
     }
 
     protected override void Awake() //ERASABLE
@@ -63,10 +63,10 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
 
     protected override void Start()
     {
-        //foreach (CharacterState state in m_possibleStates)
-        //{
-        //    state.OnStart(this);
-        //}
+        foreach (CharacterState state in m_possibleStates)
+        {
+            state.OnStart(this);
+        }
 
         m_currentState = m_possibleStates[0];
         m_currentState.OnEnter();
@@ -97,10 +97,10 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
 
     private void UpdateStaminaWhileRunning()
     {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
+        //if (!isLocalPlayer)
+        //{
+        //    return;
+        //}
 
         if (Rb.velocity.magnitude < 0.5f)
         {
@@ -108,13 +108,13 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
             {
                 return;
             }
-            
+
             Stamina += 0.1f;
-            
+
             if (Stamina > StaminaMaxValue)
             {
                 Stamina = StaminaMaxValue;
-            }            
+            }
             return;
         }
 
@@ -172,12 +172,12 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
         RightVectorForPlayer = Vector3.ProjectOnPlane(RightVectorOnFloor, hitNormal);
         RightVectorForPlayer = Vector3.Normalize(RightVectorForPlayer);
 
-        Debug.DrawRay(transform.position + new Vector3(0,1,0), ForwardVectorForPlayer, Color.red);
+        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), ForwardVectorForPlayer, Color.red);
     }
 
     public bool IsInContactWithFloor()
     {
-        return m_groundCollider.GetComponent<GroundDetection>().IsGrounded; 
+        return m_groundCollider.GetComponent<GroundDetection>().IsGrounded;
     }
 
 
@@ -227,12 +227,11 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
 
         //if (isLocalPlayer)
         //{
-            Animator.SetFloat("MoveLR", lateralMovement);
-            Animator.SetFloat("MoveFB", forwardMovement);
+        Animator.SetFloat("MoveLR", lateralMovement);
+        Animator.SetFloat("MoveFB", forwardMovement);
 
         //}
     }
-
 
     private void SetTouchingGroundAnimationBool()
     {
@@ -244,4 +243,18 @@ public class CharacterControllerSM : CC_BaseStateMachine<CharacterState1>
         Animator.SetBool("IsGrounded", IsInContactWithFloor());
     }
 
+    public void SetParentGo(GameObject go)
+    {
+        MC = go;
+    }
+
+    public void SetAnimator(Animator animator)
+    {
+        Animator = animator;
+    }
+
+    public void SetRigidbody(Rigidbody rb)
+    {
+        Rb = rb;
+    }
 }
