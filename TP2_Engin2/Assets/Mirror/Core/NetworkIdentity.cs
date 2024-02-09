@@ -40,10 +40,6 @@ namespace Mirror
     [HelpURL("https://mirror-networking.gitbook.io/docs/components/network-identity")]
     public sealed class NetworkIdentity : MonoBehaviour
     {
-        //The following variable members were added by Ahmed Yassine in order to add properties to the players
-        public int m_uiSlotIndex;
-        public bool m_isReady = false;
-
         /// <summary>Returns true if running as a client and this object was spawned by a server.</summary>
         //
         // IMPORTANT:
