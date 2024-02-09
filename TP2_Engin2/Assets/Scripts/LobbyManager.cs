@@ -87,10 +87,9 @@ public class LobbyManager : NetworkBehaviour
     public void RemoveFromConnections(NetworkConnectionToClient player)
     {
         m_connectedPlayers.Remove(player);
-        RemovePlayerSlotUI(player);
+        RemovePlayerSlotUI(player.m_uiSlotIndex);
         UpdateTeamCount(player);
         SetOfflineStatus(player.m_uiSlotIndex);
-        UpdateSlotsNameUI();
     }
 
     [Client]
@@ -119,8 +118,8 @@ public class LobbyManager : NetworkBehaviour
             player.m_uiSlotIndex = m_numberOfRunners;
             player.m_isOnline = true;
             m_numberOfRunners++;
-            UpdateSlotsNameUI();
-            Debug.Log(player.identity.name + " joined Runner team");
+            if(player.m_name == "")
+                player.m_name = "Runner " + m_numberOfRunners;
         }
     }
 
@@ -133,8 +132,8 @@ public class LobbyManager : NetworkBehaviour
             player.m_uiSlotIndex = m_numberOfShooters + 2;
             player.m_isOnline = true;
             m_numberOfShooters++;
-            UpdateSlotsNameUI();
-            Debug.Log(player.identity.name + " joined Shooter team");
+            if (player.m_name == "")
+                player.m_name = "Shooter " + m_numberOfShooters;
         }
     }
 
@@ -142,7 +141,6 @@ public class LobbyManager : NetworkBehaviour
     private void ChangeName(string text, NetworkConnectionToClient player = null)
     {
         player.m_name = text;
-        Debug.Log(player.identity.name + " has joined the lobby!");
     }
 
     [Client]
@@ -172,9 +170,9 @@ public class LobbyManager : NetworkBehaviour
         m_nameSection[uiSlotIndex].text = playerName;
     }
 
-    private void RemovePlayerSlotUI(NetworkConnectionToClient player)
+    private void RemovePlayerSlotUI(int index)
     {
-        m_nameSection[player.m_uiSlotIndex].text = "";
+        m_nameSection[index].text = "";
     }
 
     private void UpdateTeamCount(NetworkConnectionToClient player)
@@ -227,6 +225,7 @@ public class LobbyManager : NetworkBehaviour
     private void SetOfflineStatus(int index)
     {
         m_readyStatus[index].text = "Offline";
+        RpcSetOfflineStatus(index);
     }
 
     [ClientRpc]
@@ -255,23 +254,10 @@ public class LobbyManager : NetworkBehaviour
 
     private bool LobbyIsReady()
     {
-        int numberOfRunners = 0;
-        int numberOfShooters = 0;
-
-        foreach (var player in m_connectedPlayers)
+        if (m_numberOfRunners == 0 || m_numberOfShooters == 0)
         {
-            if (player.m_tag == "Runner")
-            {
-                numberOfRunners++;
-            }
-            else
-            {
-                numberOfShooters++;
-            }
-        }
-
-        if (numberOfRunners == 0 || numberOfShooters == 0)
-        {
+            m_vsText.text = "Vs";
+            m_timer = 4;
             return false;
         }
 

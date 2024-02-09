@@ -43,6 +43,7 @@ public class LobbyState : GM_IState
         {
             LobbyManager.Instance.CheckIfTeamsAreFull();
             LobbyManager.Instance.UpdatePlayerStatusUI();
+            LobbyManager.Instance.UpdateSlotsNameUI();
         }
     }
 }

@@ -627,7 +627,7 @@ PrefabInstance:
     - target: {fileID: 4532571139344760188, guid: bf78d4e3921155142933081e83a2d816, type: 3}
       propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 2096930612547086335, guid: bdee0ddf6ed3f7f4dad25a7548e1f09c, type: 3}
+      objectReference: {fileID: 7583226841099755243, guid: 37f049ee1fa1ce84abf057a400f98672, type: 3}
     - target: {fileID: 4532571139344760188, guid: bf78d4e3921155142933081e83a2d816, type: 3}
       propertyPath: maxConnections
       value: 4
