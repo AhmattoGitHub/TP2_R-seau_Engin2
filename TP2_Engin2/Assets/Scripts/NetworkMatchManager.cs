@@ -11,6 +11,7 @@ public enum E_TriggerTypes
 public class NetworkMatchManager : NetworkBehaviour
 {    
     [SerializeField] private float m_radius = 10.0f;
+    [SerializeField] private float m_respawnHeight = 10.0f;
 
     public static NetworkMatchManager _Instance { get; private set; }
 
@@ -71,7 +72,7 @@ public class NetworkMatchManager : NetworkBehaviour
     private void RespawnPlayerRandomCircle(GameObject player)
     {
         Vector2 randomPosOnCircle = RandomPosOnCircle();
-        Vector3 randomPosition = new Vector3(randomPosOnCircle.x, 10, randomPosOnCircle.y);
+        Vector3 randomPosition = new Vector3(randomPosOnCircle.x, m_respawnHeight, randomPosOnCircle.y);
 
         player.transform.position = randomPosition;
     }    

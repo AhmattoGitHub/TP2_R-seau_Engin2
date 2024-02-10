@@ -27,7 +27,7 @@ public class NetworkSpawner : NetworkBehaviour
         }
 
         GameObject verticalBoundTrigger = Instantiate(m_verticalMapBoundsTrigger);
-        var boundsDetection = verticalBoundTrigger.GetComponent<BoundsDetection>();
+        var boundsDetection = verticalBoundTrigger.GetComponent<TriggerForPlayer>();
         if (boundsDetection != null) 
         {
             boundsDetection.TriggerType = E_TriggerTypes.OutOfVerticalMapBounds;

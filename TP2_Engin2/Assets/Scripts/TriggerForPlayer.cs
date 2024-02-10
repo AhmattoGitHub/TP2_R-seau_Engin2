@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class BoundsDetection : MonoBehaviour
+public class TriggerForPlayer : MonoBehaviour
 {
-    [field: SerializeField]
-    public E_TriggerTypes TriggerType { get; set; }
+    [field: SerializeField] public E_TriggerTypes TriggerType { get; set; }
 
     private void OnTriggerEnter(Collider other)
     {
