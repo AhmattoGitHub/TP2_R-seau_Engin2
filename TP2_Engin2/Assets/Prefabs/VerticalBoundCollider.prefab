@@ -85,5 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97757bf38f365b344ba2c0892145785d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_prefab: {fileID: 2096930612547086335, guid: d8bdaf1d71e46264bb75aa5e764b28ff, type: 3}
-  m_spawnAfterFalling: {fileID: 0}
+  m_triggerType: 0

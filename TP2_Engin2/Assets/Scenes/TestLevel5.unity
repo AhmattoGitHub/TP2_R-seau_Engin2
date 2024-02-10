@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 691850160}
   - component: {fileID: 691850159}
-  - component: {fileID: 691850161}
   - component: {fileID: 691850158}
   m_Layer: 0
   m_Name: NetworkSpawner
@@ -176,9 +175,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_platformPrefab: {fileID: 3421798718822270314, guid: d768203359410144082e59d62432eab5, type: 3}
-  m_dummyPrefab: {fileID: 2203433315003131131, guid: df6be8767474cc14cb9ef7ff4e6e8deb, type: 3}
   m_verticalBoundTrigger: {fileID: 3641738404020297402, guid: c4fdbdf56d5cd2c4c88c4e51bd91c823, type: 3}
-  m_dummyPrefabPosition: {x: 0, y: 0, z: 0}
+  m_winBoundTrigger: {fileID: 0}
+  m_matchManagerPrefab: {fileID: 6750346867621304093, guid: 3b47d365ad1bfcc4388ca8fc8d86f6ab, type: 3}
 --- !u!4 &691850160
 Transform:
   m_ObjectHideFlags: 0
@@ -194,21 +193,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &691850161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 691850157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91af8a684378cab45a708afe0f20f8cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
 --- !u!1 &892524049
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +405,7 @@ PrefabInstance:
       objectReference: {fileID: 2096930612547086335, guid: d8bdaf1d71e46264bb75aa5e764b28ff, type: 3}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.data[0]
@@ -443,6 +427,10 @@ PrefabInstance:
       propertyPath: spawnPrefabs.Array.data[4]
       value: 
       objectReference: {fileID: 3641738404020297402, guid: c4fdbdf56d5cd2c4c88c4e51bd91c823, type: 3}
+    - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: spawnPrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 6750346867621304093, guid: 3b47d365ad1bfcc4388ca8fc8d86f6ab, type: 3}
     - target: {fileID: 8708434659553664712, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
