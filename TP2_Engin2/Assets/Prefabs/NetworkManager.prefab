@@ -62,9 +62,12 @@ MonoBehaviour:
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 7583226841099755243, guid: 37f049ee1fa1ce84abf057a400f98672, type: 3}
-  autoCreatePlayer: 1
+  autoCreatePlayer: 0
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 8334479332174648469, guid: 547b0c6eca7a435449e29093efc7dbc7, type: 3}
+  - {fileID: 4528891954548822954, guid: ab9f301df18e44942ada9d1a724ee360, type: 3}
+  - {fileID: 3421798718822270314, guid: d768203359410144082e59d62432eab5, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -80,8 +83,9 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  levelPlayerPrefab: {fileID: 8929833347540090403, guid: 9014f630052e0af48a177b0c37240630, type: 3}
-  characterPlayerPrefab: {fileID: 2096930612547086335, guid: bdee0ddf6ed3f7f4dad25a7548e1f09c, type: 3}
+  shooterPrefab: {fileID: 8929833347540090403, guid: cb6272c282e142149892cc6f901ecf0c, type: 3}
+  runnerPrefab: {fileID: 2096930612547086335, guid: d8bdaf1d71e46264bb75aa5e764b28ff, type: 3}
+  m_platformPrefab: {fileID: 3421798718822270314, guid: d768203359410144082e59d62432eab5, type: 3}
   spawnRunner: 1
 --- !u!114 &276743714446949725
 MonoBehaviour:

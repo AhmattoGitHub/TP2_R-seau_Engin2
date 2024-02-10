@@ -11,6 +11,7 @@ namespace Mirror
         public int m_uiSlotIndex;
         public bool m_isReady = false;
         public bool m_isOnline = false;
+        public bool m_isInMainLevel = false;
         public string m_name;
         public string m_tag;
 
