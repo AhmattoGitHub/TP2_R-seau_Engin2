@@ -4,7 +4,7 @@ using UnityEngine;
 public class NetworkSpawner : NetworkBehaviour
 {
     [SerializeField] private GameObject m_platformPrefab = null;    
-    [SerializeField] private GameObject m_verticalBoundTrigger = null;
+    [SerializeField] private GameObject m_verticalMapBoundsTrigger = null;
     [SerializeField] private GameObject m_winBoundTrigger = null;    
 
     [SerializeField] private GameObject m_matchManagerPrefab;
@@ -14,11 +14,6 @@ public class NetworkSpawner : NetworkBehaviour
     {
         GameObject platformInstance = Instantiate(m_platformPrefab);
         NetworkServer.Spawn(platformInstance);
-
-        //GameObject dummyInstance = Instantiate(m_dummyPrefab, m_dummyPrefabPosition, Quaternion.identity);
-        //NetworkServer.Spawn(dummyInstance);
-
-        
 
         if(isServer)
         {
@@ -31,16 +26,13 @@ public class NetworkSpawner : NetworkBehaviour
 
         }
 
-
-
-        GameObject verticalBoundTrigger = Instantiate(m_verticalBoundTrigger);
-        var boundsDetection = verticalBoundTrigger.GetComponent<NetworkBoundsDetection>();
+        GameObject verticalBoundTrigger = Instantiate(m_verticalMapBoundsTrigger);
+        var boundsDetection = verticalBoundTrigger.GetComponent<BoundsDetection>();
         if (boundsDetection != null) 
         {
-            boundsDetection.TriggerType = E_TriggerTypes.OutOfBounds;
+            boundsDetection.TriggerType = E_TriggerTypes.OutOfVerticalMapBounds;
         }
-        NetworkServer.Spawn(verticalBoundTrigger);
-        
+        NetworkServer.Spawn(verticalBoundTrigger);        
     }
 
 }

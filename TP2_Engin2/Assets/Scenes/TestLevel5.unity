@@ -175,7 +175,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_platformPrefab: {fileID: 3421798718822270314, guid: d768203359410144082e59d62432eab5, type: 3}
-  m_verticalBoundTrigger: {fileID: 3641738404020297402, guid: c4fdbdf56d5cd2c4c88c4e51bd91c823, type: 3}
+  m_verticalMapBoundsTrigger: {fileID: 3641738404020297402, guid: c4fdbdf56d5cd2c4c88c4e51bd91c823, type: 3}
   m_winBoundTrigger: {fileID: 0}
   m_matchManagerPrefab: {fileID: 6750346867621304093, guid: 3b47d365ad1bfcc4388ca8fc8d86f6ab, type: 3}
 --- !u!4 &691850160
