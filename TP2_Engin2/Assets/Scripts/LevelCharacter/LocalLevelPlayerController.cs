@@ -134,6 +134,11 @@ public class LocalLevelPlayerController : MonoBehaviour
         return localInput;
     }
 
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Debug.Log("Triggered collider!!!!!!!!!!!!!");
+    //}
+
     public void SetCamera(Camera camera)
     {
         m_camera = camera;

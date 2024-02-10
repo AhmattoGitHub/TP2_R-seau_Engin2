@@ -2422,8 +2422,8 @@ MonoBehaviour:
   <InAirMaxVelocity>k__BackingField: 6
   <MaxNoDamageFall>k__BackingField: 10
   <RotationSpeed>k__BackingField: 3
-  <Stamina>k__BackingField: 100
-  <StaminaMaxValue>k__BackingField: 100
+  <Stamina>k__BackingField: 10000
+  <StaminaMaxValue>k__BackingField: 10000
   <ObjectToLookAt>k__BackingField: {fileID: 4928195406050657157}
   <MC>k__BackingField: {fileID: 2096930612547086335}
   m_groundCollider: {fileID: 8540017536000206558}
