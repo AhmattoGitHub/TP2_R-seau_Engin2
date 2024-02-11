@@ -20,6 +20,8 @@ public class SpawnLocalPlayer : NetworkBehaviour
 
     private void Start()
     {
+        NetManagerCustom._Instance.Identifier.AssignSingleId(transform);
+        
         if (!isLocalPlayer)
         {
             return;
@@ -33,6 +35,7 @@ public class SpawnLocalPlayer : NetworkBehaviour
             childSM.SetAnimator(m_animator);
             childSM.SetRigidbody(m_rb);
             childSM.SetParentGo(gameObject);
+
         }
         else
         {

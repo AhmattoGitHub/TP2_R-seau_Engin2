@@ -41,6 +41,7 @@ public class Bomb : NetworkBehaviour
         {
             //Debug.Log("explode");
             //CMD_Explode();
+            NetworkServer.Destroy(gameObject);
             return;
         }
         m_timer -= Time.deltaTime;

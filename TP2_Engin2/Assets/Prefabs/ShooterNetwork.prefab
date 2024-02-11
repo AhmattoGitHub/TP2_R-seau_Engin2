@@ -153,7 +153,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_bulletPrefab: {fileID: 4528891954548822954, guid: ab9f301df18e44942ada9d1a724ee360, type: 3}
-  m_bombPrefab: {fileID: 8334479332174648469, guid: 547b0c6eca7a435449e29093efc7dbc7, type: 3}
+  m_bombPrefab: {fileID: 8334479332174648469, guid: f60638f0369ac0f46a748fd2852c187a, type: 3}
   m_camera: {fileID: 0}
   m_bulletCooldownTimer: 0
   m_bombCooldownTimer: 0
@@ -263,6 +263,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  m_platformController: {fileID: 0}
 --- !u!114 &5160537667120543708
 MonoBehaviour:
   m_ObjectHideFlags: 0

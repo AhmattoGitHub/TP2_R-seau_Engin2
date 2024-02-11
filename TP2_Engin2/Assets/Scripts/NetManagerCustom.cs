@@ -1,14 +1,32 @@
 using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class NetManagerCustom : NetworkManager
 {
+    public static NetManagerCustom _Instance { get; private set; }
+    [field:SerializeField] public Identifier Identifier { get; private set; }
+
+
+
     public GameObject shooterPrefab;
     public GameObject runnerPrefab;
     public GameObject m_platformPrefab;
     public bool spawnRunner = true;
     public bool testing = false;
+
+    [SerializeField] private GameObject m_spawner;
+
+
+    private void Awake()
+    {
+        if (_Instance != null && _Instance != this)
+        {
+            Destroy(this);
+        }
+        _Instance = this;
+    }
 
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
@@ -16,19 +34,41 @@ public class NetManagerCustom : NetworkManager
 
         if (testing)
         {
+
+            
+            
             if (spawnRunner)
             {
-                OnServerAddPlayer(conn, runnerPrefab);
+                //OnServerAddPlayer(conn, runnerPrefab);
+
+                var player = Instantiate(runnerPrefab);
+
+                player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+                NetworkServer.AddPlayerForConnection(conn, player);
+
+                //Identifier.AssignSingleId(player.transform);
             }
             else
             {
                 OnServerAddPlayer(conn, shooterPrefab);
             }
+            
+            
+            //if (conn.identity.isLocalPlayer)
+            //{
+            //    var spawner = Instantiate(m_spawner);
+            //    NetworkServer.Spawn(spawner);
+            //
+            //    m_identifier = spawner.GetComponent<Identifier>();
+            //}
+            
+            
             return;
         }
 
         if (SceneManager.GetActiveScene().name != "MainLevel")
         {
+            
             return;
         }
         if (conn.identity.isLocalPlayer)
@@ -44,6 +84,7 @@ public class NetManagerCustom : NetworkManager
         {
             NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab), true);
             conn.m_isInMainLevel = true;
+
         }
         else
         {
@@ -111,6 +152,11 @@ public class NetManagerCustom : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+
+        if (testing)
+        {
+            return;
+        }
         LobbyManager.Instance.WaitForConfig();
     }
 
@@ -118,6 +164,7 @@ public class NetManagerCustom : NetworkManager
     {
         base.OnStartClient();
     }
+
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
@@ -128,7 +175,10 @@ public class NetManagerCustom : NetworkManager
     }
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        LobbyManager.Instance.RemoveFromConnections(conn);
+        if (!testing)
+        {
+            LobbyManager.Instance.RemoveFromConnections(conn);
+        }
         base.OnServerDisconnect(conn);
     }
 

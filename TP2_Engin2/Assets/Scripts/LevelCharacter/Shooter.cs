@@ -48,6 +48,7 @@ public class Shooter : NetworkBehaviour
                 case EProjectileType.Bomb:
                     if (m_bombCooldownTimer < 0)
                     {
+                        //CMD_ShootBomb(direction);
                         CMD_ShootBomb(direction);
                         m_bombCooldownTimer = m_bombCooldownTimerMax;
                     }
@@ -85,7 +86,7 @@ public class Shooter : NetworkBehaviour
         var bomb = Instantiate(m_bombPrefab, transform.position, Quaternion.identity);
         NetworkServer.Spawn(bomb);
 
-        bomb.GetComponent<Bomb>().CMD_Shoot(direction);
+        bomb.GetComponent<BombNetwork>().CMD_Shoot(direction);
     }
 
     public void SetCamera(Camera camera)
