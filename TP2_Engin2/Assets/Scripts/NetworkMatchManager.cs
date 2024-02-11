@@ -75,6 +75,7 @@ public class NetworkMatchManager : NetworkBehaviour
         Vector3 randomPosition = new Vector3(randomPosOnCircle.x, m_respawnHeight, randomPosOnCircle.y);
 
         player.transform.position = randomPosition;
+        player.transform.LookAt(new Vector3(0,m_respawnHeight, 0));
     }    
 
     private Vector2 RandomPosOnCircle()
