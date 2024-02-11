@@ -40,12 +40,8 @@ public class BombNetwork : NetworkBehaviour
         {
             return;
         }
-        
-        //Debug.Log("collision");
 
         m_rb.velocity = Vector3.zero;
-
-        //transform.position = collision.contacts[0].point;
 
         int collidedGoIdx = NetManagerCustom._Instance.Identifier.GetIndex(collision.gameObject);
         CMD_SetParent(collision.transform.root, collidedGoIdx);
@@ -57,7 +53,6 @@ public class BombNetwork : NetworkBehaviour
     {
         if (m_timer < 0)
         {
-            //Debug.Log("explode");
             //CMD_Explode();
             NetworkServer.Destroy(gameObject);
             return;
@@ -98,13 +93,11 @@ public class BombNetwork : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CMD_SetParent(Transform collidedTransformRoot, int collidedObjIdx)
     {
-        //gameObject.SetActive(false);
         transform.SetParent(collidedTransformRoot);
 
         var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedObjIdx);
         transform.SetParent(go.transform);
 
-        //gameObject.SetActive(true);
         RPC_SetParent(collidedTransformRoot, collidedObjIdx);
     }
 

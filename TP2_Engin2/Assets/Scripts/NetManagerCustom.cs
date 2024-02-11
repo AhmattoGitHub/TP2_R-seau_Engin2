@@ -19,8 +19,10 @@ public class NetManagerCustom : NetworkManager
     [SerializeField] private GameObject m_spawner;
 
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         if (_Instance != null && _Instance != this)
         {
             Destroy(this);
@@ -39,14 +41,12 @@ public class NetManagerCustom : NetworkManager
             
             if (spawnRunner)
             {
-                //OnServerAddPlayer(conn, runnerPrefab);
 
                 var player = Instantiate(runnerPrefab);
 
                 player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
                 NetworkServer.AddPlayerForConnection(conn, player);
 
-                //Identifier.AssignSingleId(player.transform);
             }
             else
             {
@@ -68,16 +68,8 @@ public class NetManagerCustom : NetworkManager
 
         if (SceneManager.GetActiveScene().name != "MainLevel")
         {
-            
             return;
         }
-        if (conn.identity.isLocalPlayer)
-        {
-            var go = Instantiate(m_platformPrefab);
-            NetworkServer.Spawn(go);
-        }
-
-
 
         Debug.Log("trying to change :  " + conn.m_name);
         if (conn.m_tag == "Runner")
@@ -105,6 +97,24 @@ public class NetManagerCustom : NetworkManager
         {
             NetworkServer.Destroy(LobbyManager.Instance.gameObject);
         }
+    }
+
+    public override void OnClientSceneChanged()
+    {
+        base.OnClientSceneChanged();
+
+        if (SceneManager.GetActiveScene().name != "MainLevel")
+        {
+            return;
+        }
+
+
+        var spawner = m_spawner.GetComponent<NetworkSpawner>();
+        if (spawner != null)
+        {
+            spawner.Spawn();
+        }
+
     }
 
     public override void OnValidate()

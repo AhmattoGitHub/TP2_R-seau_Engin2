@@ -28,14 +28,11 @@ public class Identifier : MonoBehaviour
 
     public void AssignAllIds(Transform root)
     {
-        Debug.Log("Assigning");
-        
         foreach (Transform child in root)
         {
-            Debug.Log("not empty");
             Object obj = new Object(ReceiveID(), child.gameObject);
             m_objectsList.Add(obj);
-            Debug.Log(obj.gameObject.name + "   " + obj.uniqueID);
+            //Debug.Log(obj.gameObject.name + "   " + obj.uniqueID);
 
             if (child.childCount != 0)
             {
@@ -46,7 +43,6 @@ public class Identifier : MonoBehaviour
     
     public int GetIndex(GameObject go)
     {
-        //Debug.Log("getIdx");
         foreach (var obj in m_objectsList)
         {
             if (obj.gameObject == go)

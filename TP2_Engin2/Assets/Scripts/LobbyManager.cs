@@ -71,12 +71,18 @@ public class LobbyManager : NetworkBehaviour
 
     private void Update()
     {
+        CheckIfTeamsAreFull();
+        UpdatePlayerStatusUI();
+        UpdateSlotsNameUI();
+
         if(Input.GetKeyDown(KeyCode.Space))
             CmdSetReadyStatus();
         if(LobbyIsReady() && !m_changeSceneCalled)
         {
             StartTimer();
         }
+
+
     }
 
     [Server]

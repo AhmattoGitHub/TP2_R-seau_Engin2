@@ -48,7 +48,6 @@ public class Shooter : NetworkBehaviour
                 case EProjectileType.Bomb:
                     if (m_bombCooldownTimer < 0)
                     {
-                        //CMD_ShootBomb(direction);
                         CMD_ShootBomb(direction);
                         m_bombCooldownTimer = m_bombCooldownTimerMax;
                     }

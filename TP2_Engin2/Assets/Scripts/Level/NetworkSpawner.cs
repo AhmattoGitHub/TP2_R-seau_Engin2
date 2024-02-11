@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : NetworkBehaviour
 {
@@ -17,11 +18,38 @@ public class NetworkSpawner : NetworkBehaviour
     [SerializeField] private Identifier m_identifier;
 
 
+    //Works for testing
 
-    public override void OnStartClient()
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //
+    //    if (m_spawnPlatform)
+    //    {
+    //        GameObject platformInstance = Instantiate(m_platformPrefab, transform);
+    //        NetworkServer.Spawn(platformInstance);
+    //
+    //    }
+    //    if (m_spawnDummy)
+    //    {
+    //        GameObject dummyInstance = Instantiate(m_dummyPrefab, m_dummyPrefabPosition, Quaternion.identity, transform);
+    //        NetworkServer.Spawn(dummyInstance);
+    //
+    //    }
+    //
+    //    if (m_spawnCubes)
+    //    {
+    //        GameObject cubesInstance = Instantiate(m_cubesPrefab, transform);
+    //        NetworkServer.Spawn(cubesInstance);
+    //    }
+    //
+    //
+    //    m_identifier.AssignAllIds(transform);
+    //
+    //}
+
+    public void Spawn()
     {
-        base.OnStartClient();
-
         if (m_spawnPlatform)
         {
             GameObject platformInstance = Instantiate(m_platformPrefab, transform);
@@ -40,40 +68,6 @@ public class NetworkSpawner : NetworkBehaviour
             GameObject cubesInstance = Instantiate(m_cubesPrefab, transform);
             NetworkServer.Spawn(cubesInstance);
         }
-
-
-        m_identifier.AssignAllIds(transform);
-
-    }
-
-    public override void OnStartServer()
-    {
-        return;
-        if (!isServer)
-        {
-            return;
-        }
-
-
-        if (m_spawnPlatform)
-        {
-            GameObject platformInstance = Instantiate(m_platformPrefab, transform);
-            NetworkServer.Spawn(platformInstance);
-
-        }
-        if (m_spawnDummy)
-        {
-            GameObject dummyInstance = Instantiate(m_dummyPrefab, m_dummyPrefabPosition, Quaternion.identity, transform);
-            NetworkServer.Spawn(dummyInstance);
-
-        }
-
-        if (m_spawnCubes)
-        {
-            GameObject cubesInstance = Instantiate(m_cubesPrefab, transform);
-            NetworkServer.Spawn(cubesInstance);
-        }
-
 
         m_identifier.AssignAllIds(transform);
     }
