@@ -1,14 +1,34 @@
 using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class NetManagerCustom : NetworkManager
 {
+    public static NetManagerCustom _Instance { get; private set; }
+    [field:SerializeField] public Identifier Identifier { get; private set; }
+
+
+
     public GameObject shooterPrefab;
     public GameObject runnerPrefab;
     public GameObject m_platformPrefab;
     public bool spawnRunner = true;
     public bool testing = false;
+
+    [SerializeField] private GameObject m_spawner;
+
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        if (_Instance != null && _Instance != this)
+        {
+            Destroy(this);
+        }
+        _Instance = this;
+    }
 
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
@@ -16,14 +36,33 @@ public class NetManagerCustom : NetworkManager
 
         if (testing)
         {
+
+            
+            
             if (spawnRunner)
             {
-                OnServerAddPlayer(conn, runnerPrefab);
+
+                var player = Instantiate(runnerPrefab);
+
+                player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+                NetworkServer.AddPlayerForConnection(conn, player);
+
             }
             else
             {
                 OnServerAddPlayer(conn, shooterPrefab);
             }
+            
+            
+            //if (conn.identity.isLocalPlayer)
+            //{
+            //    var spawner = Instantiate(m_spawner);
+            //    NetworkServer.Spawn(spawner);
+            //
+            //    m_identifier = spawner.GetComponent<Identifier>();
+            //}
+            
+            
             return;
         }
 
@@ -31,19 +70,13 @@ public class NetManagerCustom : NetworkManager
         {
             return;
         }
-        if (conn.identity.isLocalPlayer)
-        {
-            var go = Instantiate(m_platformPrefab);
-            NetworkServer.Spawn(go);
-        }
-
-
 
         Debug.Log("trying to change :  " + conn.m_name);
         if (conn.m_tag == "Runner")
         {
             NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab), true);
             conn.m_isInMainLevel = true;
+
         }
         else
         {
@@ -64,6 +97,24 @@ public class NetManagerCustom : NetworkManager
         {
             NetworkServer.Destroy(LobbyManager.Instance.gameObject);
         }
+    }
+
+    public override void OnClientSceneChanged()
+    {
+        base.OnClientSceneChanged();
+
+        if (SceneManager.GetActiveScene().name != "MainLevel")
+        {
+            return;
+        }
+
+
+        var spawner = m_spawner.GetComponent<NetworkSpawner>();
+        if (spawner != null)
+        {
+            spawner.Spawn();
+        }
+
     }
 
     public override void OnValidate()
@@ -111,6 +162,11 @@ public class NetManagerCustom : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+
+        if (testing)
+        {
+            return;
+        }
         LobbyManager.Instance.WaitForConfig();
     }
 
@@ -118,6 +174,7 @@ public class NetManagerCustom : NetworkManager
     {
         base.OnStartClient();
     }
+
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
@@ -128,7 +185,10 @@ public class NetManagerCustom : NetworkManager
     }
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        LobbyManager.Instance.RemoveFromConnections(conn);
+        if (!testing)
+        {
+            LobbyManager.Instance.RemoveFromConnections(conn);
+        }
         base.OnServerDisconnect(conn);
     }
 
