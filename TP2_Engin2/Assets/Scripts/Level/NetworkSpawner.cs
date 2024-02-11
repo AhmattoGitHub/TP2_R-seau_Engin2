@@ -2,20 +2,104 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : NetworkBehaviour
 {
+    
+    [SerializeField] private bool m_spawnPlatform = false;
     [SerializeField] private GameObject m_platformPrefab;
+    
+    [SerializeField] private bool m_spawnDummy = false;
     [SerializeField] private GameObject m_dummyPrefab;
     [SerializeField] private Vector3 m_dummyPrefabPosition;
+    
+    [SerializeField] private bool m_spawnCubes = false;
+    [SerializeField] private GameObject m_cubesPrefab;
 
-    public override void OnStartServer()
+    [SerializeField] private bool m_spawnMapBounds = false;
+    [SerializeField] private GameObject m_verticalMapBoundsTrigger = null;
+
+    [SerializeField] private bool m_spawnWinTrigger = false;
+    [SerializeField] private GameObject m_winBoundTrigger = null;
+
+
+    [SerializeField] private Identifier m_identifier;
+
+
+    //Works for testing
+
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //
+    //    if (m_spawnPlatform)
+    //    {
+    //        GameObject platformInstance = Instantiate(m_platformPrefab, transform);
+    //        NetworkServer.Spawn(platformInstance);
+    //
+    //    }
+    //    if (m_spawnDummy)
+    //    {
+    //        GameObject dummyInstance = Instantiate(m_dummyPrefab, m_dummyPrefabPosition, Quaternion.identity, transform);
+    //        NetworkServer.Spawn(dummyInstance);
+    //
+    //    }
+    //
+    //    if (m_spawnCubes)
+    //    {
+    //        GameObject cubesInstance = Instantiate(m_cubesPrefab, transform);
+    //        NetworkServer.Spawn(cubesInstance);
+    //    }
+    //
+    //
+    //    m_identifier.AssignAllIds(transform);
+    //
+    //}
+
+    public void Spawn()
     {
-        GameObject platformInstance = Instantiate(m_platformPrefab);
-        NetworkServer.Spawn(platformInstance);
-        
-        GameObject dummyInstance = Instantiate(m_dummyPrefab, m_dummyPrefabPosition, Quaternion.identity);
-        NetworkServer.Spawn(dummyInstance);
-    }
+        if (m_spawnPlatform)
+        {
+            GameObject platformInstance = Instantiate(m_platformPrefab, transform);
+            NetworkServer.Spawn(platformInstance);
 
+        }
+        if (m_spawnDummy)
+        {
+            GameObject dummyInstance = Instantiate(m_dummyPrefab, m_dummyPrefabPosition, Quaternion.identity, transform);
+            NetworkServer.Spawn(dummyInstance);
+
+        }
+
+        if (m_spawnCubes)
+        {
+            GameObject cubesInstance = Instantiate(m_cubesPrefab, transform);
+            NetworkServer.Spawn(cubesInstance);
+        }
+        
+        if (m_spawnMapBounds)
+        {
+            GameObject mapBounds = Instantiate(m_verticalMapBoundsTrigger, transform);
+            
+            var boundsDetection = m_verticalMapBoundsTrigger.GetComponent<TriggerForPlayer>();
+            if (boundsDetection != null)
+            {
+                boundsDetection.TriggerType = E_TriggerTypes.OutOfVerticalMapBounds;
+            }
+
+            NetworkServer.Spawn(mapBounds);
+
+        }
+        
+        if (m_spawnWinTrigger)
+        {
+            GameObject winTrigger = Instantiate(m_winBoundTrigger, transform);
+            NetworkServer.Spawn(winTrigger);
+        }
+
+
+
+        m_identifier.AssignAllIds(transform);
+    }
 }

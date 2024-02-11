@@ -34,14 +34,16 @@ public class LobbyManager : NetworkBehaviour
     private TMP_Text m_readyText;
     [SerializeField]
     private TMP_Text m_vsText;
-    [SerializeField]
-    private LobbyNetworkManager m_networkManager;
     [SyncVar]
     private int m_numberOfRunners = 0;
     [SyncVar]
     private int m_numberOfShooters = 0;
     [SyncVar]
     private float m_timer = 4;
+
+    [SerializeField]
+    private NetManagerCustom m_networkManager;
+    private bool m_changeSceneCalled = false;
 
     public static LobbyManager Instance
     {
@@ -69,12 +71,18 @@ public class LobbyManager : NetworkBehaviour
 
     private void Update()
     {
+        CheckIfTeamsAreFull();
+        UpdatePlayerStatusUI();
+        UpdateSlotsNameUI();
+
         if(Input.GetKeyDown(KeyCode.Space))
             CmdSetReadyStatus();
-        if(LobbyIsReady())
+        if(LobbyIsReady() && !m_changeSceneCalled)
         {
             StartTimer();
         }
+
+
     }
 
     [Server]
@@ -283,9 +291,9 @@ public class LobbyManager : NetworkBehaviour
     private void StartTimer()
     {
         if(m_timer <= 0)
-        {
-            //LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
-            LobbyNetworkManager.singleton.autoCreatePlayer = false;
+        {            
+            //LobbyNetworkManager.singleton.autoCreatePlayer = false;
+            m_networkManager.autoCreatePlayer = false;
             ChangeScene();
             return;
 
@@ -294,15 +302,23 @@ public class LobbyManager : NetworkBehaviour
         m_vsText.text = ((int)m_timer).ToString();
     }
 
-    [Server]
+    //[Server]
     private void ChangeScene()
-    {
+    {        
         if (!isServer)
         {
             Debug.Log("blocked");
             return;
         }
+
         Debug.Log("Change scene");
-        LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
+        //LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
+        m_changeSceneCalled = true;
+        m_networkManager.ServerChangeScene("MainLevel");
+    }
+
+    public List<NetworkConnectionToClient> GetList()
+    {
+        return m_connectedPlayers;
     }
 }

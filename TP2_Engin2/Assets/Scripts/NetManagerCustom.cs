@@ -1,54 +1,147 @@
 using Mirror;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class NetManagerCustom : NetworkManager
 {
-    public GameObject levelPlayerPrefab;
-    public GameObject characterPlayerPrefab;
-    public bool spawnRunner = true;
+    public static NetManagerCustom _Instance { get; private set; }
+    [field:SerializeField] public Identifier Identifier { get; private set; }
+    [field:SerializeField] public NetworkMatchManager MatchManager { get; private set; }
+
+
+    [SerializeField] private GameObject shooterPrefab;
+    [SerializeField] private GameObject runnerPrefab;
+    [SerializeField] private GameObject m_platformPrefab;
+    [SerializeField] private bool spawnRunner = true;
+    [SerializeField] private bool testing = false;
+
+    [SerializeField] private GameObject m_spawner;
+
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        if (_Instance != null && _Instance != this)
+        {
+            Destroy(this);
+        }
+        _Instance = this;
+    }
 
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
         base.OnServerReady(conn);
 
-        //var go = Instantiate(characterPlayerPrefab);
-        //NetworkServer.Spawn(go, conn);
-        if (spawnRunner)
+        if (testing)
         {
-            OnServerAddPlayer(conn, characterPlayerPrefab);
+
+            
+            
+            if (spawnRunner)
+            {
+
+                var player = Instantiate(runnerPrefab);
+
+                player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+                NetworkServer.AddPlayerForConnection(conn, player);
+
+            }
+            else
+            {
+                OnServerAddPlayer(conn, shooterPrefab);
+            }
+            
+            
+            //if (conn.identity.isLocalPlayer)
+            //{
+            //    var spawner = Instantiate(m_spawner);
+            //    NetworkServer.Spawn(spawner);
+            //
+            //    m_identifier = spawner.GetComponent<Identifier>();
+            //}
+            
+            
+            return;
+        }
+
+        if (SceneManager.GetActiveScene().name != "MainLevel")
+        {
+            return;
+        }
+
+        Debug.Log("trying to change :  " + conn.m_name);
+        if (conn.m_tag == "Runner")
+        {
+            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab), true);
+            conn.m_isInMainLevel = true;
+
         }
         else
         {
-            OnServerAddPlayer(conn, levelPlayerPrefab);
+            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(shooterPrefab), true);
+            conn.m_isInMainLevel = true;
         }
+
+        int mainLevelCounter = 0;
+        foreach (var player in LobbyManager.Instance.GetList())
+        {
+            if (player.m_isInMainLevel)
+            {
+                mainLevelCounter++;
+            }
+        }
+
+        if (mainLevelCounter == LobbyManager.Instance.GetList().Count)
+        {
+            NetworkServer.Destroy(LobbyManager.Instance.gameObject);
+        }
+    }
+
+    public override void OnClientSceneChanged()
+    {
+        base.OnClientSceneChanged();
+
+        if (SceneManager.GetActiveScene().name != "MainLevel")
+        {
+            return;
+        }
+
+
+        var spawner = m_spawner.GetComponent<NetworkSpawner>();
+        if (spawner != null)
+        {
+            spawner.Spawn();
+        }
+
     }
 
     public override void OnValidate()
     {
         base.OnValidate();
         
-        if (levelPlayerPrefab != null && !levelPlayerPrefab.TryGetComponent(out NetworkIdentity _))
+        if (shooterPrefab != null && !shooterPrefab.TryGetComponent(out NetworkIdentity _))
         {
             Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
-            levelPlayerPrefab = null;
+            shooterPrefab = null;
         }
-        if (characterPlayerPrefab != null && !characterPlayerPrefab.TryGetComponent(out NetworkIdentity _))
+        if (runnerPrefab != null && !runnerPrefab.TryGetComponent(out NetworkIdentity _))
         {
             Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
-            characterPlayerPrefab = null;
+            runnerPrefab = null;
         }
         
-        if (levelPlayerPrefab != null && spawnPrefabs.Contains(levelPlayerPrefab))
+        if (shooterPrefab != null && spawnPrefabs.Contains(shooterPrefab))
         {
             Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
-            spawnPrefabs.Remove(levelPlayerPrefab);
+            spawnPrefabs.Remove(shooterPrefab);
         }
-        if (characterPlayerPrefab != null && spawnPrefabs.Contains(characterPlayerPrefab))
+        if (runnerPrefab != null && spawnPrefabs.Contains(runnerPrefab))
         {
             Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
-            spawnPrefabs.Remove(characterPlayerPrefab);
+            spawnPrefabs.Remove(runnerPrefab);
         }
     }
 
@@ -56,59 +149,48 @@ public class NetManagerCustom : NetworkManager
     {
         base.RegisterClientMessages();
 
-        if (levelPlayerPrefab != null)
-            NetworkClient.RegisterPrefab(levelPlayerPrefab);
-        if (characterPlayerPrefab != null)
-            NetworkClient.RegisterPrefab(characterPlayerPrefab);
+        if (shooterPrefab != null)
+            NetworkClient.RegisterPrefab(shooterPrefab);
+        if (runnerPrefab != null)
+            NetworkClient.RegisterPrefab(runnerPrefab);
     }
 
-    //public override void OnServerAddPlayerInternal(NetworkConnectionToClient conn, AddPlayerMessage msg)
-    //{
-    //        Debug.Log("AddPlayerInternal");
-    //    
-    //    base.OnServerAddPlayerInternal(conn, msg);
-    //
-    //    if (conn.identity != null)
-    //    {
-    //        Debug.LogError("There is already a player for this connection.");
-    //        return;
-    //    }
-    //
-    //    if (spawnRunner)
-    //    {
-    //        if (autoCreatePlayer && characterPlayerPrefab == null)
-    //        {
-    //            Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
-    //            return;
-    //        }
-    //
-    //        if (autoCreatePlayer && !characterPlayerPrefab.TryGetComponent(out NetworkIdentity _))
-    //        {
-    //            Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
-    //            return;
-    //        }
-    //
-    //        OnServerAddPlayer(conn, characterPlayerPrefab);
-    //    }
-    //    else
-    //    {
-    //        if (autoCreatePlayer && levelPlayerPrefab == null)
-    //        {
-    //            Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
-    //            return;
-    //        }
-    //
-    //        if (autoCreatePlayer && !levelPlayerPrefab.TryGetComponent(out NetworkIdentity _))
-    //        {
-    //            Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
-    //            return;
-    //        }
-    //        
-    //        OnServerAddPlayer(conn, levelPlayerPrefab);
-    //    }
-    //
-    //
-    //
-    //}
-    
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+    }
+
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+
+        if (testing)
+        {
+            return;
+        }
+        LobbyManager.Instance.WaitForConfig();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+    }
+
+
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+    {
+        Debug.Log("OnserverAddPlayer");
+        base.OnServerAddPlayer(conn);
+        conn.identity.name = "";
+        LobbyManager.Instance.AddToConnections(conn);
+    }
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        if (!testing)
+        {
+            LobbyManager.Instance.RemoveFromConnections(conn);
+        }
+        base.OnServerDisconnect(conn);
+    }
+
 }

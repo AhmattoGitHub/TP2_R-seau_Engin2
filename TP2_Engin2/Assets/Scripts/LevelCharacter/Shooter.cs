@@ -85,7 +85,7 @@ public class Shooter : NetworkBehaviour
         var bomb = Instantiate(m_bombPrefab, transform.position, Quaternion.identity);
         NetworkServer.Spawn(bomb);
 
-        bomb.GetComponent<Bomb>().CMD_Shoot(direction);
+        bomb.GetComponent<BombNetwork>().CMD_Shoot(direction);
     }
 
     public void SetCamera(Camera camera)
