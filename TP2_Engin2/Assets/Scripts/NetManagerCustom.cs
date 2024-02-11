@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class NetManagerCustom : NetworkManager
 {
     public static NetManagerCustom _Instance { get; private set; }
     [field:SerializeField] public Identifier Identifier { get; private set; }
+    [field:SerializeField] public NetworkMatchManager MatchManager { get; private set; }
 
 
-
-    public GameObject shooterPrefab;
-    public GameObject runnerPrefab;
-    public GameObject m_platformPrefab;
-    public bool spawnRunner = true;
-    public bool testing = false;
+    [SerializeField] private GameObject shooterPrefab;
+    [SerializeField] private GameObject runnerPrefab;
+    [SerializeField] private GameObject m_platformPrefab;
+    [SerializeField] private bool spawnRunner = true;
+    [SerializeField] private bool testing = false;
 
     [SerializeField] private GameObject m_spawner;
 

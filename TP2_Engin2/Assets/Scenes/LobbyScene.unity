@@ -481,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.data[3]
@@ -492,9 +492,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8334479332174648469, guid: f60638f0369ac0f46a748fd2852c187a, type: 3}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: spawnPrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 3641738404020297402, guid: c4fdbdf56d5cd2c4c88c4e51bd91c823, type: 3}
+    - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: <Identifier>k__BackingField
       value: 
       objectReference: {fileID: 1892274268}
+    - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: <MatchManager>k__BackingField
+      value: 
+      objectReference: {fileID: 1892274269}
     - target: {fileID: 8708434659553664712, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -657,16 +665,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2941783009499894224, guid: 5b8954bf549e56f499185c08b86b1406, type: 3}
       propertyPath: m_Name
-      value: Spawner
+      value: BehaviourComponents
       objectReference: {fileID: 0}
     - target: {fileID: 6499311961674547498, guid: 5b8954bf549e56f499185c08b86b1406, type: 3}
       propertyPath: sceneId
       value: 927996832
       objectReference: {fileID: 0}
+    - target: {fileID: 6934274451715238873, guid: 5b8954bf549e56f499185c08b86b1406, type: 3}
+      propertyPath: m_spawnMapBounds
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934274451715238873, guid: 5b8954bf549e56f499185c08b86b1406, type: 3}
+      propertyPath: m_verticalMapBoundsTrigger
+      value: 
+      objectReference: {fileID: 3641738404020297402, guid: c4fdbdf56d5cd2c4c88c4e51bd91c823, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2941783009499894224, guid: 5b8954bf549e56f499185c08b86b1406, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1892274269}
   m_SourcePrefab: {fileID: 100100000, guid: 5b8954bf549e56f499185c08b86b1406, type: 3}
 --- !u!1 &1892274266 stripped
 GameObject:
@@ -689,6 +708,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8847add7f48c971408a6c8131fbdd8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1892274269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892274266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abfd7eab51ed81540ab130dfbdafeecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_radius: 10
+  m_respawnHeight: 10
 --- !u!114 &1976104581 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3541023113682408855, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}

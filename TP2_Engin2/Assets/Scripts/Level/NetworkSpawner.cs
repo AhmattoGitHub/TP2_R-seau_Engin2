@@ -9,11 +9,20 @@ public class NetworkSpawner : NetworkBehaviour
     
     [SerializeField] private bool m_spawnPlatform = false;
     [SerializeField] private GameObject m_platformPrefab;
+    
     [SerializeField] private bool m_spawnDummy = false;
     [SerializeField] private GameObject m_dummyPrefab;
     [SerializeField] private Vector3 m_dummyPrefabPosition;
+    
     [SerializeField] private bool m_spawnCubes = false;
     [SerializeField] private GameObject m_cubesPrefab;
+
+    [SerializeField] private bool m_spawnMapBounds = false;
+    [SerializeField] private GameObject m_verticalMapBoundsTrigger = null;
+
+    [SerializeField] private bool m_spawnWinTrigger = false;
+    [SerializeField] private GameObject m_winBoundTrigger = null;
+
 
     [SerializeField] private Identifier m_identifier;
 
@@ -68,6 +77,28 @@ public class NetworkSpawner : NetworkBehaviour
             GameObject cubesInstance = Instantiate(m_cubesPrefab, transform);
             NetworkServer.Spawn(cubesInstance);
         }
+        
+        if (m_spawnMapBounds)
+        {
+            GameObject mapBounds = Instantiate(m_verticalMapBoundsTrigger, transform);
+            
+            var boundsDetection = m_verticalMapBoundsTrigger.GetComponent<TriggerForPlayer>();
+            if (boundsDetection != null)
+            {
+                boundsDetection.TriggerType = E_TriggerTypes.OutOfVerticalMapBounds;
+            }
+
+            NetworkServer.Spawn(mapBounds);
+
+        }
+        
+        if (m_spawnWinTrigger)
+        {
+            GameObject winTrigger = Instantiate(m_winBoundTrigger, transform);
+            NetworkServer.Spawn(winTrigger);
+        }
+
+
 
         m_identifier.AssignAllIds(transform);
     }
