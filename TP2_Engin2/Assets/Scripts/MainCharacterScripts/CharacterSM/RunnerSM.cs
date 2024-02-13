@@ -243,6 +243,12 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
         Animator.SetBool("IsGrounded", IsInContactWithFloor());
     }
 
+    public void AddImpulseForce(Vector3 direction, float impulseForce)
+    {
+        Debug.Log("addimpulse");
+        Rb.AddForce(direction * impulseForce, ForceMode.Impulse);
+    }
+
     public void SetParentGo(GameObject go)
     {
         MC = go;

@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnRunner
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: autoCreatePlayer
@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.data[6]
@@ -159,6 +159,10 @@ PrefabInstance:
       propertyPath: spawnPrefabs.Array.data[8]
       value: 
       objectReference: {fileID: 4656786485708918812, guid: e8105c87b74a31c4998823d7212e6efa, type: 3}
+    - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: spawnPrefabs.Array.data[9]
+      value: 
+      objectReference: {fileID: 5337370704306503340, guid: d4bce6ffc10b6454aa6c0b4b76a2d6c4, type: 3}
     - target: {fileID: 6587232635629526722, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: sceneId
       value: 3662155145
@@ -173,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_spawnPlatform
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_spawnMapBounds
@@ -186,14 +190,14 @@ PrefabInstance:
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_rotatingPlatformPrefab
       value: 
-      objectReference: {fileID: 4656786485708918812, guid: e8105c87b74a31c4998823d7212e6efa, type: 3}
+      objectReference: {fileID: 5337370704306503340, guid: d4bce6ffc10b6454aa6c0b4b76a2d6c4, type: 3}
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_rotatingPlatformPosition.y
-      value: -5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_rotatingPlatformPosition.z
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8708434659553664712, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_LocalPosition.x
