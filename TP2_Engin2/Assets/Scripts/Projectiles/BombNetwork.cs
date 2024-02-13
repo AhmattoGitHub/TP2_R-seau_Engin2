@@ -29,6 +29,7 @@ public class BombNetwork : NetworkBehaviour
             return;
         }
 
+
         HandleTimer();
         transform.localRotation = Quaternion.Euler(0, 0, 0);
 
@@ -41,6 +42,11 @@ public class BombNetwork : NetworkBehaviour
             return;
         }
 
+        if (collision.gameObject.GetComponent<BombNetwork>() != null)
+        {
+            NetworkServer.Destroy(gameObject);  //EXPLODE
+            return;
+        }
 
         m_rb.velocity = Vector3.zero;
         Debug.Log(collision.gameObject.name);
