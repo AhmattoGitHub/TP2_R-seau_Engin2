@@ -64,7 +64,7 @@ public class NetworkDisappearing : NetworkBehaviour
             {
                 m_isDisappearing = false;
                 m_isInvisible = true;                
-                UpdateClientsRendererAndCollider(false);
+                EnableClientsRendererAndCollider(false);
                 m_timer = 0.0f;
             }
         }
@@ -77,7 +77,7 @@ public class NetworkDisappearing : NetworkBehaviour
             {
                 m_isInvisible = false;
                 m_isVisible = true;                
-                UpdateClientsRendererAndCollider(true);
+                EnableClientsRendererAndCollider(true);
                 UpdateClientsAlpha(1);
                 m_timer = 0.0f;
             }
@@ -93,9 +93,9 @@ public class NetworkDisappearing : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void UpdateClientsRendererAndCollider(bool enabled)
+    private void EnableClientsRendererAndCollider(bool value)
     {        
-        m_renderer.enabled = enabled;
-        m_collider.enabled = enabled;
+        m_renderer.enabled = value;
+        m_collider.enabled = value;
     }
 }
