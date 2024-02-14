@@ -235,7 +235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &832625983
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -356,9 +356,22 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  m_isTesting: 0
+  m_spawnPlatform: 0
   m_platformPrefab: {fileID: 3421798718822270314, guid: d768203359410144082e59d62432eab5, type: 3}
+  m_spawnDummy: 0
   m_dummyPrefab: {fileID: 2203433315003131131, guid: df6be8767474cc14cb9ef7ff4e6e8deb, type: 3}
   m_dummyPrefabPosition: {x: 0, y: 2, z: 0}
+  m_spawnCubes: 0
+  m_cubesPrefab: {fileID: 0}
+  m_spawnMapBounds: 0
+  m_verticalMapBoundsTrigger: {fileID: 0}
+  m_spawnWinTrigger: 0
+  m_winBoundTrigger: {fileID: 0}
+  m_spawnRotatingPlatform: 0
+  m_rotatingPlatformPrefab: {fileID: 0}
+  m_rotatingPlatformPosition: {x: 0, y: 0, z: 0}
+  m_identifier: {fileID: 0}
 --- !u!114 &1392204995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,9 +536,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnRunner
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 2096930612547086335, guid: d8bdaf1d71e46264bb75aa5e764b28ff, type: 3}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: autoCreatePlayer
       value: 0
@@ -558,6 +579,10 @@ PrefabInstance:
       propertyPath: spawnPrefabs.Array.data[3]
       value: 
       objectReference: {fileID: 4528891954548822954, guid: ab9f301df18e44942ada9d1a724ee360, type: 3}
+    - target: {fileID: 6587232635629526722, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: sceneId
+      value: 8098236
+      objectReference: {fileID: 0}
     - target: {fileID: 8708434659553664712, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
