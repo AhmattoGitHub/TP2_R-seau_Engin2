@@ -51,10 +51,16 @@ public class NetManagerCustom : NetworkManager
             }
             else
             {
-                OnServerAddPlayer(conn, shooterPrefab);
+                var player = Instantiate(shooterPrefab, shooterPrefab.transform.position, shooterPrefab.transform.rotation);
+
+                player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+                NetworkServer.AddPlayerForConnection(conn, player);
+
+
+                //OnServerAddPlayer(conn, shooterPrefab);
             }
-            
-            
+
+
             //if (conn.identity.isLocalPlayer)
             //{
             //    var spawner = Instantiate(m_spawner);
@@ -62,8 +68,8 @@ public class NetManagerCustom : NetworkManager
             //
             //    m_identifier = spawner.GetComponent<Identifier>();
             //}
-            
-            
+
+
             return;
         }
 

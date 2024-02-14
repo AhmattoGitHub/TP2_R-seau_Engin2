@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LocalLevelPlayerController : MonoBehaviour
 {
-    //private NetworkPlatformManager m_platformController = null;
+    private NetworkPlatformManager m_platformController = null;
     private NetworkLevelPlayerController m_networkComponent;
 
     [SerializeField] private GameObject m_go;
@@ -35,7 +35,7 @@ public class LocalLevelPlayerController : MonoBehaviour
         }
         else
         {
-            //m_networkComponent.SetPlatformController(platformController);
+            m_networkComponent.SetPlatformController(platformController);
             m_controllingPlatform = true;
         }
         
@@ -108,6 +108,7 @@ public class LocalLevelPlayerController : MonoBehaviour
 
         Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
 
+        Debug.Log("send inputs from local");
         //CMD_SendWorldInputs(localInput);
         m_networkComponent.CMD_SendWorldInputs(localInput);
     }

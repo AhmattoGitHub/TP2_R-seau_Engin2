@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 7648339614588674791}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 20}
+  m_LocalPosition: {x: 0, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -163,9 +163,9 @@ MonoBehaviour:
   m_go: {fileID: 0}
   m_camera: {fileID: 5260066427887703831}
   m_objectToLookAt: {fileID: 5453523017343063499}
-  m_verticalLimits: {x: 1, y: 20}
+  m_verticalLimits: {x: 1, y: 100}
   m_startDistance: 5
   m_lerpF: 0.1
   m_rotationSpeed: 2
-  m_moveSpeed: 0.1
+  m_moveSpeed: 0.2
   m_edgeDistance: 50

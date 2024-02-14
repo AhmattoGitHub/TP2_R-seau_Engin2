@@ -67,7 +67,7 @@ public class JumpState : CharacterState
     private void Jump()
     {
         m_stateMachine.Rb.AddForce(Vector3.up * m_stateMachine.JumpAccelerationValue,
-        ForceMode.Acceleration);
+        ForceMode.Impulse);
 
         m_stateMachine.UpdateStaminaWhileJumping(STAMINA_DECREASE);
 

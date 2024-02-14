@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnRunner
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: autoCreatePlayer
@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: spawnPrefabs.Array.data[6]
@@ -163,6 +163,10 @@ PrefabInstance:
       propertyPath: spawnPrefabs.Array.data[9]
       value: 
       objectReference: {fileID: 5337370704306503340, guid: d4bce6ffc10b6454aa6c0b4b76a2d6c4, type: 3}
+    - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: spawnPrefabs.Array.data[10]
+      value: 
+      objectReference: {fileID: 1267137300523568382, guid: 0725ec95ff8b7c34c8cb342506ed17bb, type: 3}
     - target: {fileID: 6587232635629526722, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: sceneId
       value: 3662155145
@@ -180,12 +184,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: m_platformPrefab
+      value: 
+      objectReference: {fileID: 1267137300523568382, guid: 0725ec95ff8b7c34c8cb342506ed17bb, type: 3}
+    - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_spawnMapBounds
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_spawnRotatingPlatform
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_rotatingPlatformPrefab

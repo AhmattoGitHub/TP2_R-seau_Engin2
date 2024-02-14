@@ -40,6 +40,7 @@ public class NetworkPlatformManager : NetworkBehaviour
 
         m_playersInputs = m_playersInputs.normalized;
 
+        Debug.Log("player inputs : " + m_playersInputs);
         if (m_playersInputs != Vector3.zero)
         {
             Debug.Log("inputs");
@@ -89,6 +90,7 @@ public class NetworkPlatformManager : NetworkBehaviour
     [Server]
     public void ReceiveWorldInputs(Vector3 worldInputs)
     {
+        Debug.Log("ReceiveWorldInputs " + worldInputs);
         m_playersInputs += worldInputs;
     }
 }

@@ -8,6 +8,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
     private void Start()
     {
         m_platformController = NetworkPlatformManager._Instance?.GetComponent<NetworkPlatformManager>();
+        Debug.Log("controller = " + m_platformController);
     }
 
     [Command]
@@ -18,7 +19,8 @@ public class NetworkLevelPlayerController : NetworkBehaviour
             Debug.Log("No platform controller");
             return;
         }
-        
+
+        Debug.Log("CMD_SendWorldInputs");
         m_platformController.ReceiveWorldInputs(worldInput);
     }
 
