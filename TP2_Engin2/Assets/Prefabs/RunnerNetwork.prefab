@@ -961,7 +961,7 @@ MonoBehaviour:
   m_animator: {fileID: 4342733284951135377}
   m_rb: {fileID: 3109528093335577887}
   m_controller: {fileID: 0}
-  m_camera: {fileID: 0}
+  m_shooter: {fileID: 0}
 --- !u!1 &2199112103997872482
 GameObject:
   m_ObjectHideFlags: 0
