@@ -40,10 +40,10 @@ public class NetworkPlatformManager : NetworkBehaviour
 
         m_playersInputs = m_playersInputs.normalized;
 
-        Debug.Log("player inputs : " + m_playersInputs);
+        //Debug.Log("player inputs : " + m_playersInputs);
         if (m_playersInputs != Vector3.zero)
         {
-            Debug.Log("inputs");
+            //Debug.Log("inputs");
             
             m_rotationAxis = Quaternion.Euler(0, 90, 0) * m_playersInputs;   
 
@@ -90,7 +90,7 @@ public class NetworkPlatformManager : NetworkBehaviour
     [Server]
     public void ReceiveWorldInputs(Vector3 worldInputs)
     {
-        Debug.Log("ReceiveWorldInputs " + worldInputs);
+        //Debug.Log("ReceiveWorldInputs " + worldInputs);
         m_playersInputs += worldInputs;
     }
 }

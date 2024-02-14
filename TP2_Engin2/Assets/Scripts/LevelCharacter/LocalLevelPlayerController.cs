@@ -108,7 +108,7 @@ public class LocalLevelPlayerController : MonoBehaviour
 
         Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
 
-        Debug.Log("send inputs from local");
+        //Debug.Log("send inputs from local");
         //CMD_SendWorldInputs(localInput);
         m_networkComponent.CMD_SendWorldInputs(localInput);
     }

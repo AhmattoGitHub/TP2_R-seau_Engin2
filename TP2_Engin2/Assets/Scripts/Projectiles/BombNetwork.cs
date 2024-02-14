@@ -15,6 +15,7 @@ public class BombNetwork : NetworkBehaviour
     [SerializeField] private Rigidbody m_rb;
 
     private float m_timer = 0;
+    private bool m_stuck = false;
 
     void Start()
     {
@@ -42,17 +43,34 @@ public class BombNetwork : NetworkBehaviour
             return;
         }
 
+        if (m_stuck)
+        {
+            return;
+        }
+
         if (collision.gameObject.GetComponent<BombNetwork>() != null)
         {
             NetworkServer.Destroy(gameObject);  //EXPLODE
             return;
         }
 
+
+
+        //Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //
+        //float x = prevScale.x / collision.transform.localScale.x;
+        //float y = prevScale.y / collision.transform.localScale.y;
+        //float z = prevScale.z / collision.transform.localScale.z;
+        //
+        //transform.localScale = new Vector3(x, y, z);
+
+
         m_rb.velocity = Vector3.zero;
-        Debug.Log(collision.gameObject.name);
+        Debug.Log("collision name: " + collision.gameObject.name);
         int collidedGoIdx = NetManagerCustom._Instance.Identifier.GetIndex(collision.collider.gameObject);
-        Debug.Log(collidedGoIdx);
+        Debug.Log("collided object idx: " + collidedGoIdx);
         CMD_SetParent(collision.transform.root, collidedGoIdx);
+        m_stuck = true;
     }
 
 
@@ -104,7 +122,7 @@ public class BombNetwork : NetworkBehaviour
         transform.SetParent(collidedTransformRoot);
 
         var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedObjIdx);
-        Debug.Log(go.name);
+        Debug.Log("CMD: setting parent: " + go.name);
         transform.SetParent(go.transform);
 
         RPC_SetParent(collidedTransformRoot, collidedObjIdx);
@@ -118,7 +136,7 @@ public class BombNetwork : NetworkBehaviour
         transform.SetParent(collidedTransformRoot);
 
         var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedObjIdx);
-        Debug.Log(go.name);
+        Debug.Log("RPC: setting parent: " + go.name);
         transform.SetParent(go.transform);
         gameObject.SetActive(true);
 
