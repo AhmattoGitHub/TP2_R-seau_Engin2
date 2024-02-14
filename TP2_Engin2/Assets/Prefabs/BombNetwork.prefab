@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -241,6 +241,7 @@ MonoBehaviour:
   m_projectileSpeed: 300
   m_explosionForce: 10
   m_explosionRadius: 10
-  m_explosionTimer: 20
+  m_destroyTime: 10
+  m_explosionTime: 2
   m_height: 20
   m_rb: {fileID: 7486974967253324845}
