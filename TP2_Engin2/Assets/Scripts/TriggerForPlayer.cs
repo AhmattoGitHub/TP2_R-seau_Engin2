@@ -8,11 +8,11 @@ public class TriggerForPlayer : MonoBehaviour
     {
         var runnerSM = other.transform.root.gameObject.GetComponentInChildren<RunnerSM>();
 
-        Debug.Log(runnerSM);
+        //Debug.Log(runnerSM);
         if (runnerSM != null)
         {
             GameObject player = other.gameObject.transform.root.gameObject;
-            Debug.Log("sending cmd");
+            //Debug.Log("sending cmd");
             NetManagerCustom._Instance.MatchManager.CMD_SendPlayerAndTrigger(player, TriggerType);
         }       
     }

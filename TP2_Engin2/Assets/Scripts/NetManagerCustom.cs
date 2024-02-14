@@ -13,7 +13,7 @@ public class NetManagerCustom : NetworkManager
 
     [SerializeField] private GameObject shooterPrefab;
     [SerializeField] private GameObject runnerPrefab;
-    [SerializeField] private GameObject m_platformPrefab;
+    //[SerializeField] private GameObject m_platformPrefab;
     [SerializeField] private bool spawnRunner = true;
     [SerializeField] private bool testing = false;
 
@@ -115,13 +115,11 @@ public class NetManagerCustom : NetworkManager
             return;
         }
 
-
         var spawner = m_spawner.GetComponent<NetworkSpawner>();
         if (spawner != null)
         {
             spawner.Spawn();
         }
-
     }
 
     public override void OnValidate()

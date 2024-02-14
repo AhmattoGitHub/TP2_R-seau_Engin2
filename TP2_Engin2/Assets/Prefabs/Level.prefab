@@ -279,13 +279,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844548978201290482}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.17600004, y: 2, z: -0.049999967}
-  m_LocalScale: {x: 0.015238093, y: 2, z: 0.021333331}
+  m_LocalRotation: {x: -0, y: 0.42261827, z: -0, w: 0.9063079}
+  m_LocalPosition: {x: 0.73548466, y: 106, z: 0.051829845}
+  m_LocalScale: {x: 0.011428568, y: 2, z: 0.0079999985}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 926775685370121538}
-  m_Father: {fileID: 7468609615242497596}
+  m_Father: {fileID: 7301711343507526874}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7184852987065626571
 MeshFilter:
@@ -372,6 +372,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 2
 --- !u!114 &1317994742595382288
 MonoBehaviour:
@@ -1533,6 +1536,8 @@ Transform:
   - {fileID: 2848497349589791313}
   - {fileID: 5350489740988483711}
   - {fileID: 7468609615242497596}
+  - {fileID: 9074787654717705287}
+  - {fileID: 4934045019335258851}
   - {fileID: 2668012471285802382}
   - {fileID: 449016163143932867}
   - {fileID: 2452852810518812209}
@@ -2317,6 +2322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 2
 --- !u!1 &3439997936375755421
 GameObject:
@@ -3418,9 +3426,7 @@ Transform:
   m_LocalPosition: {x: 0.665, y: 104, z: 0.165}
   m_LocalScale: {x: 0.74999994, y: 1, z: 0.37499997}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 9074787654717705287}
-  - {fileID: 4934045019335258851}
+  m_Children: []
   m_Father: {fileID: 7301711343507526874}
   m_LocalEulerAnglesHint: {x: 0, y: 50, z: 0}
 --- !u!33 &4626012482471124548
@@ -4330,6 +4336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 0.2
 --- !u!114 &3259070009005468387
 MonoBehaviour:
@@ -5013,6 +5022,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 0.2
 --- !u!114 &9223150094548539171
 MonoBehaviour:
@@ -7057,6 +7069,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 2
 --- !u!114 &3724442732157919655
 MonoBehaviour:
@@ -9512,13 +9527,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8071951423939809758}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.34100005, y: 2, z: 0.022999985}
-  m_LocalScale: {x: 0.015238093, y: 2, z: 0.021333331}
+  m_LocalRotation: {x: -0, y: 0.42261827, z: -0, w: 0.9063079}
+  m_LocalPosition: {x: 0.5072142, y: 106, z: 0.36645997}
+  m_LocalScale: {x: 0.011428568, y: 2, z: 0.0079999985}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8328868807146668033}
-  m_Father: {fileID: 7468609615242497596}
+  m_Father: {fileID: 7301711343507526874}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8213168270134823942
 MeshFilter:
@@ -9605,6 +9620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 2
 --- !u!114 &2013290924354139024
 MonoBehaviour:
@@ -9869,6 +9887,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 2
 --- !u!114 &6529660632812444716
 MonoBehaviour:
@@ -10032,6 +10053,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 0.2
 --- !u!114 &5340098222580284269
 MonoBehaviour:
@@ -11005,6 +11029,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5093d8b367651d429c1db56ca9cb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   m_rotationSpeed: 2
 --- !u!114 &6572596929660060219
 MonoBehaviour:

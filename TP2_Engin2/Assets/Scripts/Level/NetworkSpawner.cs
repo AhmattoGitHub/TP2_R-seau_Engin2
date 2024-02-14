@@ -34,7 +34,7 @@ public class NetworkSpawner : NetworkBehaviour
 
    //Works for testing
 
-   public override void OnStartClient() // Was OnStartClient
+   /*public override void OnStartClient() // Was OnStartClient
    {
         base.OnStartClient();
 
@@ -95,14 +95,19 @@ public class NetworkSpawner : NetworkBehaviour
    
         m_identifier.AssignAllIds(transform);
     
-   }
+   }*/
 
     public void Spawn()
     {
+        if (!isServer)
+        {
+            return;
+        }
+        
         if (m_spawnPlatform)
         {
             GameObject platformInstance = Instantiate(m_platformPrefab, transform);
-            NetworkServer.Spawn(platformInstance);
+            NetworkServer.Spawn(m_platformPrefab);
 
         }
         if (m_spawnDummy)
