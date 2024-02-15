@@ -196,6 +196,11 @@ public class LobbyManager : NetworkBehaviour
     }
     public void CheckIfTeamsAreFull()
     {
+        if (m_shooterButton.gameObject == null)
+        {
+            return;
+        }
+        
         if(m_numberOfRunners == 2)
         {
             m_runnerButton.gameObject.SetActive(false);
