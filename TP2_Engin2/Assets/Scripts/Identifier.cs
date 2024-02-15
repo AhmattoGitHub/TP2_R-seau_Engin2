@@ -74,7 +74,7 @@ public class Identifier : MonoBehaviour
     }
 }
 
-[Serializable]
+//[Serializable]
 public struct Object
 {
     public Object(int _uniqueID, GameObject _gameObject){

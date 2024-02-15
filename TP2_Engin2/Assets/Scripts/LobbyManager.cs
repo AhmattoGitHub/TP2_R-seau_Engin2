@@ -196,7 +196,7 @@ public class LobbyManager : NetworkBehaviour
     }
     public void CheckIfTeamsAreFull()
     {
-        if (m_shooterButton.gameObject == null)
+        if (m_shooterButton == null)
         {
             return;
         }

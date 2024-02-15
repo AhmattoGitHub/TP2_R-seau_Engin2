@@ -1217,6 +1217,7 @@ namespace Mirror
                     position = identity.transform.localPosition,
                     rotation = identity.transform.localRotation,
                     scale = identity.transform.localScale,
+                    transform = identity.transform,                     //Etienne
                     payload = payload
                 };
                 conn.Send(message);
