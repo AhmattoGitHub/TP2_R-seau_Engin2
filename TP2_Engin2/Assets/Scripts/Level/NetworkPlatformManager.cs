@@ -25,17 +25,37 @@ public class NetworkPlatformManager : NetworkBehaviour
         _Instance = this;
     }
 
+    //private void Update()
+    //{
+    //    if (isServer)
+    //    {
+    //        Debug.Log("BASIC UPDATE CALLED ON SERVER");
+    //
+    //    }
+    //}
+
     private void FixedUpdate()
     {
-        if (isServer)
-        {
-            ServerUpdate();
-        }
+        //Debug.Log("player inputs is " + m_playersInputs);
+
+        //if (isServer)
+        //{
+        //    //Debug.Log("SERVER SIDE CALLED");
+        //
+        //    ServerUpdate();
+        //}
+
+        ServerUpdate();
     }
 
     [Server]
     private void ServerUpdate()
     {
+        if(isServer)
+        {
+            Debug.Log("Server is in server update");
+        }
+
         Debug.DrawRay(transform.position + new Vector3(0, 2, 0), m_playersInputs * 7, Color.blue);
 
         m_playersInputs = m_playersInputs.normalized;
@@ -45,12 +65,12 @@ public class NetworkPlatformManager : NetworkBehaviour
         {           
             m_rotationAxis = Quaternion.Euler(0, 90, 0) * m_playersInputs;   
 
-            ApplyRotate(m_previewObject);            
+            PreviewApplyRotate();            
 
             if (CalculatePreviewAngleFromPivot() >= m_angleLimit)
                 return;
 
-            ApplyRotate(m_platform);            
+            ApplyRotate();            
         }
         else 
         {                   
@@ -60,19 +80,46 @@ public class NetworkPlatformManager : NetworkBehaviour
 
         m_playersInputs = Vector3.zero;
     }
-    
-    private void ApplyRotate(GameObject gO)
+
+    private void PreviewApplyRotate()
     {
         Debug.DrawRay(transform.position, m_rotationAxis * 10, Color.magenta);
 
-        if (gO == null) return;
+        //if (gO == null) return;
 
         m_previewObject.transform.position = m_platform.transform.position;
         m_previewObject.transform.rotation = m_platform.transform.rotation;
 
-        gO.transform.position = transform.position - (-transform.up * m_pivotRadius);        
-        gO.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);
+
+
+        m_previewObject.transform.position = transform.position - (-transform.up * m_pivotRadius);
+        m_previewObject.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);
     }
+
+    [ClientRpc]
+    private void ApplyRotate()
+    {
+        Debug.DrawRay(transform.position, m_rotationAxis * 10, Color.magenta);
+
+        //if (gO == null) return;
+
+        //m_previewObject.transform.position = m_platform.transform.position;
+        //m_previewObject.transform.rotation = m_platform.transform.rotation;
+
+
+
+        m_platform.transform.position = transform.position - (-transform.up * m_pivotRadius);
+        m_platform.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);
+
+        //ClientApplyRotate(gO);
+    }
+
+    //[ClientRpc]
+    //private void ClientApplyRotate(GameObject gO)
+    //{
+    //    gO.transform.position = transform.position - (-transform.up * m_pivotRadius);
+    //    gO.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);
+    //}
     
     private float CalculatePreviewAngleFromPivot()
     {
@@ -85,6 +132,10 @@ public class NetworkPlatformManager : NetworkBehaviour
     [Server]
     public void ReceivePlayersInputs(Vector3 inputs)
     {
+        //if(isServer)
+        //{
+        //    Debug.Log(" RECEIVED INPUT SERVER SIDE INPUTS ARE " + inputs);
+        //}
         //Debug.Log("ReceiveWorldInputs " + worldInputs);        
         if (inputs == Vector3.zero)
         {

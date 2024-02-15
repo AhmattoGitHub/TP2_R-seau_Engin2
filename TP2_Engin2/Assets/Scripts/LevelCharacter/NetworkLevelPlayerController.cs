@@ -11,7 +11,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
         //Debug.Log("controller = " + m_platformController);
     }
 
-    [Command (requiresAuthority = false)]
+    [Command]
     public void CMD_SendInputs(Vector3 inputs)
     {
         if (m_platformController == null)
@@ -19,7 +19,12 @@ public class NetworkLevelPlayerController : NetworkBehaviour
             Debug.Log("No platform controller");
             return;
         }
-                
+
+        if (isServer) 
+        {
+            //Debug.Log("ENTERED NETWORK PLAYER CONTROLLER INSIDE IF SERVER");
+        }
+
         m_platformController.ReceivePlayersInputs(inputs);
     }
 

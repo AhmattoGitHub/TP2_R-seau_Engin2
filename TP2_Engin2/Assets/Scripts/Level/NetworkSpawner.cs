@@ -108,7 +108,7 @@ public class NetworkSpawner : NetworkBehaviour
         if (m_spawnPlatform)
         {
             GameObject platformInstance = Instantiate(m_platformPrefab, transform);
-            //NetworkServer.Spawn(platformInstance);
+            NetworkServer.Spawn(platformInstance);
 
         }
         if (m_spawnMapBounds)
