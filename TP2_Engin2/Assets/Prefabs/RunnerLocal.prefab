@@ -1157,12 +1157,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_objectToLookAt: {fileID: 6974773870611478055}
-  m_startDistance: 5
+  m_startDistance: 8
   m_scrollSpeed: 0.5
   m_lerpF: 0.1
   m_rotationSpeed: 8
   m_clampingXRotationValues: {x: -10, y: 60}
-  m_clampingCameraDistance: {x: 0, y: 15}
+  m_clampingCameraDistance: {x: 5, y: 15}
 --- !u!1 &3091330400932812201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,15 +2413,15 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 0}
   <HitBox>k__BackingField: {fileID: 0}
   <AccelerationValue>k__BackingField: 20
-  <JumpAccelerationValue>k__BackingField: 500
+  <JumpAccelerationValue>k__BackingField: 2000
   <SlowedDownAccelerationValue>k__BackingField: 7
-  <ForwardMaxVelocity>k__BackingField: 6
-  <LateralMaxVelocity>k__BackingField: 5
-  <BackwardMaxVelocity>k__BackingField: 3
+  <ForwardMaxVelocity>k__BackingField: 10
+  <LateralMaxVelocity>k__BackingField: 8
+  <BackwardMaxVelocity>k__BackingField: 5
   <SlowingVelocity>k__BackingField: 0.97
-  <InAirMaxVelocity>k__BackingField: 6
+  <InAirMaxVelocity>k__BackingField: 10
   <MaxNoDamageFall>k__BackingField: 10
-  <RotationSpeed>k__BackingField: 3
+  <RotationSpeed>k__BackingField: 5
   <Stamina>k__BackingField: 100
   <StaminaMaxValue>k__BackingField: 100
   <ObjectToLookAt>k__BackingField: {fileID: 4928195406050657157}

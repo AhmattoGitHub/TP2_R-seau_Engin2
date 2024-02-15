@@ -311,7 +311,7 @@ public class LobbyManager : NetworkBehaviour
             return;
         }
 
-        Debug.Log("Change scene");
+        //Debug.Log("Change scene");
         //LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
         m_changeSceneCalled = true;
         m_networkManager.ServerChangeScene("MainLevel");

@@ -99,30 +99,18 @@ public class NetworkSpawner : NetworkBehaviour
 
     public void Spawn()
     {
-        if (!isServer)
-        {
-            return;
-        }
+        //if (!isServer)
+        //{
+        //    return;
+        //}
+
         
         if (m_spawnPlatform)
         {
             GameObject platformInstance = Instantiate(m_platformPrefab, transform);
-            NetworkServer.Spawn(m_platformPrefab);
+            //NetworkServer.Spawn(platformInstance);
 
         }
-        if (m_spawnDummy)
-        {
-            GameObject dummyInstance = Instantiate(m_dummyPrefab, m_dummyPrefabPosition, Quaternion.identity, transform);
-            NetworkServer.Spawn(dummyInstance);
-
-        }
-
-        if (m_spawnCubes)
-        {
-            GameObject cubesInstance = Instantiate(m_cubesPrefab, transform);
-            NetworkServer.Spawn(cubesInstance);
-        }
-        
         if (m_spawnMapBounds)
         {
             GameObject mapBounds = Instantiate(m_verticalMapBoundsTrigger, transform);
@@ -133,14 +121,14 @@ public class NetworkSpawner : NetworkBehaviour
                 boundsDetection.TriggerType = E_TriggerTypes.OutOfVerticalMapBounds;
             }
 
-            NetworkServer.Spawn(mapBounds);
+            //NetworkServer.Spawn(mapBounds);
 
         }
         
         if (m_spawnWinTrigger)
         {
             GameObject winTrigger = Instantiate(m_winBoundTrigger, transform);
-            NetworkServer.Spawn(winTrigger);
+            //NetworkServer.Spawn(winTrigger);
         }
 
 

@@ -183,7 +183,7 @@ public class NetManagerCustom : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        Debug.Log("OnserverAddPlayer");
+        //Debug.Log("OnserverAddPlayer");
         base.OnServerAddPlayer(conn);
         conn.identity.name = "";
         LobbyManager.Instance.AddToConnections(conn);

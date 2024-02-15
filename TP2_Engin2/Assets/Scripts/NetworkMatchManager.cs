@@ -40,7 +40,7 @@ public class NetworkMatchManager : NetworkBehaviour
     [Command (requiresAuthority = false)]
     public void CMD_SendPlayerAndTrigger(GameObject player, E_TriggerTypes triggerType)
     {
-        Debug.Log("in cmd");
+        //Debug.Log("in cmd");
 
         BoundsTriggeredByPlayer(player, triggerType);
     }
@@ -48,7 +48,7 @@ public class NetworkMatchManager : NetworkBehaviour
     [Server]
     private void BoundsTriggeredByPlayer(GameObject player, E_TriggerTypes triggerType)
     {
-        Debug.Log("We entered the 111111111111111111111111!!!");
+        //Debug.Log("We entered the 111111111111111111111111!!!");
 
         switch (triggerType)
         {
