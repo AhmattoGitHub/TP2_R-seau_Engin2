@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class SetNameOnIcon : NetworkBehaviour
 {
@@ -14,32 +15,29 @@ public class SetNameOnIcon : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        DisplayIconName();
     }
-
     // Update is called once per frame
     void Update()
     {
-        SetNameOnServer();
+
+    }
+    private void DisplayIconName()
+    {
+        m_name.text = connectionToClient.m_name;
+        CMDDisplayIconName(connectionToClient.m_name);
     }
 
     [Command(requiresAuthority =false)]
-    private void SetNameOnServer()
+    private void CMDDisplayIconName(string name)
     {
-        foreach (var player in NetManagerCustom._Instance.m_players)
-        {
-            if (player.identity.isLocalPlayer)
-            {
-                m_name.text = player.m_name;
-                SetNameOnClients(m_name.text);
-                return;
-            }
-        }
+        m_name.text = name;
+        RPCDisplayIconName(name);
     }
 
     [ClientRpc]
-    private void SetNameOnClients(string playerName)
+    private void RPCDisplayIconName(string name)
     {
-        m_name.text = playerName;
+        m_name.text = name;
     }
 }
