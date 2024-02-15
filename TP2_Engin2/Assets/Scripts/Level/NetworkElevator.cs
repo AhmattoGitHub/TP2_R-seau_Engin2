@@ -11,7 +11,8 @@ public class NetworkElevator : NetworkBehaviour
 
     private bool m_isMovingTowardsEnd = true;
     private bool m_isWaiting = false;
-    private float m_timer = 0.0f;    
+    private float m_timer = 0.0f;
+    private float m_distanceThreshold = 0.1f;
 
     private void Update()
     {
@@ -38,7 +39,8 @@ public class NetworkElevator : NetworkBehaviour
         if (m_isMovingTowardsEnd)
         {            
             MoveTowards(m_endPoint.position);
-            if (m_elevator.transform.position.Equals(m_endPoint.position))
+            // m_elevator.transform.position.Equals(m_endPoint.position)
+            if (Vector3.Distance(m_elevator.transform.position, m_endPoint.position) < m_distanceThreshold)
             {
                 m_isMovingTowardsEnd = false;
                 m_isWaiting = true;
@@ -46,12 +48,13 @@ public class NetworkElevator : NetworkBehaviour
         }
         else
         {            
-            MoveTowards(m_startPoint.position);
-            if (m_elevator.transform.position.Equals(m_startPoint.position))
+            MoveTowards(m_startPoint.position);  
+            
+            if (Vector3.Distance(m_elevator.transform.position, m_startPoint.position) < m_distanceThreshold)
             {
                 m_isMovingTowardsEnd = true;
                 m_isWaiting = true;
-            }            
+            }
         }
     }
 

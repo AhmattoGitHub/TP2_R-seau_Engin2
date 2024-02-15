@@ -1,4 +1,3 @@
-using Mirror;
 using UnityEngine;
 
 public class LocalLevelPlayerController : MonoBehaviour
@@ -22,9 +21,9 @@ public class LocalLevelPlayerController : MonoBehaviour
     private bool m_inputPaused = false;
     private bool m_controllingPlatform = false;
 
-    void Start()
+    private void Start()
     {
-        
+              
         
         
         var platformController = NetworkPlatformManager._Instance?.GetComponent<NetworkPlatformManager>();
@@ -42,7 +41,7 @@ public class LocalLevelPlayerController : MonoBehaviour
 
     }
 
-    void Update()
+    private void Update()
     {
         
 
@@ -108,12 +107,11 @@ public class LocalLevelPlayerController : MonoBehaviour
 
         Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
 
-        //Debug.Log("send inputs from local");
-        //CMD_SendWorldInputs(localInput);
-        m_networkComponent.CMD_SendWorldInputs(localInput);
+        //Debug.Log("send inputs from local");        
+        m_networkComponent.CMD_SendInputs(localInput);
     }
 
-    Vector3 GetLocalInput() //private ?
+    private Vector3 GetLocalInput()
     {
         Vector3 localInput = Vector3.zero;
 
