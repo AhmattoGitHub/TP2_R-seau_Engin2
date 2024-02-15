@@ -46,8 +46,13 @@ public class Shooter : NetworkBehaviour
                     }
                     break;
                 case EProjectileType.Bomb:
-                    if (m_bombCooldownTimer < 0)
+                    if (m_bombCooldownTimer < 0) //enlever le timer ???
                     {
+                        if (!NetManagerCustom._Instance.MatchManager.GetPermissionToShoot())
+                        {
+                            Debug.Log("Can't shoot !");
+                            return;
+                        }
                         CMD_ShootBomb(direction);
                         m_bombCooldownTimer = m_bombCooldownTimerMax;
                     }

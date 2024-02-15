@@ -13,7 +13,15 @@ public class NetworkMatchManager : NetworkBehaviour
     [SerializeField] private float m_radius = 10.0f;
     [SerializeField] private float m_respawnHeight = 10.0f;
 
-    public static NetworkMatchManager _Instance { get; private set; }
+    [SerializeField] private float m_gameTimer = 0.0f;
+    [SerializeField] private float m_maxGameTimer = 300.0f;
+
+    [SerializeField] private float m_shootBombTimer = 0.0f;
+    [SerializeField] private float m_maxShootBombTimer = 10.0f;
+
+    public static NetworkMatchManager _Instance { get; private set; } //Nécessaire ? Déjà accessible du NetManagerCustom..
+
+    private bool m_canShootBomb = false;
 
     private void Awake()
     {
@@ -22,6 +30,14 @@ public class NetworkMatchManager : NetworkBehaviour
             Destroy(this);
         }
         _Instance = this;
+
+
+    }
+
+    private void Start()
+    {
+        m_gameTimer = m_maxGameTimer;
+        m_shootBombTimer = m_maxShootBombTimer;
     }
 
     private void Update()
@@ -34,9 +50,47 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void ServerUpdate()
     {
-        
+        HandleGameTimer();
+        HandleShootBombTimer();
+    }
+
+    private void HandleGameTimer()
+    {
+        if (m_gameTimer < 0)
+        {
+            // Call Win/Lose
+            return;
+        }
+        m_gameTimer -= Time.deltaTime;
+    }
+
+    private void HandleShootBombTimer()
+    {
+        if (m_shootBombTimer < 0)
+        {
+            m_canShootBomb = true;
+            return;
+        }
+        m_shootBombTimer -= Time.deltaTime;
+    }
+
+    public int GetGameTimer()   //function to call for game timer : NetManagerCustom.Instance.MatchManager.GetGameTimer();
+    {
+        return (int)m_gameTimer;
     }
     
+    public bool GetPermissionToShoot()  //function to call for shooting bomb availability : NetManagerCustom.Instance.MatchManager.GetPermissionToShoot();
+    {
+        if (m_canShootBomb)
+        {
+            m_shootBombTimer = m_maxShootBombTimer;
+            m_canShootBomb = false;
+            return true;
+        }
+
+        return false;
+    }
+
     [Command (requiresAuthority = false)]
     public void CMD_SendPlayerAndTrigger(GameObject player, E_TriggerTypes triggerType)
     {
