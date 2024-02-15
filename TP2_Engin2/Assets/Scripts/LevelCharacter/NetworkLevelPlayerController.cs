@@ -11,17 +11,16 @@ public class NetworkLevelPlayerController : NetworkBehaviour
         //Debug.Log("controller = " + m_platformController);
     }
 
-    [Command]
-    public void CMD_SendWorldInputs(Vector3 worldInput)
+    [Command (requiresAuthority = false)]
+    public void CMD_SendInputs(Vector3 inputs)
     {
         if (m_platformController == null)
         {
             Debug.Log("No platform controller");
             return;
         }
-
-        //Debug.Log("CMD_SendWorldInputs");
-        m_platformController.ReceiveWorldInputs(worldInput);
+                
+        m_platformController.ReceivePlayersInputs(inputs);
     }
 
     public void SetPlatformController(NetworkPlatformManager manager)
