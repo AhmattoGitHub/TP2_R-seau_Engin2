@@ -83,6 +83,7 @@ public class NetManagerCustom : NetworkManager
         {
             NetworkServer.ReplacePlayerForConnection(conn, Instantiate(shooterPrefab), true);
             conn.m_isInMainLevel = true;
+
         }
 
         int mainLevelCounter = 0;
