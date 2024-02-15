@@ -19,6 +19,7 @@ public class NetManagerCustom : NetworkManager
 
     [SerializeField] private GameObject m_spawner;
 
+    public List<NetworkConnectionToClient> m_players;
 
     public override void Awake()
     {
@@ -103,6 +104,7 @@ public class NetManagerCustom : NetworkManager
 
         if (mainLevelCounter == LobbyManager.Instance.GetList().Count)
         {
+            m_players = LobbyManager.Instance.GetList();
             NetworkServer.Destroy(LobbyManager.Instance.gameObject);
         }
     }
