@@ -118,7 +118,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
             return;
         }
 
-        Stamina -= Rb.velocity.magnitude / 100.0f;
+        Stamina -= Rb.velocity.magnitude / 500.0f;
         if (Stamina < 0.0f)
         {
             Stamina = 0.0f;

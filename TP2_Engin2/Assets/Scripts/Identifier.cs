@@ -30,6 +30,12 @@ public class Identifier : MonoBehaviour
     {
         foreach (Transform child in root)
         {
+            if (child.GetComponent<TriggerForPlayer>())
+            {
+                continue;
+            }
+            
+            
             Object obj = new Object(ReceiveID(), child.gameObject);
             m_objectsList.Add(obj);
             //Debug.Log(obj.gameObject.name + "   " + obj.uniqueID);

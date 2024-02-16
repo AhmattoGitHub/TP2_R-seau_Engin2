@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class JumpState : CharacterState
 {
-    private const float STAMINA_DECREASE = 10.0f;
+    private const float STAMINA_DECREASE = 5.0f;
     private const float GROUNDCHECK_DELAY_TIMER = 1.0f;
     private float m_currentGCDelayTimer = 0.0f;
     private bool m_hasDoubleJumped = false;

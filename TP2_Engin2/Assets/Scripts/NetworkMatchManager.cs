@@ -82,6 +82,8 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void SetConnectedPlayersList(NetworkConnectionToClient conn)
     {
+        //Check for doublons
+        
         Debug.Log(conn.m_name + " added to MatchManager player list");
         ConnectedPlayers.Add(conn);
     }

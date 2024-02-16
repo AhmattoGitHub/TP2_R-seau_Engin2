@@ -13,6 +13,8 @@ public class NetManagerCustom : NetworkManager
 
     [SerializeField] private GameObject shooterPrefab;
     [SerializeField] private GameObject runnerPrefab;
+    [SerializeField] private List<Vector3> runnerSpawns;
+    private int runnerSpawnsIndex = 0;
     [SerializeField] private GameObject m_levelPrefab;
     [SerializeField] private bool spawnRunner = true;
     [SerializeField] private bool testing = false;
@@ -82,7 +84,8 @@ public class NetManagerCustom : NetworkManager
         Debug.Log("trying to change :  " + conn.m_name);
         if (conn.m_tag == "Runner")
         {
-            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab), true);
+            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab, runnerSpawns[runnerSpawnsIndex], Quaternion.identity), true);
+            runnerSpawnsIndex++;
             conn.m_isInMainLevel = true;
 
         }

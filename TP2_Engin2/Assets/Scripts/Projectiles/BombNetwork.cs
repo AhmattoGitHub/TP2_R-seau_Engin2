@@ -115,19 +115,22 @@ public class BombNetwork : NetworkBehaviour
         {
             // Needs to affect only characterPlayers
 
-            if (obj.GetComponentInChildren<RunnerSM>() == null)
+            if (obj.GetComponent<SpawnLocalPlayer>() == null)
             {
                 continue;
             }
 
             var rb = obj.GetComponent<Rigidbody>();
+            //Debug.Log(rb.gameObject.name);
             if (rb == null || rb == m_rb)
             {
                 continue;
             }
 
-
             rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);
+
+            int collidedGoIdx = NetManagerCustom._Instance.Identifier.GetIndex(rb.gameObject);
+            RPC_AddExplosionForce(collidedGoIdx);
         }
 
         NetworkServer.Destroy(gameObject);
@@ -159,9 +162,44 @@ public class BombNetwork : NetworkBehaviour
 
     }
 
+    //[Command(requiresAuthority = false)]
     private void CMD_Expand()
     {
         float expansion = Time.deltaTime / m_expansionDivider;
         transform.localScale += new Vector3(expansion * transform.localScale.x, expansion * transform.localScale.y, expansion * transform.localScale.z);
+    }
+
+    //[Command(requiresAuthority = false)]
+    //private void CMD_AddExplosionForce(int collidedGoIdx)
+    //{
+    //    Debug.Log("cmd add explosion force");
+    //
+    //    var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedGoIdx);
+    //    var rb = go.GetComponent<Rigidbody>();
+    //
+    //    if (rb == null)
+    //    {
+    //        Debug.Log("no rb");
+    //        return;
+    //    }
+    //    rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);
+    //
+    //    RPC_AddExplosionForce(collidedGoIdx);
+    //}
+
+    [ClientRpc]
+    private void RPC_AddExplosionForce(int collidedGoIdx)
+    {
+        Debug.Log("rpc add explosion force");
+
+        var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedGoIdx);
+        var rb = go.GetComponent<Rigidbody>();
+
+        if (rb == null)
+        {
+            Debug.Log("no rb");
+            return;
+        }
+        rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);
     }
 }
