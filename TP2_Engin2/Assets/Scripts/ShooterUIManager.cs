@@ -43,8 +43,8 @@ public class ShooterUIManager : NetworkBehaviour
 
     private void Update()
     {
-        CheckForPlatformKey();
-        CheckForPlatformKeyUp();
+        //CheckForPlatformKey();
+        //CheckForPlatformKeyUp();
     }
 
     private void CheckForPlatformKey()
