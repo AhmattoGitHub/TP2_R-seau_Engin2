@@ -34,7 +34,7 @@ public class NetworkSpawner : NetworkBehaviour
 
    //Works for testing
 
-   /*public override void OnStartClient() // Was OnStartClient
+   public override void OnStartClient() // Was OnStartClient
    {
         base.OnStartClient();
 
@@ -95,7 +95,7 @@ public class NetworkSpawner : NetworkBehaviour
    
         m_identifier.AssignAllIds(transform);
     
-   }*/
+   }
 
     public void Spawn()
     {
@@ -122,7 +122,7 @@ public class NetworkSpawner : NetworkBehaviour
                 boundsDetection.TriggerType = E_TriggerTypes.OutOfVerticalMapBounds;
             }
 
-            //NetworkServer.Spawn(mapBounds);
+            NetworkServer.Spawn(mapBounds);
 
         }
         

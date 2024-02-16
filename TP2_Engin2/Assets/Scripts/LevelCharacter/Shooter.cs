@@ -46,16 +46,16 @@ public class Shooter : NetworkBehaviour
                     }
                     break;
                 case EProjectileType.Bomb:
-                    if (m_bombCooldownTimer < 0) //enlever le timer ???
-                    {
-                        if (!NetManagerCustom._Instance.MatchManager.GetPermissionToShoot())
+                    //if (m_bombCooldownTimer < 0) //enlever le timer ???
+                    //{
+                        if (!NetManagerCustom._Instance.MatchManager.GetPermissionToShoot())    //Should be opposite and no return
                         {
                             Debug.Log("Can't shoot !");
                             return;
                         }
                         CMD_ShootBomb(direction);
-                        m_bombCooldownTimer = m_bombCooldownTimerMax;
-                    }
+                        //m_bombCooldownTimer = m_bombCooldownTimerMax;
+                    //}
                     break;
                 default:
                     break;
@@ -71,7 +71,7 @@ public class Shooter : NetworkBehaviour
         }
 
         m_bulletCooldownTimer -= Time.deltaTime;
-        m_bombCooldownTimer -= Time.deltaTime;
+        //m_bombCooldownTimer -= Time.deltaTime;
 
     }
 
@@ -97,4 +97,21 @@ public class Shooter : NetworkBehaviour
     {
         m_camera = camera;
     }
+
+    /*
+    Va falloir genre te faire quelque chose comme :
+
+    for each playerShooter in playersList
+    if isLocalPlayer
+    shooter.GetComponentInChildren<Shooter>().GetBulletRemainingPercentage()
+    */
+    public float GetBulletRemainingPercentage()
+    {
+        if (m_bulletCooldownTimer < 0)
+        {
+            return 0.0f;
+        }
+        return m_bulletCooldownTimer / m_bulletCooldownTimerMax;
+    }
+
 }

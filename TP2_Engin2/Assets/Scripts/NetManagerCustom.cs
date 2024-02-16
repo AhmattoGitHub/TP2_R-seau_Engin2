@@ -20,6 +20,7 @@ public class NetManagerCustom : NetworkManager
     [SerializeField] private GameObject m_spawner;
 
 
+
     public override void Awake()
     {
         base.Awake();
@@ -97,6 +98,7 @@ public class NetManagerCustom : NetworkManager
         {
             if (player.m_isInMainLevel)
             {
+                MatchManager.SetConnectedPlayersList(player);
                 mainLevelCounter++;
             }
         }

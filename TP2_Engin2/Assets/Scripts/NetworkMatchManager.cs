@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using System.Collections.Generic;
 
 public enum E_TriggerTypes
 {
@@ -10,18 +11,20 @@ public enum E_TriggerTypes
 
 public class NetworkMatchManager : NetworkBehaviour
 {    
+    public static NetworkMatchManager _Instance { get; private set; } //Nécessaire ? Déjà accessible du NetManagerCustom..
+
+    [field: SerializeField] public List<NetworkConnectionToClient> ConnectedPlayers { get; private set; } = new List<NetworkConnectionToClient>();
+
     [SerializeField] private float m_radius = 10.0f;
     [SerializeField] private float m_respawnHeight = 10.0f;
 
-    [SerializeField] private float m_gameTimer = 0.0f;
+    [SyncVar] private float m_gameTimer = 0.0f;
     [SerializeField] private float m_maxGameTimer = 300.0f;
 
-    [SerializeField] private float m_shootBombTimer = 0.0f;
-    [SerializeField] private float m_maxShootBombTimer = 10.0f;
+    [SyncVar] private float m_shootBombTimer = 0.0f;
+    [SerializeField] private float m_maxShootBombTimer = 5.0f;
 
-    public static NetworkMatchManager _Instance { get; private set; } //Nécessaire ? Déjà accessible du NetManagerCustom..
-
-    private bool m_canShootBomb = false;
+    [SyncVar] private bool m_canShootBomb = false;
 
     private void Awake()
     {
@@ -42,10 +45,13 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void Update()
     {
+        Debug.Log("timer" + m_gameTimer);
+        
         if (isServer)
         {
             ServerUpdate();
         }
+        //ServerUpdate();
     }
 
     private void ServerUpdate()
@@ -74,21 +80,68 @@ public class NetworkMatchManager : NetworkBehaviour
         m_shootBombTimer -= Time.deltaTime;
     }
 
+    public void SetConnectedPlayersList(NetworkConnectionToClient conn)
+    {
+        Debug.Log(conn.m_name + " added to MatchManager player list");
+        ConnectedPlayers.Add(conn);
+    }
+
     public int GetGameTimer()   //function to call for game timer : NetManagerCustom.Instance.MatchManager.GetGameTimer();
     {
         return (int)m_gameTimer;
     }
+
+    public bool GetBombAvailability()   //function to call for shooting bomb availability : NetManagerCustom.Instance.MatchManager.GetBombAvailability();
+    {
+        return m_canShootBomb;
+    }
     
-    public bool GetPermissionToShoot()  //function to call for shooting bomb availability : NetManagerCustom.Instance.MatchManager.GetPermissionToShoot();
+    public float GetBombRemainingPercentage()   //function to call for shooting bomb timer (between 0 & 1) : NetManagerCustom.Instance.MatchManager.GetBombRemainingPercentage();
+    {
+        if (m_shootBombTimer < 0)
+        {
+            return 0.0f;
+        }
+        return m_shootBombTimer / m_maxShootBombTimer;
+    }
+
+    public float GetLocalPlayerBulletRemainingPercentage() //function to call for shooting bullet timer (between 0 & 1) : NetManagerCustom.Instance.MatchManager.GetLocalPlayerBulletRemainingPercentage();
+    {
+        foreach (var player in ConnectedPlayers)
+        {
+            if (!player.identity.isLocalPlayer)
+            {
+                continue;
+            }
+            var shooterScript = player.identity.gameObject.GetComponentInChildren<Shooter>();
+            if (shooterScript == null)
+            {
+                Debug.LogError("Player not found");
+                return -1.0f;
+            }
+            return shooterScript.GetBulletRemainingPercentage();
+        }
+
+        Debug.LogError("Player not found");
+        return -1.0f;
+    }
+
+    public bool GetPermissionToShoot()  
     {
         if (m_canShootBomb)
         {
-            m_shootBombTimer = m_maxShootBombTimer;
-            m_canShootBomb = false;
+            CMD_ResetShootBombTimer();
             return true;
         }
 
         return false;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CMD_ResetShootBombTimer()
+    {
+        m_shootBombTimer = m_maxShootBombTimer;
+        m_canShootBomb = false;
     }
 
     [Command (requiresAuthority = false)]
