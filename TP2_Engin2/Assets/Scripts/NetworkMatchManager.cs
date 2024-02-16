@@ -45,7 +45,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void Update()
     {
-        Debug.Log("timer" + m_gameTimer);
+        //Debug.Log("timer" + m_gameTimer);
         
         if (isServer)
         {

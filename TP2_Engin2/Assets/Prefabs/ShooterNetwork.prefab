@@ -152,13 +152,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_bulletPrefab: {fileID: 4528891954548822954, guid: ab9f301df18e44942ada9d1a724ee360, type: 3}
   m_bombPrefab: {fileID: 8334479332174648469, guid: f60638f0369ac0f46a748fd2852c187a, type: 3}
+  m_bigBombPrefab: {fileID: 8334479332174648469, guid: 00224c7f96ce0eb4d8b2fb52cc2c9804, type: 3}
   m_camera: {fileID: 0}
-  m_bulletCooldownTimer: 0
   m_bombCooldownTimer: 0
-  m_bulletCooldownTimerMax: 2
-  m_bombCooldownTimerMax: 0
+  m_bombCooldownTimerMax: 2
 --- !u!1 &8929833347540090403
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +186,7 @@ Transform:
   m_GameObject: {fileID: 8929833347540090403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -80}
+  m_LocalPosition: {x: 0, y: 2, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

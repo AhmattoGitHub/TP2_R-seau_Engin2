@@ -741,6 +741,7 @@ GameObject:
   - component: {fileID: 4342733284951135377}
   - component: {fileID: 3109528093335577887}
   - component: {fileID: 4061196981865950904}
+  - component: {fileID: 5399083673390082431}
   - component: {fileID: 3695185761914428099}
   m_Layer: 0
   m_Name: RunnerNetwork
@@ -899,7 +900,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096930612547086335}
   serializedVersion: 4
-  m_Mass: 20
+  m_Mass: 100
   m_Drag: 0.05
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -937,10 +938,31 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 3.5217566
+  m_Radius: 0.22666359
+  m_Height: 2.5837944
   m_Direction: 1
-  m_Center: {x: 0, y: 1.8273726, z: 0}
+  m_Center: {x: 0.013409942, y: 1.3583914, z: 0.014681339}
+--- !u!135 &5399083673390082431
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096930612547086335}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.37264585
+  m_Center: {x: 0.006613523, y: 3.136209, z: 0}
 --- !u!114 &3695185761914428099
 MonoBehaviour:
   m_ObjectHideFlags: 0

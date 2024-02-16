@@ -13,6 +13,7 @@ public class BombNetwork : NetworkBehaviour
     [SerializeField] private float m_destroyTime = 10;
     [SerializeField] private float m_explosionTime = 2;
     [SerializeField] private float m_height = 20;
+    [SerializeField] private float m_expansionDivider = 3;
     [SerializeField] private Rigidbody m_rb;
 
     private float m_destroyTimer = 0;
@@ -62,21 +63,15 @@ public class BombNetwork : NetworkBehaviour
 
 
 
-        //Vector3 prevScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        //
-        //float x = prevScale.x / collision.transform.localScale.x;
-        //float y = prevScale.y / collision.transform.localScale.y;
-        //float z = prevScale.z / collision.transform.localScale.z;
-        //
-        //transform.localScale = new Vector3(x, y, z);
-
 
         m_rb.velocity = Vector3.zero;
+
         //Debug.Log("collision name: " + collision.gameObject.name);
         int collidedGoIdx = NetManagerCustom._Instance.Identifier.GetIndex(collision.collider.gameObject);
         //Debug.Log("collided object idx: " + collidedGoIdx);
         CMD_SetParent(collision.transform.root, collidedGoIdx);
         m_stuck = true;
+        transform.position = collision.contacts[0].point;
     }
 
 
@@ -90,6 +85,7 @@ public class BombNetwork : NetworkBehaviour
                 CMD_Explode();
                 return;
             }
+            CMD_Expand();
             m_explosionTimer -= Time.deltaTime;
         }
         
@@ -161,5 +157,11 @@ public class BombNetwork : NetworkBehaviour
         transform.SetParent(go.transform);
         gameObject.SetActive(true);
 
+    }
+
+    private void CMD_Expand()
+    {
+        float expansion = Time.deltaTime / m_expansionDivider;
+        transform.localScale += new Vector3(expansion * transform.localScale.x, expansion * transform.localScale.y, expansion * transform.localScale.z);
     }
 }

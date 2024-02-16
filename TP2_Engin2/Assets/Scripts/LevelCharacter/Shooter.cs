@@ -6,19 +6,17 @@ using UnityEngine;
 
 enum EProjectileType
 {
-    Bullet,
-    Bomb
+    Bomb,
+    BigBomb
 };
 
 public class Shooter : NetworkBehaviour
 {
-    [SerializeField] private GameObject m_bulletPrefab;
     [SerializeField] private GameObject m_bombPrefab;
+    [SerializeField] private GameObject m_bigBombPrefab;
     [SerializeField] private Camera m_camera;
-    [SerializeField] private float m_bulletCooldownTimer = 0;
     [SerializeField] private float m_bombCooldownTimer = 0;
-    [SerializeField] private float m_bulletCooldownTimerMax = 2;
-    [SerializeField] private float m_bombCooldownTimerMax = 5;
+    [SerializeField] private float m_bombCooldownTimerMax = 2;
 
     private EProjectileType m_currentProjectile;
 
@@ -38,24 +36,22 @@ public class Shooter : NetworkBehaviour
 
             switch (m_currentProjectile)
             {
-                case EProjectileType.Bullet:
-                    if (m_bulletCooldownTimer < 0)
+                case EProjectileType.Bomb:
+                    if (m_bombCooldownTimer < 0)
                     {
-                        CMD_ShootBullet(direction);
-                        m_bulletCooldownTimer = m_bulletCooldownTimerMax;
+                        CMD_ShootBomb(direction);
+                        m_bombCooldownTimer = m_bombCooldownTimerMax;
                     }
                     break;
-                case EProjectileType.Bomb:
-                    //if (m_bombCooldownTimer < 0) //enlever le timer ???
-                    //{
-                        if (!NetManagerCustom._Instance.MatchManager.GetPermissionToShoot())    //Should be opposite and no return
-                        {
-                            Debug.Log("Can't shoot !");
-                            return;
-                        }
-                        CMD_ShootBomb(direction);
-                        //m_bombCooldownTimer = m_bombCooldownTimerMax;
-                    //}
+                case EProjectileType.BigBomb:
+                    if (NetManagerCustom._Instance.MatchManager.GetPermissionToShoot())
+                    {
+                        CMD_ShootBigBomb(direction);
+                    }
+                    else
+                    {
+                        Debug.Log("Can't shoot !");
+                    }
                     break;
                 default:
                     break;
@@ -63,25 +59,14 @@ public class Shooter : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            m_currentProjectile = EProjectileType.Bullet;
+            m_currentProjectile = EProjectileType.Bomb;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            m_currentProjectile = EProjectileType.Bomb;
+            m_currentProjectile = EProjectileType.BigBomb;
         }
 
-        m_bulletCooldownTimer -= Time.deltaTime;
-        //m_bombCooldownTimer -= Time.deltaTime;
-
-    }
-
-    [Command(requiresAuthority = false)]
-    public void CMD_ShootBullet(Vector3 direction)
-    {
-        var bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
-        NetworkServer.Spawn(bullet);
-
-        bullet.GetComponent<Bullet>().CMD_Shoot(direction);
+        m_bombCooldownTimer -= Time.deltaTime;
     }
 
     [Command(requiresAuthority = false)]
@@ -91,6 +76,15 @@ public class Shooter : NetworkBehaviour
         NetworkServer.Spawn(bomb);
 
         bomb.GetComponent<BombNetwork>().CMD_Shoot(direction);
+    }
+    
+    [Command(requiresAuthority = false)]
+    public void CMD_ShootBigBomb(Vector3 direction)
+    {
+        var bigBomb = Instantiate(m_bigBombPrefab, transform.position, Quaternion.identity);
+        NetworkServer.Spawn(bigBomb);
+
+        bigBomb.GetComponent<BombNetwork>().CMD_Shoot(direction);
     }
 
     public void SetCamera(Camera camera)
@@ -107,11 +101,11 @@ public class Shooter : NetworkBehaviour
     */
     public float GetBulletRemainingPercentage()
     {
-        if (m_bulletCooldownTimer < 0)
+        if (m_bombCooldownTimer < 0)
         {
             return 0.0f;
         }
-        return m_bulletCooldownTimer / m_bulletCooldownTimerMax;
+        return m_bombCooldownTimer / m_bombCooldownTimerMax;
     }
 
 }
