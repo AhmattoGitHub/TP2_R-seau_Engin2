@@ -169,7 +169,8 @@ public class LobbyManager : NetworkBehaviour
     {
         foreach (var player in m_connectedPlayers)
         {
-            RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.m_name);
+            if(player.m_tag == "Runner" || player.m_tag == "Shooter")
+                RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.m_name);
         }
     }
     [ClientRpc]
