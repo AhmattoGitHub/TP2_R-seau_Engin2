@@ -13,7 +13,7 @@ public class NetManagerCustom : NetworkManager
 
     [SerializeField] private GameObject shooterPrefab;
     [SerializeField] private GameObject runnerPrefab;
-    //[SerializeField] private GameObject m_platformPrefab;
+    [SerializeField] private GameObject m_levelPrefab;
     [SerializeField] private bool spawnRunner = true;
     [SerializeField] private bool testing = false;
 
@@ -137,6 +137,11 @@ public class NetManagerCustom : NetworkManager
             Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
             runnerPrefab = null;
         }
+        if (m_levelPrefab != null && !m_levelPrefab.TryGetComponent(out NetworkIdentity _))
+        {
+            Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
+            m_levelPrefab = null;
+        }
         
         if (shooterPrefab != null && spawnPrefabs.Contains(shooterPrefab))
         {
@@ -148,6 +153,24 @@ public class NetManagerCustom : NetworkManager
             Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
             spawnPrefabs.Remove(runnerPrefab);
         }
+        if (m_levelPrefab != null && spawnPrefabs.Contains(m_levelPrefab))
+        {
+            Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
+            spawnPrefabs.Remove(m_levelPrefab);
+        }
+    }
+
+    GameObject SpawnLevel(SpawnMessage msg)
+    {
+        var level = Instantiate(m_levelPrefab, m_spawner.transform);
+        Identifier.AssignAllIds(m_spawner.transform);
+
+        return level;
+    }
+
+    public void UnSpawnLevel(GameObject spawned)
+    {
+        Destroy(spawned);
     }
 
     public override void RegisterClientMessages()
@@ -158,6 +181,10 @@ public class NetManagerCustom : NetworkManager
             NetworkClient.RegisterPrefab(shooterPrefab);
         if (runnerPrefab != null)
             NetworkClient.RegisterPrefab(runnerPrefab);
+        if (m_levelPrefab != null)
+        {
+            NetworkClient.RegisterPrefab(m_levelPrefab, SpawnLevel, UnSpawnLevel);
+        }
     }
 
     public override void OnServerConnect(NetworkConnectionToClient conn)

@@ -68,6 +68,8 @@ namespace Mirror
         public Quaternion rotation;
         // Local scale
         public Vector3 scale;
+        // Transform                                                // Etienne
+        public Transform transform;
         // serialized component data
         // ArraySegment to avoid unnecessary allocations
         public ArraySegment<byte> payload;
