@@ -2410,6 +2410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Camera>k__BackingField: {fileID: 6588986328402185753}
+  <CinematicCamera>k__BackingField: {fileID: 0}
   <Rb>k__BackingField: {fileID: 0}
   <Animator>k__BackingField: {fileID: 0}
   <HitBox>k__BackingField: {fileID: 0}

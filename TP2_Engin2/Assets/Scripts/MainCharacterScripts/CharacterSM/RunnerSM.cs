@@ -7,6 +7,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
 {
 
     [field: SerializeField] public Camera Camera { get; private set; }
+    [field: SerializeField] public Camera CinematicCamera { get; private set; }
     [field: SerializeField] public Rigidbody Rb { get; private set; }
     [field: SerializeField] private Animator Animator { get; set; }
     [field: SerializeField] public BoxCollider HitBox { get; private set; }
@@ -52,6 +53,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
     protected override void CreatePossibleStates()
     {
         m_possibleStates = new List<CharacterState>();
+        m_possibleStates.Add(new NoGameplayState());
         m_possibleStates.Add(new FreeState());
         m_possibleStates.Add(new JumpState());
     }
@@ -146,6 +148,12 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
         //{
         //    return;
         //}
+
+        if (IsInNonGameplay)
+        {
+            return;
+        }
+
         float currentAngleX = Input.GetAxis("Mouse X") * RotationSpeed;
         m_lerpedAngleX = Mathf.Lerp(m_lerpedAngleX, currentAngleX, 0.1f);
         MC.transform.RotateAround(ObjectToLookAt.transform.position, ObjectToLookAt.transform.up, m_lerpedAngleX);
@@ -180,6 +188,10 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
         return m_groundCollider.GetComponent<GroundDetection>().IsGrounded;
     }
 
+    public bool IsInNoGameplayState()
+    {
+        return IsInNonGameplay;
+    }
 
     public bool IsTouchingGround()
     {
@@ -262,5 +274,15 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
     public void SetRigidbody(Rigidbody rb)
     {
         Rb = rb;
+    }
+
+    public void SetIsInNonGameplay(bool value)
+    {
+        IsInNonGameplay = value;
+    }
+
+    public void SetCinematicCamera(GameObject go)
+    {
+        CinematicCamera = go.GetComponent<Camera>();
     }
 }

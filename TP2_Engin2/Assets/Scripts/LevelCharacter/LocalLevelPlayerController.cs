@@ -7,6 +7,7 @@ public class LocalLevelPlayerController : MonoBehaviour
 
     [SerializeField] private GameObject m_go;
     [SerializeField] private Camera m_camera;
+    [SerializeField] private Camera m_cinematicCamera;
     [SerializeField] private Transform m_objectToLookAt;
     [SerializeField] private Vector2 m_verticalLimits;
     [SerializeField] private float m_startDistance = 5.0f;
@@ -21,11 +22,15 @@ public class LocalLevelPlayerController : MonoBehaviour
     private bool m_inputPaused = false;
     private bool m_controllingPlatform = false;
 
+    private bool m_isInNonGameplay = true;
+
     private void Start()
     {
-              
-        
-        
+        m_cinematicCamera.enabled = true;
+        m_camera.enabled = false;
+
+
+
         var platformController = NetworkPlatformManager._Instance?.GetComponent<NetworkPlatformManager>();
         if (platformController == null)
         {
@@ -43,7 +48,10 @@ public class LocalLevelPlayerController : MonoBehaviour
 
     private void Update()
     {
-        
+        if (m_isInNonGameplay)
+        {
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.P))    //For easier testing    //Feature ?
         {
@@ -146,5 +154,21 @@ public class LocalLevelPlayerController : MonoBehaviour
     public void SetParentGo(GameObject go)
     {
         m_go = go;
+    }
+
+    public void SetIsInNonGameplay(bool value)
+    {
+        if (value == false)
+        {
+            m_camera.enabled = true;
+            m_cinematicCamera.enabled = false;
+        }
+
+        m_isInNonGameplay = value;
+    }
+
+    public void SetCinematicCamera(GameObject go)
+    {
+        m_cinematicCamera = go.GetComponent<Camera>();
     }
 }

@@ -13,7 +13,7 @@ public class NetworkMatchManager : NetworkBehaviour
 {    
     public static NetworkMatchManager _Instance { get; private set; } //Nécessaire ? Déjà accessible du NetManagerCustom..
 
-    [field: SerializeField] public List<NetworkConnectionToClient> ConnectedPlayers { get; private set; } = new List<NetworkConnectionToClient>();
+    private List<NetworkConnectionToClient> ConnectedPlayers = new List<NetworkConnectionToClient>();
 
     [SerializeField] private float m_radius = 10.0f;
     [SerializeField] private float m_respawnHeight = 10.0f;
@@ -64,7 +64,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         if (m_gameTimer < 0)
         {
-            // Call Win/Lose
+            ShooterWin();
             return;
         }
         m_gameTimer -= Time.deltaTime;
@@ -80,12 +80,19 @@ public class NetworkMatchManager : NetworkBehaviour
         m_shootBombTimer -= Time.deltaTime;
     }
 
-    public void SetConnectedPlayersList(NetworkConnectionToClient conn)
+    public void LaunchGame()
     {
-        //Check for doublons
-        
-        Debug.Log(conn.m_name + " added to MatchManager player list");
-        ConnectedPlayers.Add(conn);
+        foreach (var player in ConnectedPlayers)
+        {
+            var cinematic = player.identity.gameObject.GetComponentInChildren<LaunchCinematic>();
+            //Debug.Log(player.m_name + " launched cinematic " + cinematic);
+            cinematic.RPC_Launch();
+        }
+    }
+
+    public void SetConnectedPlayersList(List<NetworkConnectionToClient> list)
+    {
+        ConnectedPlayers = list;
     }
 
     public int GetGameTimer()   //function to call for game timer : NetManagerCustom.Instance.MatchManager.GetGameTimer();
@@ -165,7 +172,7 @@ public class NetworkMatchManager : NetworkBehaviour
                 RespawnPlayerRandomCircle(player);
                 break;
             case E_TriggerTypes.Win:
-                Win(player);
+                RunnerWin(player);
                 break;
             default:
                 break;
@@ -192,10 +199,36 @@ public class NetworkMatchManager : NetworkBehaviour
         return new Vector2(x, y);
     }
 
-    [ClientRpc]
-    private void Win(GameObject player)
+    [ClientRpc] //?
+    private void RunnerWin(GameObject player)
     {
-        
+        foreach (var connPlayer in ConnectedPlayers)
+        {
+            if (connPlayer.m_tag == "Runner")
+            {
+                //var manager = connPlayer.identity.gameObject.GetComponent<UIManager>();
+                // manager.EnableVictoryScreen()
+                continue;
+            }
+
+            //logique de défaite des shooters
+        }
+    }
+
+    [ClientRpc] //?
+    private void ShooterWin()
+    {
+        foreach (var connPlayer in ConnectedPlayers)
+        {
+            if (connPlayer.m_tag == "Shooter")
+            {
+                //var manager = connPlayer.identity.gameObject.GetComponent<UIManager>();
+                // manager.EnableVictoryScreen()
+                continue;
+            }
+
+            //logique de défaite des runners
+        }
     }
 
 }

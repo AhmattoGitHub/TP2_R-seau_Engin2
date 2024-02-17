@@ -234,6 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_go: {fileID: 0}
   m_camera: {fileID: 5260066427887703831}
+  m_cinematicCamera: {fileID: 0}
   m_objectToLookAt: {fileID: 5453523017343063499}
   m_verticalLimits: {x: 1, y: 100}
   m_startDistance: 5

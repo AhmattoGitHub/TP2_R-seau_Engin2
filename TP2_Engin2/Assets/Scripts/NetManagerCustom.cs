@@ -101,13 +101,16 @@ public class NetManagerCustom : NetworkManager
         {
             if (player.m_isInMainLevel)
             {
-                MatchManager.SetConnectedPlayersList(player);
                 mainLevelCounter++;
             }
         }
 
         if (mainLevelCounter == LobbyManager.Instance.GetList().Count)
         {
+            //All players ready in scene
+            MatchManager.SetConnectedPlayersList(LobbyManager.Instance.GetList());
+            MatchManager.LaunchGame();
+            
             NetworkServer.Destroy(LobbyManager.Instance.gameObject);
         }
     }

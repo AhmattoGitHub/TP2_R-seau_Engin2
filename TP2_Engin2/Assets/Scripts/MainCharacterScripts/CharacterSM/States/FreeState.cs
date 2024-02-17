@@ -8,7 +8,7 @@ public class FreeState : CharacterState
 
     public override void OnEnter()
     {
-        //Debug.Log("Entering FreeState");
+        Debug.Log("Entering FreeState");
     }
 
     public override void OnFixedUpdate()
@@ -286,6 +286,10 @@ public class FreeState : CharacterState
 
     public override bool CanEnter(GM_IState currentState)
     {
+        if (currentState is NoGameplayState)
+        {
+            return true;
+        }
         if (currentState is JumpState)
         {
             return m_stateMachine.IsInContactWithFloor();

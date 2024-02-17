@@ -133,6 +133,8 @@ public class BombNetwork : NetworkBehaviour
             RPC_AddExplosionForce(collidedGoIdx);
         }
 
+        //Ajouter particle effect 
+
         NetworkServer.Destroy(gameObject);
     }
 
