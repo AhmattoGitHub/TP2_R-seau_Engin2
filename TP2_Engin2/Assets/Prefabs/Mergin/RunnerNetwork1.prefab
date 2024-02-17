@@ -931,7 +931,7 @@ GameObject:
   - component: {fileID: 4061196981865950904}
   - component: {fileID: 3695185761914428099}
   m_Layer: 0
-  m_Name: RunnerNetwork
+  m_Name: RunnerNetwork1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

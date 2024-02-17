@@ -152,12 +152,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  m_bulletPrefab: {fileID: 4528891954548822954, guid: ab9f301df18e44942ada9d1a724ee360, type: 3}
   m_bombPrefab: {fileID: 8334479332174648469, guid: f60638f0369ac0f46a748fd2852c187a, type: 3}
+  m_bigBombPrefab: {fileID: 0}
   m_camera: {fileID: 0}
-  m_bulletCooldownTimer: 0
   m_bombCooldownTimer: 0
-  m_bulletCooldownTimerMax: 2
   m_bombCooldownTimerMax: 0
 --- !u!1 &7801236210693632701
 GameObject:
@@ -361,7 +359,7 @@ GameObject:
   - component: {fileID: 9023788467943856908}
   - component: {fileID: 5160537667120543708}
   m_Layer: 0
-  m_Name: ShooterNetwork
+  m_Name: ShooterNetwork1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
