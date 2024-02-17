@@ -212,6 +212,8 @@ public class NetworkMatchManager : NetworkBehaviour
             }
 
             //logique de défaite des shooters
+
+
         }
     }
 
