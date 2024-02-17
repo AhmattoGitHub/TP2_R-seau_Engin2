@@ -30,6 +30,12 @@ public class Identifier : MonoBehaviour
     {
         foreach (Transform child in root)
         {
+            if (child.GetComponent<TriggerForPlayer>())
+            {
+                continue;
+            }
+            
+            
             Object obj = new Object(ReceiveID(), child.gameObject);
             m_objectsList.Add(obj);
             //Debug.Log(obj.gameObject.name + "   " + obj.uniqueID);
@@ -74,7 +80,7 @@ public class Identifier : MonoBehaviour
     }
 }
 
-[Serializable]
+//[Serializable]
 public struct Object
 {
     public Object(int _uniqueID, GameObject _gameObject){

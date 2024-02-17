@@ -13,11 +13,14 @@ public class NetManagerCustom : NetworkManager
 
     [SerializeField] private GameObject shooterPrefab;
     [SerializeField] private GameObject runnerPrefab;
-    [SerializeField] private GameObject m_platformPrefab;
+    [SerializeField] private List<Vector3> runnerSpawns;
+    private int runnerSpawnsIndex = 0;
+    [SerializeField] private GameObject m_levelPrefab;
     [SerializeField] private bool spawnRunner = true;
     [SerializeField] private bool testing = false;
 
     [SerializeField] private GameObject m_spawner;
+
 
 
     public override void Awake()
@@ -51,10 +54,16 @@ public class NetManagerCustom : NetworkManager
             }
             else
             {
-                OnServerAddPlayer(conn, shooterPrefab);
+                var player = Instantiate(shooterPrefab, shooterPrefab.transform.position, shooterPrefab.transform.rotation);
+
+                player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+                NetworkServer.AddPlayerForConnection(conn, player);
+
+
+                //OnServerAddPlayer(conn, shooterPrefab);
             }
-            
-            
+
+
             //if (conn.identity.isLocalPlayer)
             //{
             //    var spawner = Instantiate(m_spawner);
@@ -62,8 +71,8 @@ public class NetManagerCustom : NetworkManager
             //
             //    m_identifier = spawner.GetComponent<Identifier>();
             //}
-            
-            
+
+
             return;
         }
 
@@ -75,7 +84,8 @@ public class NetManagerCustom : NetworkManager
         Debug.Log("trying to change :  " + conn.m_name);
         if (conn.m_tag == "Runner")
         {
-            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab), true);
+            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab, runnerSpawns[runnerSpawnsIndex], Quaternion.identity), true);
+            runnerSpawnsIndex++;
             conn.m_isInMainLevel = true;
 
         }
@@ -83,6 +93,7 @@ public class NetManagerCustom : NetworkManager
         {
             NetworkServer.ReplacePlayerForConnection(conn, Instantiate(shooterPrefab), true);
             conn.m_isInMainLevel = true;
+
         }
 
         int mainLevelCounter = 0;
@@ -96,6 +107,10 @@ public class NetManagerCustom : NetworkManager
 
         if (mainLevelCounter == LobbyManager.Instance.GetList().Count)
         {
+            //All players ready in scene
+            MatchManager.SetConnectedPlayersList(LobbyManager.Instance.GetList());
+            MatchManager.LaunchGame();
+            
             NetworkServer.Destroy(LobbyManager.Instance.gameObject);
         }
     }
@@ -109,13 +124,11 @@ public class NetManagerCustom : NetworkManager
             return;
         }
 
-
         var spawner = m_spawner.GetComponent<NetworkSpawner>();
         if (spawner != null)
         {
             spawner.Spawn();
         }
-
     }
 
     public override void OnValidate()
@@ -132,6 +145,11 @@ public class NetManagerCustom : NetworkManager
             Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
             runnerPrefab = null;
         }
+        if (m_levelPrefab != null && !m_levelPrefab.TryGetComponent(out NetworkIdentity _))
+        {
+            Debug.LogError("NetworkManager - Player Prefab must have a NetworkIdentity.");
+            m_levelPrefab = null;
+        }
         
         if (shooterPrefab != null && spawnPrefabs.Contains(shooterPrefab))
         {
@@ -143,6 +161,24 @@ public class NetManagerCustom : NetworkManager
             Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
             spawnPrefabs.Remove(runnerPrefab);
         }
+        if (m_levelPrefab != null && spawnPrefabs.Contains(m_levelPrefab))
+        {
+            Debug.LogWarning("NetworkManager - Player Prefab doesn't need to be in Spawnable Prefabs list too. Removing it.");
+            spawnPrefabs.Remove(m_levelPrefab);
+        }
+    }
+
+    GameObject SpawnLevel(SpawnMessage msg)
+    {
+        var level = Instantiate(m_levelPrefab, m_spawner.transform);
+        Identifier.AssignAllIds(m_spawner.transform);
+
+        return level;
+    }
+
+    public void UnSpawnLevel(GameObject spawned)
+    {
+        Destroy(spawned);
     }
 
     public override void RegisterClientMessages()
@@ -153,6 +189,10 @@ public class NetManagerCustom : NetworkManager
             NetworkClient.RegisterPrefab(shooterPrefab);
         if (runnerPrefab != null)
             NetworkClient.RegisterPrefab(runnerPrefab);
+        if (m_levelPrefab != null)
+        {
+            NetworkClient.RegisterPrefab(m_levelPrefab, SpawnLevel, UnSpawnLevel);
+        }
     }
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
@@ -179,7 +219,7 @@ public class NetManagerCustom : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        Debug.Log("OnserverAddPlayer");
+        //Debug.Log("OnserverAddPlayer");
         base.OnServerAddPlayer(conn);
         conn.identity.name = "";
         LobbyManager.Instance.AddToConnections(conn);

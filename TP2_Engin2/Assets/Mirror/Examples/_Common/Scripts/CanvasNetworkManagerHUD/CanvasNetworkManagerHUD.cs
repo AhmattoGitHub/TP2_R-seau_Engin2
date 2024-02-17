@@ -27,7 +27,6 @@ namespace Mirror.Examples.Common
         {
             // Init the input field with Network Manager's network address.
             inputNetworkAddress.text = NetworkManager.singleton.networkAddress;
-
             RegisterListeners();
 
             //RegisterClientEvents();

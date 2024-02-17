@@ -10,15 +10,20 @@ public class BombNetwork : NetworkBehaviour
     [SerializeField] private float m_projectileSpeed = 100;
     [SerializeField] private float m_explosionForce = 10;
     [SerializeField] private float m_explosionRadius = 10;
-    [SerializeField] private float m_explosionTimer = 5;
+    [SerializeField] private float m_destroyTime = 10;
+    [SerializeField] private float m_explosionTime = 2;
     [SerializeField] private float m_height = 20;
+    [SerializeField] private float m_expansionDivider = 3;
     [SerializeField] private Rigidbody m_rb;
 
-    private float m_timer = 0;
+    private float m_destroyTimer = 0;
+    private float m_explosionTimer = 0;
+    private bool m_stuck = false;
 
     void Start()
     {
-        m_timer = m_explosionTimer;
+        m_destroyTimer = m_destroyTime;
+        m_explosionTimer = m_explosionTime;
 
     }
 
@@ -41,31 +46,57 @@ public class BombNetwork : NetworkBehaviour
         {
             return;
         }
-
         if (collision.gameObject.GetComponent<BombNetwork>() != null)
         {
             NetworkServer.Destroy(gameObject);  //EXPLODE
             return;
         }
+        if (collision.gameObject.GetComponent<RotatingArmAddForce>() != null)
+        {
+            NetworkServer.Destroy(gameObject);  //EXPLODE
+            return;
+        }
+        if (m_stuck)
+        {
+            return;
+        }
+
+
+
 
         m_rb.velocity = Vector3.zero;
-        Debug.Log(collision.gameObject.name);
+
+        //Debug.Log("collision name: " + collision.gameObject.name);
         int collidedGoIdx = NetManagerCustom._Instance.Identifier.GetIndex(collision.collider.gameObject);
-        Debug.Log(collidedGoIdx);
+        //Debug.Log("collided object idx: " + collidedGoIdx);
         CMD_SetParent(collision.transform.root, collidedGoIdx);
+        m_stuck = true;
+        transform.position = collision.contacts[0].point;
     }
 
 
     [Server]
     private void HandleTimer()
     {
-        if (m_timer < 0)
+        if (m_stuck)
+        {
+            if (m_explosionTimer < 0)
+            {
+                CMD_Explode();
+                return;
+            }
+            CMD_Expand();
+            m_explosionTimer -= Time.deltaTime;
+        }
+        
+        if (m_destroyTimer < 0)
         {
             //CMD_Explode();
             NetworkServer.Destroy(gameObject);
             return;
         }
-        m_timer -= Time.deltaTime;
+        m_destroyTimer -= Time.deltaTime;
+
     }
 
     [Command(requiresAuthority = false)]
@@ -77,23 +108,32 @@ public class BombNetwork : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CMD_Explode()
     {
+        Debug.Log("explode");
         var surroundingObjects = Physics.OverlapSphere(transform.position, m_explosionRadius);
 
         foreach (var obj in surroundingObjects)
         {
             // Needs to affect only characterPlayers
-            // Basic implementation would be to check tag
-            // if (obj.gameObject.tag != "CharacterPlayer") continue;
+
+            if (obj.GetComponent<SpawnLocalPlayer>() == null)
+            {
+                continue;
+            }
 
             var rb = obj.GetComponent<Rigidbody>();
+            //Debug.Log(rb.gameObject.name);
             if (rb == null || rb == m_rb)
             {
                 continue;
             }
 
-
             rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);
+
+            int collidedGoIdx = NetManagerCustom._Instance.Identifier.GetIndex(rb.gameObject);
+            RPC_AddExplosionForce(collidedGoIdx);
         }
+
+        //Ajouter particle effect 
 
         NetworkServer.Destroy(gameObject);
     }
@@ -104,7 +144,7 @@ public class BombNetwork : NetworkBehaviour
         transform.SetParent(collidedTransformRoot);
 
         var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedObjIdx);
-        Debug.Log(go.name);
+        //Debug.Log("CMD: setting parent: " + go.name);
         transform.SetParent(go.transform);
 
         RPC_SetParent(collidedTransformRoot, collidedObjIdx);
@@ -118,9 +158,50 @@ public class BombNetwork : NetworkBehaviour
         transform.SetParent(collidedTransformRoot);
 
         var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedObjIdx);
-        Debug.Log(go.name);
+        //Debug.Log("RPC: setting parent: " + go.name);
         transform.SetParent(go.transform);
         gameObject.SetActive(true);
 
+    }
+
+    //[Command(requiresAuthority = false)]
+    private void CMD_Expand()
+    {
+        float expansion = Time.deltaTime / m_expansionDivider;
+        transform.localScale += new Vector3(expansion * transform.localScale.x, expansion * transform.localScale.y, expansion * transform.localScale.z);
+    }
+
+    //[Command(requiresAuthority = false)]
+    //private void CMD_AddExplosionForce(int collidedGoIdx)
+    //{
+    //    Debug.Log("cmd add explosion force");
+    //
+    //    var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedGoIdx);
+    //    var rb = go.GetComponent<Rigidbody>();
+    //
+    //    if (rb == null)
+    //    {
+    //        Debug.Log("no rb");
+    //        return;
+    //    }
+    //    rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);
+    //
+    //    RPC_AddExplosionForce(collidedGoIdx);
+    //}
+
+    [ClientRpc]
+    private void RPC_AddExplosionForce(int collidedGoIdx)
+    {
+        Debug.Log("rpc add explosion force");
+
+        var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedGoIdx);
+        var rb = go.GetComponent<Rigidbody>();
+
+        if (rb == null)
+        {
+            Debug.Log("no rb");
+            return;
+        }
+        rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);
     }
 }

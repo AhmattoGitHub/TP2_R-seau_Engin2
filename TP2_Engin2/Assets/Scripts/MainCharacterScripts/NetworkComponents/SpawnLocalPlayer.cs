@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class SpawnLocalPlayer : NetworkBehaviour
 {
+    //[SerializeField] private GameObject m_localCinematicPrefab;
+    [SerializeField] private GameObject m_cinematicGo;
     [SerializeField] private GameObject m_localPlayerPrefab;
     [SerializeField] private bool isRunner;
 
@@ -35,6 +37,8 @@ public class SpawnLocalPlayer : NetworkBehaviour
             childSM.SetAnimator(m_animator);
             childSM.SetRigidbody(m_rb);
             childSM.SetParentGo(gameObject);
+            childSM.SetCinematicCamera(m_cinematicGo);
+
 
         }
         else
@@ -47,6 +51,9 @@ public class SpawnLocalPlayer : NetworkBehaviour
 
             var camera = go.GetComponentInChildren<Camera>();
             m_shooter.SetCamera(camera);
+
+            childController.SetCinematicCamera(m_cinematicGo);
+
         }
     }
 }

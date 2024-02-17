@@ -49,6 +49,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  m_isTesting: 0
   m_spawnPlatform: 1
   m_platformPrefab: {fileID: 3421798718822270314, guid: d768203359410144082e59d62432eab5, type: 3}
   m_spawnDummy: 0
@@ -56,6 +57,13 @@ MonoBehaviour:
   m_dummyPrefabPosition: {x: 0, y: 2, z: 0}
   m_spawnCubes: 1
   m_cubesPrefab: {fileID: 1435118402138463490, guid: f269fb0cbf6d88b4bba89d576a9a21d2, type: 3}
+  m_spawnMapBounds: 0
+  m_verticalMapBoundsTrigger: {fileID: 0}
+  m_spawnWinTrigger: 0
+  m_winBoundTrigger: {fileID: 0}
+  m_spawnRotatingPlatform: 0
+  m_rotatingPlatformPrefab: {fileID: 0}
+  m_rotatingPlatformPosition: {x: 0, y: 0, z: 0}
   m_identifier: {fileID: 7161104325266306727}
 --- !u!114 &6499311961674547498
 MonoBehaviour:
@@ -88,3 +96,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_instanceID: 0
+  m_objectsList: []

@@ -169,7 +169,10 @@ public class LobbyManager : NetworkBehaviour
     {
         foreach (var player in m_connectedPlayers)
         {
-            RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.m_name);
+            if (player.m_tag == "Runner" || player.m_tag == "Shooter")
+            {
+                RpcUpdateSlotsNameUI(player.m_uiSlotIndex, player.m_name);
+            }
         }
     }
     [ClientRpc]
@@ -196,6 +199,11 @@ public class LobbyManager : NetworkBehaviour
     }
     public void CheckIfTeamsAreFull()
     {
+        if (m_shooterButton == null)
+        {
+            return;
+        }
+        
         if(m_numberOfRunners == 2)
         {
             m_runnerButton.gameObject.SetActive(false);
@@ -311,7 +319,7 @@ public class LobbyManager : NetworkBehaviour
             return;
         }
 
-        Debug.Log("Change scene");
+        //Debug.Log("Change scene");
         //LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
         m_changeSceneCalled = true;
         m_networkManager.ServerChangeScene("MainLevel");

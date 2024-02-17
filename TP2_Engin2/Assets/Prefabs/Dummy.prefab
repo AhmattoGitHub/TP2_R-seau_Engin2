@@ -749,6 +749,7 @@ GameObject:
   - component: {fileID: 6560711064399675556}
   - component: {fileID: 5546208722051530794}
   - component: {fileID: 2388116251524361779}
+  - component: {fileID: 3555647440952750876}
   - component: {fileID: 677401656242233771}
   - component: {fileID: 4612625035685900321}
   - component: {fileID: 2146880813518127494}
@@ -785,9 +786,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2203433315003131131}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 0.05
+  m_Mass: 100
+  m_Drag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -820,13 +821,34 @@ CapsuleCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 3.5217566
+  m_Radius: 0.29475605
+  m_Height: 2.6007264
   m_Direction: 1
-  m_Center: {x: 0, y: 1.8273726, z: 0}
+  m_Center: {x: 0.0045185685, y: 1.3668574, z: 0.029690236}
+--- !u!135 &3555647440952750876
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203433315003131131}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.4113865
+  m_Center: {x: 0, y: 3.1244845, z: 0.0222345}
 --- !u!114 &677401656242233771
 MonoBehaviour:
   m_ObjectHideFlags: 0
