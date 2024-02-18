@@ -204,7 +204,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         foreach (var connPlayer in ConnectedPlayers)
         {
-            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiManager>();
+            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiWinLoseController>();
             if (connPlayer.m_tag == "Runner" && uiManager != null)
             {
                 uiManager.RPC_EnableVictoryScreen();
@@ -221,7 +221,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         foreach (var connPlayer in ConnectedPlayers)
         {
-            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiManager>();
+            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiWinLoseController>();
             if (connPlayer.m_tag == "Shooter" && uiManager != null)
             {
                 uiManager.RPC_EnableVictoryScreen();
