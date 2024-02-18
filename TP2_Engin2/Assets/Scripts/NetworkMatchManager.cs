@@ -64,7 +64,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         if (m_gameTimer < 0)
         {
-            ShooterWin();
+            CMD_ShooterWin();
             return;
         }
         m_gameTimer -= Time.deltaTime;
@@ -172,7 +172,7 @@ public class NetworkMatchManager : NetworkBehaviour
                 RespawnPlayerRandomCircle(player);
                 break;
             case E_TriggerTypes.Win:
-                RunnerWin(player);
+                CMD_RunnerWin();
                 break;
             default:
                 break;
@@ -199,37 +199,39 @@ public class NetworkMatchManager : NetworkBehaviour
         return new Vector2(x, y);
     }
 
-    [ClientRpc] //?
-    private void RunnerWin(GameObject player)
+    [Command(requiresAuthority = false)]
+    private void CMD_RunnerWin()
     {
         foreach (var connPlayer in ConnectedPlayers)
         {
-            if (connPlayer.m_tag == "Runner")
+            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiManager>();
+            if (connPlayer.m_tag == "Runner" && uiManager != null)
             {
-                //var manager = connPlayer.identity.gameObject.GetComponent<UIManager>();
-                // manager.EnableVictoryScreen()
-                continue;
+                uiManager.RPC_EnableVictoryScreen();
             }
-
-            //logique de défaite des shooters
-        }
+            else
+            {
+                uiManager.RPC_EnableDefeatScreen();
+            }
+        }        
     }
 
-    [ClientRpc] //?
-    private void ShooterWin()
+    [Command(requiresAuthority = false)]
+    private void CMD_ShooterWin()
     {
         foreach (var connPlayer in ConnectedPlayers)
         {
-            if (connPlayer.m_tag == "Shooter")
+            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiManager>();
+            if (connPlayer.m_tag == "Shooter" && uiManager != null)
             {
-                //var manager = connPlayer.identity.gameObject.GetComponent<UIManager>();
-                // manager.EnableVictoryScreen()
-                continue;
+                uiManager.RPC_EnableVictoryScreen();
             }
-
-            //logique de défaite des runners
+            else
+            {
+                uiManager.RPC_EnableDefeatScreen();
+            }
         }
-    }
+    }   
 
 }
 
