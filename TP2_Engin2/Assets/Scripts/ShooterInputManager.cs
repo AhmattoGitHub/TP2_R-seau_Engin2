@@ -36,94 +36,31 @@ public class ShooterInputManager : NetworkBehaviour
     }
 
     [Command(requiresAuthority =false)]
-    public void CMDHandleActivateInput(KeyCode input)
+    public void CMDHandleArrowInput(KeyCode input, NetworkConnectionToClient player = null)
     {
-        if(input  == KeyCode.W) 
+        int index = player.m_uiSlotIndex - 2;
+        if(input == KeyCode.Alpha1)
         {
-            ShooterUIManager.Instance.ActivateArrow(0);
-            RPCHandleActivateInput(input);
+            ShooterUIManager.Instance.MovePlayerArrow(index, false);
+            RPCHandleActivateInput(input,index);
         }
-        if (input == KeyCode.D)
+        else if(input == KeyCode.Alpha2)
         {
-            ShooterUIManager.Instance.ActivateArrow(1);
-            RPCHandleActivateInput(input);
-        }
-        if (input == KeyCode.S)
-        {
-            ShooterUIManager.Instance.ActivateArrow(2);
-            RPCHandleActivateInput(input);
-        }
-        if (input == KeyCode.A)
-        {
-            ShooterUIManager.Instance.ActivateArrow(3);
-            RPCHandleActivateInput(input);
+            ShooterUIManager.Instance.MovePlayerArrow(index, true);
+            RPCHandleActivateInput(input,index);
         }
     }
 
     [ClientRpc]
-    public void RPCHandleActivateInput(KeyCode input)
+    public void RPCHandleActivateInput(KeyCode input,int index)
     {
-        if (input == KeyCode.W)
+        if (input == KeyCode.Alpha1)
         {
-            ShooterUIManager.Instance.ActivateArrow(0);
+            ShooterUIManager.Instance.MovePlayerArrow(index, false);
         }
-        if (input == KeyCode.D)
+        else if (input == KeyCode.Alpha2)
         {
-            ShooterUIManager.Instance.ActivateArrow(1);
-        }
-        if (input == KeyCode.S)
-        {
-            ShooterUIManager.Instance.ActivateArrow(2);
-        }
-        if (input == KeyCode.A)
-        {
-            ShooterUIManager.Instance.ActivateArrow(3);
-        }
-    }
-
-    [Command(requiresAuthority =false)]
-    public void CMDHandleDeactivateInput(KeyCode input)
-    {
-        if (input == KeyCode.W)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(0);
-            RPCHandleDeactivateInput(input);
-        }
-        if (input == KeyCode.D)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(1);
-            RPCHandleDeactivateInput(input);
-        }
-        if (input == KeyCode.S)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(2);
-            RPCHandleDeactivateInput(input);
-        }
-        if (input == KeyCode.A)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(3);
-            RPCHandleDeactivateInput(input);
-        }
-    }
-
-    [ClientRpc]
-    public void RPCHandleDeactivateInput(KeyCode input)
-    {
-        if (input == KeyCode.W)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(0);
-        }
-        if (input == KeyCode.D)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(1);
-        }
-        if (input == KeyCode.S)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(2);
-        }
-        if (input == KeyCode.A)
-        {
-            ShooterUIManager.Instance.DeactivateArrow(3);
+            ShooterUIManager.Instance.MovePlayerArrow(index, true);
         }
     }
 }
