@@ -10,3 +10,4 @@ public class AutoDestroy : MonoBehaviour
         Destroy(gameObject, m_timer);
     }
 }
+
