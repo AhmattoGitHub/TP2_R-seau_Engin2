@@ -246,3 +246,4 @@ MonoBehaviour:
   m_height: 5
   m_expansionDivider: 2
   m_rb: {fileID: 7486974967253324845}
+  m_explosionVFX: {fileID: 4482334856273476064, guid: 1fad64e823ab9d548aee4082b3958897, type: 3}
