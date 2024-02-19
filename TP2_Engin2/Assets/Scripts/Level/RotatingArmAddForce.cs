@@ -1,11 +1,13 @@
 using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RotatingArmAddForce : MonoBehaviour
 {
     [SerializeField] private float m_impulseForce;
     [SerializeField] private Transform m_tower;
+
+    private float m_towerSpeed = 0.0f;
+    private Rotate m_towerRotate = null;
 
     //void OnCollisionEnter(Collision collision)
     //{
@@ -27,6 +29,12 @@ public class RotatingArmAddForce : MonoBehaviour
     //    
     //}
 
+    private void Start()
+    {
+        m_towerRotate = m_tower.GetComponent<Rotate>();
+        m_towerSpeed = m_towerRotate.RotationSpeed;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         //if (!isServer)
@@ -41,7 +49,18 @@ public class RotatingArmAddForce : MonoBehaviour
             Debug.Log("addforce");
 
             //runner.Rb.AddForce(m_tower.right * m_impulseForce, ForceMode.Impulse);
-            runner.AddImpulseForce(m_tower.right, m_impulseForce);
+            //runner.AddImpulseForce(m_tower.right, m_impulseForce);
+
+            if (m_towerSpeed > 0 )
+            {
+                runner.AddImpulseForce(m_tower.right, m_impulseForce);
+            }
+            if (m_towerSpeed < 0)
+            {
+                runner.AddImpulseForce(-m_tower.right, m_impulseForce);
+            }
+
+
         }
 
     }
