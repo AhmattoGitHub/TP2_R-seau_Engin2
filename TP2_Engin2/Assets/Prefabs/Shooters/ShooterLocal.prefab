@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8c163b3b609834e96954c866f89c0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_cooldownDisplay: {fileID: 5735543811722865369}
   m_go: {fileID: 0}
   m_camera: {fileID: 5260066427887703831}
   m_cinematicCamera: {fileID: 0}

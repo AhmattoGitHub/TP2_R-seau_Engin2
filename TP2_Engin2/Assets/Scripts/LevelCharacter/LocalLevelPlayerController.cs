@@ -5,6 +5,7 @@ public class LocalLevelPlayerController : MonoBehaviour
     private NetworkPlatformManager m_platformController = null;
     private NetworkLevelPlayerController m_networkComponent;
 
+    [SerializeField] private DisplayProjectileCooldown m_cooldownDisplay;
     [SerializeField] private GameObject m_go;
     [SerializeField] private Camera m_camera;
     [SerializeField] private Camera m_cinematicCamera;
@@ -170,5 +171,11 @@ public class LocalLevelPlayerController : MonoBehaviour
     public void SetCinematicCamera(GameObject go)
     {
         m_cinematicCamera = go.GetComponent<Camera>();
+    }
+
+    public void SetCooldownDisplay(/*DisplayProjectileCooldown DisplayScript,*/ Shooter shooterScript)
+    {
+        //m_cooldownDisplay = DisplayScript;
+        m_cooldownDisplay.SetShooterScript(shooterScript);
     }
 }
