@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using TMPro;
+using kcp2k;
 
 namespace Mirror.Examples.Common
 {
@@ -22,11 +23,15 @@ namespace Mirror.Examples.Common
         [SerializeField] private TMP_Text statusText;
 
         [SerializeField] private TMP_InputField inputNetworkAddress;
+        [SerializeField] private TMP_InputField inputTransportPort;
+
+        [SerializeField] private KcpTransport transport;
 
         private void Start()
         {
             // Init the input field with Network Manager's network address.
-            inputNetworkAddress.text = NetworkManager.singleton.networkAddress;
+            //inputNetworkAddress.text = NetworkManager.singleton.networkAddress;
+            //inputTransportPort.text = transport.port.ToString();
             RegisterListeners();
 
             //RegisterClientEvents();
@@ -46,6 +51,7 @@ namespace Mirror.Examples.Common
             // Add input field listener to update NetworkManager's Network Address
             // when changed.
             inputNetworkAddress.onValueChanged.AddListener(delegate { OnNetworkAddressChange(); });
+            inputTransportPort.onValueChanged.AddListener(delegate { OnTransportPortChange(); });
         }
 
         // Not working at the moment. Can't register events.
@@ -170,9 +176,22 @@ namespace Mirror.Examples.Common
             NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
         }
 
+        public void OnTransportPortChange()
+        {
+            try
+            {
+                transport.port = ushort.Parse(inputTransportPort.text);
+            }
+            catch
+            {
+                Debug.Log("Invalid port format!");
+            }
+        }
+
         private void Update()
         {
             RefreshHUD();
+            Debug.Log(NetworkManager.singleton.networkAddress + " " + transport.port.ToString());
         }
 
         /* This does not work because we can't register the handler.
