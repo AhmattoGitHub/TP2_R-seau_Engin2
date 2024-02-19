@@ -19,6 +19,8 @@ public class Shooter : NetworkBehaviour
 
     void Update()
     {
+        //Check for nonGameplay
+        
         if (!isLocalPlayer)
         {
             return;
@@ -65,16 +67,24 @@ public class Shooter : NetworkBehaviour
                     break;
             }
         }
+        HandleInput();
+        m_bombCooldownTimer -= Time.deltaTime;
+    }
+
+    private void HandleInput()
+    {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             m_currentProjectile = EProjectileType.Bomb;
+            NetworkMatchManager._Instance.ChangeArrows(false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            m_currentProjectile = EProjectileType.BigBomb;
+            m_currentProjectile = EProjectileType.BigBomb; 
+            NetworkMatchManager._Instance.ChangeArrows(true);
+            Debug.Log("called matchmanager");
         }
 
-        m_bombCooldownTimer -= Time.deltaTime;
     }
 
     [Command(requiresAuthority = false)]

@@ -35,43 +35,43 @@ public class ShooterInputManager : NetworkBehaviour
         }
     }
 
-    [Command(requiresAuthority = false)]
-    public void CMDHandleArrowInput(KeyCode input, NetworkConnectionToClient player = null)
-    {
-        int index = player.m_uiSlotIndex - 2;
-        if (input == KeyCode.Alpha1)
-        {
-            var Shooter = ShooterUIManager.Instance;
-            if (Shooter == null)
-            {
-                Debug.Log("singleton null");
-            }
-            ShooterUIManager.Instance.MovePlayerArrow(index, false);
-            RPCHandleActivateInput(input, index);
-        }
-        else if (input == KeyCode.Alpha2)
-        {
-            var Shooter = ShooterUIManager.Instance;
-            if (Shooter == null)
-            {
-                Debug.Log("singleton null");
-            }
-
-            ShooterUIManager.Instance.MovePlayerArrow(index, true);
-            RPCHandleActivateInput(input, index);
-        }
-    }
-
-    [ClientRpc]
-    public void RPCHandleActivateInput(KeyCode input, int index)
-    {
-        if (input == KeyCode.Alpha1)
-        {
-            ShooterUIManager.Instance.MovePlayerArrow(index, false);
-        }
-        else if (input == KeyCode.Alpha2)
-        {
-            ShooterUIManager.Instance.MovePlayerArrow(index, true);
-        }
-    }
+    //[Command(requiresAuthority = false)]
+    //public void CMDHandleArrowInput(KeyCode input, NetworkConnectionToClient player = null)
+    //{
+    //    int index = player.m_uiSlotIndex - 2;
+    //    if (input == KeyCode.Alpha1)
+    //    {
+    //        var Shooter = ShooterUIManager.Instance;
+    //        if (Shooter == null)
+    //        {
+    //            Debug.Log("singleton null");
+    //        }
+    //        ShooterUIManager.Instance.MovePlayerArrow(index, false);
+    //        RPCHandleActivateInput(input, index);
+    //    }
+    //    else if (input == KeyCode.Alpha2)
+    //    {
+    //        var Shooter = ShooterUIManager.Instance;
+    //        if (Shooter == null)
+    //        {
+    //            Debug.Log("singleton null");
+    //        }
+    //
+    //        ShooterUIManager.Instance.MovePlayerArrow(index, true);
+    //        RPCHandleActivateInput(input, index);
+    //    }
+    //}
+    //
+    //[ClientRpc]
+    //public void RPCHandleActivateInput(KeyCode input, int index)
+    //{
+    //    if (input == KeyCode.Alpha1)
+    //    {
+    //        ShooterUIManager.Instance.MovePlayerArrow(index, false);
+    //    }
+    //    else if (input == KeyCode.Alpha2)
+    //    {
+    //        ShooterUIManager.Instance.MovePlayerArrow(index, true);
+    //    }
+    //}
 }

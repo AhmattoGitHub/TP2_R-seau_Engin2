@@ -231,7 +231,32 @@ public class NetworkMatchManager : NetworkBehaviour
                 uiManager.RPC_EnableDefeatScreen();
             }
         }
-    }   
+    }
 
+    [Command(requiresAuthority = false)]
+    public void ChangeArrows(bool shootingBomb, NetworkConnectionToClient player = null)
+    {
+        Debug.Log("In changeArrows");
+
+        int index = player.m_uiSlotIndex - 2;
+
+        foreach (var connPlayer in ConnectedPlayers)
+        {
+            if (connPlayer.m_tag == "Runner")
+            {
+
+                continue;
+            }
+
+            var manager = connPlayer.identity.gameObject.GetComponentInChildren<NetworkLevelPlayerController>();
+            if (manager == null)
+            {
+                Debug.Log("manager null");
+                continue;
+            }
+            Debug.Log("calling rpc");
+            manager.TargetMovePlayerArrow(this.netIdentity.connectionToClient, index, shootingBomb);
+        }
+    }
 }
 
