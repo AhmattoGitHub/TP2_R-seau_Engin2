@@ -236,6 +236,8 @@ public class NetworkMatchManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void ChangeArrows(bool shootingBomb, NetworkConnectionToClient player = null)
     {
+
+
         Debug.Log("In changeArrows");
 
         int index = player.m_uiSlotIndex - 2;
