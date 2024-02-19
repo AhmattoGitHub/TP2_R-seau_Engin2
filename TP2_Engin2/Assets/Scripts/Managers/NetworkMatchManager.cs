@@ -137,27 +137,6 @@ public class NetworkMatchManager : NetworkBehaviour
         return m_shootBombTimer / m_maxShootBombTimer;
     }
 
-    public float GetLocalPlayerBulletRemainingPercentage() //function to call for shooting bullet timer (between 0 & 1) : NetManagerCustom.Instance.MatchManager.GetLocalPlayerBulletRemainingPercentage();
-    {
-        foreach (var player in ConnectedPlayers)
-        {
-            if (!player.identity.isLocalPlayer)
-            {
-                continue;
-            }
-            var shooterScript = player.identity.gameObject.GetComponentInChildren<Shooter>();
-            if (shooterScript == null)
-            {
-                Debug.LogError("Player not found");
-                return -1.0f;
-            }
-            return shooterScript.GetBulletRemainingPercentage();
-        }
-
-        Debug.LogError("Player not found");
-        return -1.0f;
-    }
-
     public bool GetPermissionToShoot()
     {
         if (m_canShootBomb)

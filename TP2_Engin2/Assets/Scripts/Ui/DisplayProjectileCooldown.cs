@@ -9,11 +9,12 @@ public class DisplayProjectileCooldown : MonoBehaviour
     private Image m_bombCooldownImage;
     [SerializeField]
     private Image m_bigBombCooldownImage;
+    private Shooter m_shooterScript;
 
     // Update is called once per frame
     void Update()
     {
-        UpdateBombCooldownImage(NetworkMatchManager._Instance.GetLocalPlayerBulletRemainingPercentage());
+        UpdateBombCooldownImage(m_shooterScript.GetBulletRemainingPercentage());
         UpdateBigBombCooldownImage(NetworkMatchManager._Instance.GetBombRemainingPercentage());
     }
 
@@ -25,5 +26,10 @@ public class DisplayProjectileCooldown : MonoBehaviour
     private void UpdateBigBombCooldownImage(float cooldown)
     {
         m_bigBombCooldownImage.fillAmount = cooldown;
+    }
+
+    public void SetShooterScript(Shooter script)
+    {
+        m_shooterScript = script;
     }
 }
