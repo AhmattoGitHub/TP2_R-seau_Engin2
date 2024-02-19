@@ -2424,8 +2424,8 @@ MonoBehaviour:
   <InAirMaxVelocity>k__BackingField: 10
   <MaxNoDamageFall>k__BackingField: 10
   <RotationSpeed>k__BackingField: 5
-  <Stamina>k__BackingField: 200
-  <StaminaMaxValue>k__BackingField: 200
+  <Stamina>k__BackingField: 100
+  <StaminaMaxValue>k__BackingField: 100
   <ObjectToLookAt>k__BackingField: {fileID: 4928195406050657157}
   <MC>k__BackingField: {fileID: 2096930612547086335}
   m_groundCollider: {fileID: 8540017536000206558}
@@ -3197,6 +3197,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4231010274480701079, guid: 434994a0419791046828a2401ba9b6c6, type: 3}
+      propertyPath: m_player
+      value: 
+      objectReference: {fileID: 2096930612547086335}
     - target: {fileID: 5129772274516177684, guid: 434994a0419791046828a2401ba9b6c6, type: 3}
       propertyPath: m_Name
       value: RunnerCanvas

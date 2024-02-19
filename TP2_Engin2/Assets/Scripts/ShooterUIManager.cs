@@ -8,92 +8,128 @@ using UnityEngine.UI;
 
 public class ShooterUIManager : NetworkBehaviour
 {
-    private static ShooterUIManager _instance;
+    //private static ShooterUIManager _instance;
 
     [SerializeField]
     private Image[] m_playerArrows;
     [SerializeField]
     private Image[] m_platformArrows;
 
-    // Property to access the singleton instance
-    public static ShooterUIManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                Debug.LogError("There is no Instance");
-            }
-            return _instance;
-        }
-    }
+    private Vector3 m_arrowOneInitialPosition = new Vector3();
 
-    private void Awake()
+    private Vector3 m_arrowTwoInitialPosition = new Vector3();
+    [SerializeField]
+    private GameObject m_shooterCanvas;
+
+    // Property to access the singleton instance
+    //public static ShooterUIManager Instance
+    //{
+    //    get
+    //    {
+    //        if (_instance == null)
+    //        {
+    //            Debug.LogError("There is no Instance");
+    //        }
+    //        return _instance;
+    //    }
+    //}
+
+    //private void Awake()
+    //{
+    //    if (_instance != null && _instance != this)
+    //    {
+    //        Destroy(this.gameObject);
+    //    }
+    //    else
+    //    {
+    //        _instance = this;
+    //        DontDestroyOnLoad(this.gameObject);
+    //    }
+    //}
+
+    private void Start()
     {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-            //DontDestroyOnLoad(this.gameObject);
-        }
+        m_arrowOneInitialPosition = m_playerArrows[0].gameObject.transform.localPosition;
+        m_arrowTwoInitialPosition = m_playerArrows[1].gameObject.transform.localPosition;
     }
 
     private void Update()
     {
-        //CheckForPlatformKey();
-        //CheckForPlatformKeyUp();
+        //CheckForInput();
     }
 
-    /*private void CheckForPlatformKey()
+    //private void CheckForInput()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        ShooterInputManager.Instance.CMDHandleArrowInput(KeyCode.Alpha1);
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    {
+    //        ShooterInputManager.Instance.CMDHandleArrowInput(KeyCode.Alpha2);
+    //    }
+    //}
+    public void MovePlayerArrow(int index, bool selectingBomb)
     {
-        if (Input.GetKey(KeyCode.W))
+        if (selectingBomb)
         {
-            ShooterInputManager.Instance.CMDHandleActivateInput(KeyCode.W);
+            m_playerArrows[index].transform.localPosition = new Vector3(17.5f, 111, 0);
+            CMDMovePlayerArrow(index, selectingBomb);
         }
-        if (Input.GetKey(KeyCode.D))
+        else
         {
-            ShooterInputManager.Instance.CMDHandleActivateInput(KeyCode.D);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            ShooterInputManager.Instance.CMDHandleActivateInput(KeyCode.S);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            ShooterInputManager.Instance.CMDHandleActivateInput(KeyCode.A);
+            if (index == 0)
+            {
+                m_playerArrows[index].transform.localPosition = m_arrowOneInitialPosition;
+            }
+            else
+            {
+                m_playerArrows[index].transform.localPosition = m_arrowTwoInitialPosition;
+            }
+            CMDMovePlayerArrow(index, selectingBomb);
         }
     }
 
-    private void CheckForPlatformKeyUp()
+    [Command(requiresAuthority = false)]
+    private void CMDMovePlayerArrow(int index, bool selectingBomb)
     {
-        if (Input.GetKeyUp(KeyCode.W))
+        if (selectingBomb)
         {
-            ShooterInputManager.Instance.CMDHandleDeactivateInput(KeyCode.W);
+            m_playerArrows[index].transform.localPosition = new Vector3(17.5f, 111, 0);
+            //RPCMovePlayerArrow(index, selectingBomb);
         }
-        if (Input.GetKeyUp(KeyCode.D))
+        else
         {
-            ShooterInputManager.Instance.CMDHandleDeactivateInput(KeyCode.D);
+            if (index == 0)
+            {
+                m_playerArrows[index].transform.localPosition = m_arrowOneInitialPosition;
+            }
+            else
+            {
+                m_playerArrows[index].transform.localPosition = m_arrowTwoInitialPosition;
+            }
+            //RPCMovePlayerArrow(index, selectingBomb);
         }
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            ShooterInputManager.Instance.CMDHandleDeactivateInput(KeyCode.S);
-        }
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            ShooterInputManager.Instance.CMDHandleDeactivateInput(KeyCode.A);
-        }
-    }*/
-
-    public void ActivateArrow(int index)
-    {
-        m_platformArrows[index].color = Color.green;
     }
 
-    public void DeactivateArrow(int index)
+    //[ClientRpc]
+    public void RPCMovePlayerArrow(int index, bool selectingBomb)
     {
-        m_platformArrows[index].color = Color.white;
+        Debug.Log("in rpc");
+        if (selectingBomb)
+        {
+            m_playerArrows[index].transform.localPosition = new Vector3(17.5f, 111, 0);
+        }
+        else
+        {
+            if (index == 0)
+            {
+                m_playerArrows[index].transform.localPosition = m_arrowOneInitialPosition;
+            }
+            else
+            {
+                m_playerArrows[index].transform.localPosition = m_arrowTwoInitialPosition;
+            }
+        }
     }
 }

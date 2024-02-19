@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 508501933312081850}
   - component: {fileID: 922056704029400356}
   m_Layer: 0
-  m_Name: UImanager
+  m_Name: ShooterUImanager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 2130397292558052610}
   - {fileID: 6638614092045292411}
   m_platformArrows: []
+  m_shooterCanvas: {fileID: 8138525156237962661}
 --- !u!114 &922056704029400356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,3 +367,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8138525156237962661 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8976578722539047563, guid: f3d0f0f9f434cf14bbc801651a2efa23, type: 3}
+  m_PrefabInstance: {fileID: 892538782688077614}
+  m_PrefabAsset: {fileID: 0}

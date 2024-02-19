@@ -463,6 +463,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &870845574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2993746870238744120, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+  m_PrefabInstance: {fileID: 1024893375}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &870845580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870845574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5492f7dd96fa3646b1e6ba7d2df9061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1001 &1024893375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -471,6 +491,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1905772115597205873, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: m_maxGameTimer
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 5574367889537404370, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_levelPrefab
       value: 
@@ -543,6 +567,14 @@ PrefabInstance:
       propertyPath: m_platformPrefab
       value: 
       objectReference: {fileID: 1267137300523568382, guid: 0725ec95ff8b7c34c8cb342506ed17bb, type: 3}
+    - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: m_spawnWinTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7017665103353639985, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: m_winBoundTrigger
+      value: 
+      objectReference: {fileID: 3641738404020297402, guid: a9ac577b767e5734985aa8988a1867c2, type: 3}
     - target: {fileID: 8708434659553664712, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -590,7 +622,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2993746870238744120, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 870845580}
   m_SourcePrefab: {fileID: 100100000, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
 --- !u!114 &1024893376 stripped
 MonoBehaviour:

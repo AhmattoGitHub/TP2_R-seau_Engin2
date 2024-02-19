@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using UnityEditor;
-
 
 public class BombNetwork : NetworkBehaviour
 {
@@ -15,6 +11,7 @@ public class BombNetwork : NetworkBehaviour
     [SerializeField] private float m_height = 20;
     [SerializeField] private float m_expansionDivider = 3;
     [SerializeField] private Rigidbody m_rb;
+    [SerializeField] private GameObject m_explosionVFX;
 
     private float m_destroyTimer = 0;
     private float m_explosionTimer = 0;
@@ -133,9 +130,16 @@ public class BombNetwork : NetworkBehaviour
             RPC_AddExplosionForce(collidedGoIdx);
         }
 
-        //Ajouter particle effect 
+        Instantiate(m_explosionVFX, transform.position, Quaternion.identity);
+        RPC_InstantiateExplosionVFX();        
 
         NetworkServer.Destroy(gameObject);
+    }
+
+    [ClientRpc]
+    private void RPC_InstantiateExplosionVFX()
+    {
+        Instantiate(m_explosionVFX, transform.position, Quaternion.identity);
     }
 
     [Command(requiresAuthority = false)]

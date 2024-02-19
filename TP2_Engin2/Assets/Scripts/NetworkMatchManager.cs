@@ -64,7 +64,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         if (m_gameTimer < 0)
         {
-            ShooterWin();
+            CMD_ShooterWin();
             return;
         }
         m_gameTimer -= Time.deltaTime;
@@ -172,7 +172,7 @@ public class NetworkMatchManager : NetworkBehaviour
                 RespawnPlayerRandomCircle(player);
                 break;
             case E_TriggerTypes.Win:
-                RunnerWin(player);
+                CMD_RunnerWin();
                 break;
             default:
                 break;
@@ -199,37 +199,64 @@ public class NetworkMatchManager : NetworkBehaviour
         return new Vector2(x, y);
     }
 
-    [ClientRpc] //?
-    private void RunnerWin(GameObject player)
+    [Command(requiresAuthority = false)]
+    private void CMD_RunnerWin()
     {
+        foreach (var connPlayer in ConnectedPlayers)
+        {
+            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiWinLoseController>();
+            if (connPlayer.m_tag == "Runner" && uiManager != null)
+            {
+                uiManager.RPC_EnableVictoryScreen();
+            }
+            else
+            {
+                uiManager.RPC_EnableDefeatScreen();
+            }
+        }        
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CMD_ShooterWin()
+    {
+        foreach (var connPlayer in ConnectedPlayers)
+        {
+            var uiManager = connPlayer.identity.gameObject.GetComponentInChildren<UiWinLoseController>();
+            if (connPlayer.m_tag == "Shooter" && uiManager != null)
+            {
+                uiManager.RPC_EnableVictoryScreen();
+            }
+            else
+            {
+                uiManager.RPC_EnableDefeatScreen();
+            }
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void ChangeArrows(bool shootingBomb, NetworkConnectionToClient player = null)
+    {
+        Debug.Log("In changeArrows");
+
+        int index = player.m_uiSlotIndex - 2;
+
         foreach (var connPlayer in ConnectedPlayers)
         {
             if (connPlayer.m_tag == "Runner")
             {
-                //var manager = connPlayer.identity.gameObject.GetComponent<UIManager>();
-                // manager.EnableVictoryScreen()
+
                 continue;
             }
 
-            //logique de défaite des shooters
-        }
-    }
-
-    [ClientRpc] //?
-    private void ShooterWin()
-    {
-        foreach (var connPlayer in ConnectedPlayers)
-        {
-            if (connPlayer.m_tag == "Shooter")
+            var manager = connPlayer.identity.gameObject.GetComponentInChildren<NetworkLevelPlayerController>();
+            if (manager == null)
             {
-                //var manager = connPlayer.identity.gameObject.GetComponent<UIManager>();
-                // manager.EnableVictoryScreen()
+                Debug.Log("manager null");
                 continue;
             }
-
-            //logique de défaite des runners
+            Debug.Log("calling rpc");
+            manager.TargetMovePlayerArrow(this.netIdentity.connectionToClient, index, shootingBomb);
         }
     }
-
 }
 
