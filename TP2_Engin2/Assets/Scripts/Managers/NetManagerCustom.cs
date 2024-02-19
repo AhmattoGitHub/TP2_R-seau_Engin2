@@ -99,9 +99,16 @@ public class NetManagerCustom : NetworkManager
         int mainLevelCounter = 0;
         foreach (var player in LobbyManager.Instance.GetList())
         {
+            Debug.Log(player.m_name + "  " + player.m_isInMainLevel);
             if (player.m_isInMainLevel)
             {
+                Debug.Log("mainLevelCounter++");
                 mainLevelCounter++;
+            }
+            else
+            {
+                Debug.Log("not all ready");
+                return;
             }
         }
 

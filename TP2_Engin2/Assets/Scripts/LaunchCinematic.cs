@@ -55,6 +55,10 @@ public class LaunchCinematic : NetworkBehaviour
         }
         if (m_timer > m_duration)
         {
+            if (isServer)
+            {
+                NetworkMatchManager._Instance.StartGameTimer();
+            }
             EndPlayerCinematic();
             return;
         }
