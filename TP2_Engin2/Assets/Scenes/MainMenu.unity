@@ -507,10 +507,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1307036169}
+    - target: {fileID: 1877119073329354914, guid: 04db3a40bd748d54e9bb3e91d055e979, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2257810680421883067, guid: 04db3a40bd748d54e9bb3e91d055e979, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1307036169}
+    - target: {fileID: 2299903633520248854, guid: 04db3a40bd748d54e9bb3e91d055e979, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 3000816335428590462, guid: 04db3a40bd748d54e9bb3e91d055e979, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -607,8 +615,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenuCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9200292129269709590, guid: 04db3a40bd748d54e9bb3e91d055e979, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7910028473562367334, guid: 04db3a40bd748d54e9bb3e91d055e979, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04db3a40bd748d54e9bb3e91d055e979, type: 3}

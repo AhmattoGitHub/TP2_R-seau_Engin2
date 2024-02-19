@@ -38,7 +38,6 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
     // /////////////////
 
     [SerializeField] private GameObject m_groundCollider;
-    [SerializeField] private HitDetection m_hitDetection;
 
     private float m_lerpedAngleX = 0;
     private bool m_isGrounded = false;
@@ -196,16 +195,6 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
     public bool IsTouchingGround()
     {
         return m_groundCollider.GetComponent<GroundDetection>().TouchingGround;
-    }
-
-    public bool HasBeenHit()
-    {
-        return m_hitDetection.HasBeenHit;
-    }
-
-    public bool HasBeenStunned()
-    {
-        return m_hitDetection.HasBeenStunned || IsStunned;
     }
 
     public void SetIsStunnedToFalse()
