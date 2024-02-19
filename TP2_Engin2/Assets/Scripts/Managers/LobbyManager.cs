@@ -270,7 +270,7 @@ public class LobbyManager : NetworkBehaviour
 
     private bool LobbyIsReady()
     {
-        if (m_numberOfRunners == 0 || m_numberOfShooters == 0)
+        /*if (m_numberOfRunners == 0 || m_numberOfShooters == 0)
         {
             m_vsText.text = "Vs";
             m_timer = 4;
@@ -280,7 +280,7 @@ public class LobbyManager : NetworkBehaviour
         if (m_connectedPlayers.Count == 0)
         {
             return false;
-        }
+        }*/
 
         int numberOfReady = 0;
 

@@ -43,7 +43,6 @@ public class NetworkMatchManager : NetworkBehaviour
     private void Start()
     {
         m_gameTimer = m_maxGameTimer;
-        m_shootBombTimer = m_maxShootBombTimer;
     }
 
     private void Update()
@@ -153,7 +152,6 @@ public class NetworkMatchManager : NetworkBehaviour
     private void CMD_ShooterHasSelectedBomb()
     {
         //Debug.Log("resetting shootbombtimer");
-        m_shootBombTimer = m_maxShootBombTimer;
         m_canShootBomb = false;
     }
 
@@ -168,6 +166,7 @@ public class NetworkMatchManager : NetworkBehaviour
     public void CMD_ShooterHasShot()
     {
         //Debug.Log("resetting hasShot");
+        m_shootBombTimer = m_maxShootBombTimer;
         m_hasShotBomb = true;
     }
 
