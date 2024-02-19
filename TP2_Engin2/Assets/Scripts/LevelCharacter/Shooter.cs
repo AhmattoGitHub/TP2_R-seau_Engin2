@@ -1,8 +1,5 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 enum EProjectileType
 {
@@ -15,11 +12,10 @@ public class Shooter : NetworkBehaviour
     [SerializeField] private GameObject m_bombPrefab;
     [SerializeField] private GameObject m_bigBombPrefab;
     [SerializeField] private Camera m_camera;
-    [SerializeField] private float m_bombCooldownTimer = 0;
-    [SerializeField] private float m_bombCooldownTimerMax = 2;
+    [SerializeField] private float m_bombCooldownTimer = 0.0f;
+    [SerializeField] private float m_bombCooldownTimerMax = 2.0f;
 
     private EProjectileType m_currentProjectile;
-
 
     void Update()
     {
@@ -29,10 +25,22 @@ public class Shooter : NetworkBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = m_camera.nearClipPlane - 5;
-            Vector3 screenPosition = m_camera.ScreenToWorldPoint(mousePosition);
-            Vector3 direction = (transform.position - screenPosition).normalized;
+            Vector3 direction = Vector3.zero;
+            Ray ray = m_camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;            
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                Vector3 hitPosition = hit.point;
+                direction = (hitPosition - transform.position).normalized;
+            }
+            else
+            {
+                Vector3 mousePosition = Input.mousePosition;
+                mousePosition.z = m_camera.nearClipPlane - 15; // 5 originalement
+                Vector3 screenPosition = m_camera.ScreenToWorldPoint(mousePosition);
+                direction = (transform.position - screenPosition).normalized;
+            }
 
             switch (m_currentProjectile)
             {
