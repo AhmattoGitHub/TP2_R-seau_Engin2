@@ -35,6 +35,8 @@ public class FreeState : CharacterState
                 float slopeMultiplier = m_stateMachine.SlopeForceAngleMultiplier + (groundAngle / 90.0f); // À ajuster
                 float forceMagnitude = m_stateMachine.SlopeForceMagnitude * slopeMultiplier * Mathf.Sin(Mathf.Deg2Rad * groundAngle);
 
+                Debug.Log("The ground angle is " + groundAngle + " the slope multiplier is " + slopeMultiplier + " the force magnitude is " + forceMagnitude);
+
                 Vector3 slopeDirection = Vector3.ProjectOnPlane(-hit.normal, Vector3.up).normalized;
                 Vector3 slopeForce = -slopeDirection * forceMagnitude;
                 
@@ -92,20 +94,22 @@ public class FreeState : CharacterState
 
     private void CapMaximumSpeed()
     {
-        RaycastHit hit;
-        int layerMask = 1 << 8; // Ground layer devrait être à 8
-        
-        if (Physics.Raycast(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), Vector3.down, out hit, Mathf.Infinity, layerMask))
-        {
-            float groundAngle = Vector3.Angle(hit.normal, Vector3.up);
-        
-            if (groundAngle > m_stateMachine.SteepnessBeforeSlopeForce) 
-            {
-                SlopedTerrainCapMaximumSpeed(hit, groundAngle); // À peaufiner
-
-                return;
-            }
-        }
+        // Retire pour le build, intéressant but needs more testing before being implemented
+        //
+        //RaycastHit hit;
+        //int layerMask = 1 << 8; // Ground layer devrait être à 8
+        //
+        //if (Physics.Raycast(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), Vector3.down, out hit, Mathf.Infinity, layerMask))
+        //{
+        //    float groundAngle = Vector3.Angle(hit.normal, Vector3.up);
+        //
+        //    if (groundAngle > m_stateMachine.SteepnessBeforeSlopeForce) 
+        //    {
+        //        SlopedTerrainCapMaximumSpeed(hit, groundAngle); // À peaufiner
+        //
+        //        return;
+        //    }
+        //}
 
         FlatTerrainCapMaximumSpeed();
     }   

@@ -12,7 +12,9 @@ public class NetworkPlatformManager : NetworkBehaviour
     [SerializeField] private float m_pivotRadius = 0.01f;
 
     private Vector3 m_playersInputs = Vector3.zero;
-    private Vector3 m_rotationAxis = Vector3.zero; 
+    private Vector3 m_rotationAxis = Vector3.zero;
+    private float m_noInputTimer = 0.0f;
+    private float m_noInputTimerLimit = 0.1f;
     
     public static NetworkPlatformManager _Instance { get; private set; }
 
@@ -37,44 +39,37 @@ public class NetworkPlatformManager : NetworkBehaviour
 
     //[Server]
     private void ServerUpdate()
-    {
-        //Debug.Log("server in serverUpdate");
-        
+    {       
         Debug.DrawRay(transform.position + new Vector3(0, 2, 0), m_playersInputs * 7, Color.blue);
 
         m_playersInputs = m_playersInputs.normalized;
-        int goIdx = NetManagerCustom._Instance.Identifier.GetIndex(m_platform);
-        //Debug.Log("PLAYER INPUT " + m_playersInputs);        
-        
+        int goIdx = NetManagerCustom._Instance.Identifier.GetIndex(m_platform);        
+        m_noInputTimer += Time.deltaTime;
+
         if (m_playersInputs != Vector3.zero)
-        {           
+        {
+            m_noInputTimer = 0;
             m_rotationAxis = Quaternion.Euler(0, 90, 0) * m_playersInputs;   
 
-            ApplyRotate(m_previewObject);            
+            ApplyRotatePreview(m_previewObject);            
 
             if (CalculatePreviewAngleFromPivot() >= m_angleLimit)
                 return;
 
-            //ApplyRotate(m_platform);
-
-            RPC_ApplyRotate(goIdx, m_rotationAxis);
+            RPC_ApplyRotate(goIdx, m_rotationAxis);            
         }
-        else 
-        {                   
-            //Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, transform.up);
-            //m_platform.transform.rotation = Quaternion.Slerp(m_platform.transform.rotation, targetRotation, m_dampingSpeed * Time.deltaTime);
-
+                
+        if(m_playersInputs == Vector3.zero && m_noInputTimer > m_noInputTimerLimit)
+        {
             RPC_ResetPosition(goIdx);
-        }       
+        }
 
         m_playersInputs = Vector3.zero;
     }
     
-    private void ApplyRotate(GameObject gO)
-    {
-        //Debug.Log("ApplyRotate");
-        
-        Debug.DrawRay(transform.position, m_rotationAxis * 10, Color.magenta);
+    private void ApplyRotatePreview(GameObject gO)
+    {        
+        //Debug.DrawRay(transform.position, m_rotationAxis * 10, Color.magenta);
 
         if (gO == null) return;
 
@@ -82,55 +77,21 @@ public class NetworkPlatformManager : NetworkBehaviour
         m_previewObject.transform.rotation = m_platform.transform.rotation;
 
         gO.transform.position = transform.position - (-transform.up * m_pivotRadius);        
-        gO.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);
-
-        //int goIdx = NetManagerCustom._Instance.Identifier.GetIndex(gO);
-        //CMD_ApplyRotate(goIdx);
-
-        //if (gO == m_platform)
-        //{
-        //    RPC_ApplyRotate(goIdx);
-        //}
-    }
-
-
-    [Command(requiresAuthority = false)]
-    private void CMD_ApplyRotate(int goIdx)
-    {
-        Debug.Log("inside cmd");
-        
-        var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(goIdx);
-
-        go.transform.position = transform.position - (-transform.up * m_pivotRadius);
-        go.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);
-
-        //RPC_ApplyRotate(goIdx);
-    }
+        gO.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);                
+    }    
 
     [ClientRpc]
     private void RPC_ApplyRotate(int goIdx, Vector3 rotationAxis)
-    {
-        Debug.Log("inside rpc");
-        
-        var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(goIdx);
-        Debug.Log("RPC GO Name : " + go.name);
+    {        
+        var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(goIdx);        
 
-        //go.transform.position = go.transform.position - (-go.transform.up * m_pivotRadius);
-        //Debug.Log(go.name + " trnsfm position " + go.transform.position);
-
+        go.transform.position = transform.position - (-transform.up * m_pivotRadius);
         go.transform.RotateAround(go.transform.position, rotationAxis, m_rotationSpeed * Time.deltaTime);
-
-        //go.transform.position = go.transform.position - (go.transform.up * m_pivotRadius);
-        Debug.Log(go.name + " trnsfm position " + go.transform.position);
-
-        Debug.Log(go.name + " rotation axis " + rotationAxis);
-        Debug.Log("  ");
-        Debug.Log("  ");
-    }
+    }    
 
     [ClientRpc]
     private void RPC_ResetPosition(int goIdx)
-    {
+    {        
         Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, transform.up);
         var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(goIdx);
 
@@ -141,7 +102,7 @@ public class NetworkPlatformManager : NetworkBehaviour
     {
         Vector3 pivotToObjectPreviewDir = transform.position - m_previewAngleObject.transform.TransformPoint(Vector3.zero);       
         float previewObjectToPivotDirAngle = Vector3.Angle(-Vector3.up, pivotToObjectPreviewDir);
-        //Debug.Log("Preview Angle is " + previewObjectToPivotDirAngle);
+        Debug.Log("Preview Angle is " + previewObjectToPivotDirAngle);
         return previewObjectToPivotDirAngle;
     }
 
@@ -162,8 +123,6 @@ public class NetworkPlatformManager : NetworkBehaviour
         // d'un joueur, a tester
     }
 }
-
-
 
 /*
  
