@@ -199,6 +199,7 @@ public class NetworkMatchManager : NetworkBehaviour
     [ClientRpc]
     private void RespawnPlayerRandomCircle(GameObject player)
     {
+        GameAudioManager.Instance.PlayKnockedOutSFX();
         Vector2 randomPosOnCircle = RandomPosOnCircle();
         Vector3 randomPosition = new Vector3(randomPosOnCircle.x, m_respawnHeight, randomPosOnCircle.y);
 

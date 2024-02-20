@@ -11,6 +11,7 @@ public class JumpState : CharacterState
     {
         //Debug.Log("Entering JumpState");
 
+        GameAudioManager.Instance.PlayJumpSFX();
         m_hasDoubleJumped = false;
         Jump();
         m_currentGCDelayTimer = GROUNDCHECK_DELAY_TIMER;
@@ -81,6 +82,7 @@ public class JumpState : CharacterState
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                GameAudioManager.Instance.PlayDoubleJumpSFX();
                 m_stateMachine.Rb.velocity = new Vector3(m_stateMachine.Rb.velocity.x, 0, m_stateMachine.Rb.velocity.z);
                 Jump();
                 m_hasDoubleJumped = true;

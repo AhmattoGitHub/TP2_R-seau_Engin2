@@ -16,6 +16,8 @@ public class UiWinLoseController : NetworkBehaviour
     private Color m_initialVictoryColor;
     private Color m_initialDefeatColor;
 
+    private bool m_playedEndMusic = false;
+
     private float m_timer = 0.0f;
     private int m_targetFontSize = 35;
 
@@ -59,6 +61,11 @@ public class UiWinLoseController : NetworkBehaviour
         if (isLocalPlayer)
         {
             m_victoryScreen.SetActive(true);
+            if (!m_playedEndMusic)
+            {
+                GameAudioManager.Instance.PlayVictoryMusic();
+                m_playedEndMusic = true;
+            }
         }       
     }
 
@@ -68,6 +75,11 @@ public class UiWinLoseController : NetworkBehaviour
         if (isLocalPlayer) 
         {
             m_defeatScreen.SetActive(true);
+            if (!m_playedEndMusic)
+            {
+                GameAudioManager.Instance.PlayLoseMusic();
+                m_playedEndMusic = true;
+            }
         }        
     }  
 

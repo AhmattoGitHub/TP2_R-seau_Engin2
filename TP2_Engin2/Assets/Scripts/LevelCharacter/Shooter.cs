@@ -51,12 +51,14 @@ public class Shooter : NetworkBehaviour
                     if (m_bombCooldownTimer < 0)
                     {
                         CMD_ShootBomb(direction);
+                        GameAudioManager.Instance.PlayBulletShot();
                         m_bombCooldownTimer = m_bombCooldownTimerMax;
                     }
                     break;
                 case EProjectileType.BigBomb:
 
                     CMD_ShootBigBomb(direction);
+                    GameAudioManager.Instance.PlayBulletShot();
                     NetManagerCustom._Instance.MatchManager.CMD_ShooterHasShot();
                     m_currentProjectile = EProjectileType.Bomb;
                     NetManagerCustom._Instance.MatchManager.CMD_ChangeArrows(false);
