@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Rotate : NetworkBehaviour
 {
-    [SerializeField] private float m_rotationSpeed;
+    [field: SerializeField] public float RotationSpeed { get; private set; } = 0;
     private float m_rotation = 0;    
     
     void FixedUpdate()
@@ -11,6 +11,6 @@ public class Rotate : NetworkBehaviour
         //transform.RotateAround(transform.position, Vector3.up, m_rotationSpeed);       
 
         transform.localRotation = Quaternion.Euler(0, m_rotation, 0);
-        m_rotation += m_rotationSpeed;
+        m_rotation += RotationSpeed;
     }
 }

@@ -45,6 +45,8 @@ public class LobbyManager : NetworkBehaviour
     private NetManagerCustom m_networkManager;
     private bool m_changeSceneCalled = false;
 
+    private bool m_countdownPlayed = false;
+
     public static LobbyManager Instance
     {
         get
@@ -79,6 +81,11 @@ public class LobbyManager : NetworkBehaviour
             CmdSetReadyStatus();
         if(LobbyIsReady() && !m_changeSceneCalled)
         {
+            if(!m_countdownPlayed)
+            {
+                GameAudioManager.Instance.PlayLobbyCountdown();
+                m_countdownPlayed =true;
+            }
             StartTimer();
         }
 
@@ -298,7 +305,7 @@ public class LobbyManager : NetworkBehaviour
     [ClientRpc]
     private void StartTimer()
     {
-        if(m_timer <= 0)
+        if(m_timer <= 1)
         {            
             //LobbyNetworkManager.singleton.autoCreatePlayer = false;
             m_networkManager.autoCreatePlayer = false;

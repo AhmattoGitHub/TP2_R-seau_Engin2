@@ -239,7 +239,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   m_projectileSpeed: 300
-  m_explosionForce: 500
+  m_explosionForce: 800
   m_explosionRadius: 10
   m_destroyTime: 10
   m_explosionTime: 1

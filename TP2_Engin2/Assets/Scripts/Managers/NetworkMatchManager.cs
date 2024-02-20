@@ -10,7 +10,7 @@ public enum E_TriggerTypes
 }
 
 public class NetworkMatchManager : NetworkBehaviour
-{    
+{
     public static NetworkMatchManager _Instance { get; private set; } //Nécessaire ? Déjà accessible du NetManagerCustom..
 
     private List<NetworkConnectionToClient> ConnectedPlayers = new List<NetworkConnectionToClient>();
@@ -24,7 +24,10 @@ public class NetworkMatchManager : NetworkBehaviour
     [SyncVar] private float m_shootBombTimer = 0.0f;
     [SerializeField] private float m_maxShootBombTimer = 5.0f;
 
-    [SyncVar] private bool m_canShootBomb = false;
+    [SyncVar] private bool m_canShootBomb = true;
+    [SyncVar] private bool m_hasShotBomb = false;
+
+    private bool m_gameTimerHasStarted = false;
 
     private void Awake()
     {
@@ -40,13 +43,13 @@ public class NetworkMatchManager : NetworkBehaviour
     private void Start()
     {
         m_gameTimer = m_maxGameTimer;
-        m_shootBombTimer = m_maxShootBombTimer;
     }
 
     private void Update()
     {
-        //Debug.Log("timer" + m_gameTimer);
-        
+        //Debug.Log("bool canShoot" + m_canShootBomb);
+        //Debug.Log("bool hasShot" + m_hasShotBomb);
+
         if (isServer)
         {
             ServerUpdate();
@@ -62,6 +65,11 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void HandleGameTimer()
     {
+        if (!m_gameTimerHasStarted)
+        {
+            return;
+        }
+        
         if (m_gameTimer < 0)
         {
             CMD_ShooterWin();
@@ -72,9 +80,16 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void HandleShootBombTimer()
     {
+        if (!m_hasShotBomb)
+        {
+            //Debug.Log("hasSHot is false");
+            return;
+        }
+        //Debug.Log("hasShot is true");
         if (m_shootBombTimer < 0)
         {
             m_canShootBomb = true;
+            m_hasShotBomb = false;
             return;
         }
         m_shootBombTimer -= Time.deltaTime;
@@ -82,12 +97,19 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void LaunchGame()
     {
+        Debug.Log("Launching cinematic");
         foreach (var player in ConnectedPlayers)
         {
             var cinematic = player.identity.gameObject.GetComponentInChildren<LaunchCinematic>();
             //Debug.Log(player.m_name + " launched cinematic " + cinematic);
             cinematic.RPC_Launch();
         }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void StartGameTimer()
+    {
+        m_gameTimerHasStarted = true;
     }
 
     public void SetConnectedPlayersList(List<NetworkConnectionToClient> list)
@@ -104,7 +126,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         return m_canShootBomb;
     }
-    
+
     public float GetBombRemainingPercentage()   //function to call for shooting bomb timer (between 0 & 1) : NetManagerCustom.Instance.MatchManager.GetBombRemainingPercentage();
     {
         if (m_shootBombTimer < 0)
@@ -114,32 +136,12 @@ public class NetworkMatchManager : NetworkBehaviour
         return m_shootBombTimer / m_maxShootBombTimer;
     }
 
-    public float GetLocalPlayerBulletRemainingPercentage() //function to call for shooting bullet timer (between 0 & 1) : NetManagerCustom.Instance.MatchManager.GetLocalPlayerBulletRemainingPercentage();
-    {
-        foreach (var player in ConnectedPlayers)
-        {
-            if (!player.identity.isLocalPlayer)
-            {
-                continue;
-            }
-            var shooterScript = player.identity.gameObject.GetComponentInChildren<Shooter>();
-            if (shooterScript == null)
-            {
-                Debug.LogError("Player not found");
-                return -1.0f;
-            }
-            return shooterScript.GetBulletRemainingPercentage();
-        }
-
-        Debug.LogError("Player not found");
-        return -1.0f;
-    }
-
-    public bool GetPermissionToShoot()  
+    public bool GetPermissionToShoot()
     {
         if (m_canShootBomb)
         {
-            CMD_ResetShootBombTimer();
+            CMD_ShooterHasSelectedBomb();
+            //CMD_ResetShootBombBool();
             return true;
         }
 
@@ -147,20 +149,35 @@ public class NetworkMatchManager : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    private void CMD_ResetShootBombTimer()
+    private void CMD_ShooterHasSelectedBomb()
     {
-        m_shootBombTimer = m_maxShootBombTimer;
+        //Debug.Log("resetting shootbombtimer");
         m_canShootBomb = false;
     }
 
-    [Command (requiresAuthority = false)]
+    [Command(requiresAuthority = false)]
+    public void CMD_SetShootBombBoolToTrue()
+    {
+        //Debug.Log("resetting shootbombBool to true");
+        m_canShootBomb = true;
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CMD_ShooterHasShot()
+    {
+        //Debug.Log("resetting hasShot");
+        m_shootBombTimer = m_maxShootBombTimer;
+        m_hasShotBomb = true;
+    }
+
+    [Command(requiresAuthority = false)]
     public void CMD_SendPlayerAndTrigger(GameObject player, E_TriggerTypes triggerType)
     {
         //Debug.Log("in cmd");
 
         BoundsTriggeredByPlayer(player, triggerType);
     }
-    
+
     [Server]
     private void BoundsTriggeredByPlayer(GameObject player, E_TriggerTypes triggerType)
     {
@@ -178,16 +195,17 @@ public class NetworkMatchManager : NetworkBehaviour
                 break;
         }
     }
-    
+
     [ClientRpc]
     private void RespawnPlayerRandomCircle(GameObject player)
     {
+        GameAudioManager.Instance.PlayKnockedOutSFX();
         Vector2 randomPosOnCircle = RandomPosOnCircle();
         Vector3 randomPosition = new Vector3(randomPosOnCircle.x, m_respawnHeight, randomPosOnCircle.y);
 
         player.transform.position = randomPosition;
-        player.transform.LookAt(new Vector3(0,m_respawnHeight, 0));
-    }    
+        player.transform.LookAt(new Vector3(0, m_respawnHeight, 0));
+    }
 
     private Vector2 RandomPosOnCircle()
     {
@@ -213,7 +231,7 @@ public class NetworkMatchManager : NetworkBehaviour
             {
                 uiManager.RPC_EnableDefeatScreen();
             }
-        }        
+        }
     }
 
     [Command(requiresAuthority = false)]
@@ -234,9 +252,11 @@ public class NetworkMatchManager : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void ChangeArrows(bool shootingBomb, NetworkConnectionToClient player = null)
+    public void CMD_ChangeArrows(bool shootingBomb, NetworkConnectionToClient player = null)
     {
-        Debug.Log("In changeArrows");
+
+
+        //Debug.Log("In changeArrows");
 
         int index = player.m_uiSlotIndex - 2;
 
@@ -251,10 +271,10 @@ public class NetworkMatchManager : NetworkBehaviour
             var manager = connPlayer.identity.gameObject.GetComponentInChildren<NetworkLevelPlayerController>();
             if (manager == null)
             {
-                Debug.Log("manager null");
+                //Debug.Log("manager null");
                 continue;
             }
-            Debug.Log("calling rpc");
+            //Debug.Log("calling rpc");
             manager.TargetMovePlayerArrow(this.netIdentity.connectionToClient, index, shootingBomb);
         }
     }

@@ -20,7 +20,7 @@ public class Shooter : NetworkBehaviour
     void Update()
     {
         //Check for nonGameplay
-        
+
         if (!isLocalPlayer)
         {
             return;
@@ -29,7 +29,7 @@ public class Shooter : NetworkBehaviour
         {
             Vector3 direction = Vector3.zero;
             Ray ray = m_camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;            
+            RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
@@ -47,21 +47,21 @@ public class Shooter : NetworkBehaviour
             switch (m_currentProjectile)
             {
                 case EProjectileType.Bomb:
+
                     if (m_bombCooldownTimer < 0)
                     {
                         CMD_ShootBomb(direction);
+                        GameAudioManager.Instance.PlayBulletShot();
                         m_bombCooldownTimer = m_bombCooldownTimerMax;
                     }
                     break;
                 case EProjectileType.BigBomb:
-                    if (NetManagerCustom._Instance.MatchManager.GetPermissionToShoot())
-                    {
-                        CMD_ShootBigBomb(direction);
-                    }
-                    else
-                    {
-                        Debug.Log("Can't shoot !");
-                    }
+
+                    CMD_ShootBigBomb(direction);
+                    GameAudioManager.Instance.PlayBulletShot();
+                    NetManagerCustom._Instance.MatchManager.CMD_ShooterHasShot();
+                    m_currentProjectile = EProjectileType.Bomb;
+                    NetManagerCustom._Instance.MatchManager.CMD_ChangeArrows(false);
                     break;
                 default:
                     break;
@@ -75,14 +75,26 @@ public class Shooter : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            if (m_currentProjectile == EProjectileType.Bomb)
+            {
+                return;
+            }
             m_currentProjectile = EProjectileType.Bomb;
-            NetworkMatchManager._Instance.ChangeArrows(false);
+            NetManagerCustom._Instance.MatchManager.CMD_SetShootBombBoolToTrue();
+            NetworkMatchManager._Instance.CMD_ChangeArrows(false);
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            m_currentProjectile = EProjectileType.BigBomb; 
-            NetworkMatchManager._Instance.ChangeArrows(true);
-            Debug.Log("called matchmanager");
+            if (NetManagerCustom._Instance.MatchManager.GetPermissionToShoot() == false)
+            {
+                Debug.Log("Cant select weapon !");
+                return;
+            }
+
+            m_currentProjectile = EProjectileType.BigBomb;
+            NetworkMatchManager._Instance.CMD_ChangeArrows(true);
+            //Debug.Log("called matchmanager");
         }
 
     }
@@ -95,7 +107,7 @@ public class Shooter : NetworkBehaviour
 
         bomb.GetComponent<BombNetwork>().CMD_Shoot(direction);
     }
-    
+
     [Command(requiresAuthority = false)]
     public void CMD_ShootBigBomb(Vector3 direction)
     {

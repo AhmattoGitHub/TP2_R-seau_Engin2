@@ -1,3 +1,4 @@
+using kcp2k;
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,6 @@ public class NetManagerCustom : NetworkManager
     [SerializeField] private bool testing = false;
 
     [SerializeField] private GameObject m_spawner;
-
 
 
     public override void Awake()
@@ -99,9 +99,16 @@ public class NetManagerCustom : NetworkManager
         int mainLevelCounter = 0;
         foreach (var player in LobbyManager.Instance.GetList())
         {
+            Debug.Log(player.m_name + "  " + player.m_isInMainLevel);
             if (player.m_isInMainLevel)
             {
+                Debug.Log("mainLevelCounter++");
                 mainLevelCounter++;
+            }
+            else
+            {
+                Debug.Log("not all ready");
+                return;
             }
         }
 
@@ -208,7 +215,15 @@ public class NetManagerCustom : NetworkManager
         {
             return;
         }
-        LobbyManager.Instance.WaitForConfig();
+
+        var manager = LobbyManager.Instance;
+        if (manager == null)
+        {
+            Debug.LogError("MANAGER IS NULL");
+            return;
+        }
+        Debug.LogError("");
+        manager.WaitForConfig();
     }
 
     public override void OnStartClient()

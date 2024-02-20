@@ -53,6 +53,7 @@ public class SpawnLocalPlayer : NetworkBehaviour
             m_shooter.SetCamera(camera);
 
             childController.SetCinematicCamera(m_cinematicGo);
+            childController.SetCooldownDisplay(m_shooter);
 
         }
     }
