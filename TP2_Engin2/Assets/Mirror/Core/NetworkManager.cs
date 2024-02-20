@@ -591,7 +591,7 @@ namespace Mirror
             //Debug.Log("StartHostClient called");
             SetupClient();
 
-            networkAddress = "localhost";
+            //networkAddress = "localhost";         //Etienne
             RegisterClientMessages();
 
             // call OnConencted needs to be called AFTER RegisterClientMessages

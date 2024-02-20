@@ -140,6 +140,8 @@ namespace Mirror.Examples.Common
 
         public void OnClickStartHostButton()
         {
+            NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
+            transport.port = ushort.Parse(inputTransportPort.text);
             NetworkManager.singleton.StartHost();
         }
 
@@ -150,6 +152,11 @@ namespace Mirror.Examples.Common
 
         public void OnClickStartClientButton()
         {
+            //inputNetworkAddress.text = NetworkManager.singleton.networkAddress;
+            //inputTransportPort.text = transport.port.ToString();
+            //NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
+            //transport.port = ushort.Parse(inputTransportPort.text);
+
             NetworkManager.singleton.StartClient();
             //ShowConnectingStatus();
         }
