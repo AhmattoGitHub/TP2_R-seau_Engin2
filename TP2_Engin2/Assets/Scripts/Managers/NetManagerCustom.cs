@@ -215,7 +215,15 @@ public class NetManagerCustom : NetworkManager
         {
             return;
         }
-        LobbyManager.Instance.WaitForConfig();
+
+        var manager = LobbyManager.Instance;
+        if (manager == null)
+        {
+            Debug.LogError("MANAGER IS NULL");
+            return;
+        }
+        Debug.LogError("");
+        manager.WaitForConfig();
     }
 
     public override void OnStartClient()

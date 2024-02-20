@@ -140,8 +140,8 @@ namespace Mirror.Examples.Common
 
         public void OnClickStartHostButton()
         {
-            //NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
-            //transport.port = ushort.Parse(inputTransportPort.text);
+            NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
+            transport.port = ushort.Parse(inputTransportPort.text);
             NetworkManager.singleton.StartHost();
         }
 
@@ -152,10 +152,8 @@ namespace Mirror.Examples.Common
 
         public void OnClickStartClientButton()
         {
-            //inputNetworkAddress.text = NetworkManager.singleton.networkAddress;
-            //inputTransportPort.text = transport.port.ToString();
-            //NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
-            //transport.port = ushort.Parse(inputTransportPort.text);
+            NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
+            transport.port = ushort.Parse(inputTransportPort.text);
 
             NetworkManager.singleton.StartClient();
             //ShowConnectingStatus();
@@ -180,25 +178,25 @@ namespace Mirror.Examples.Common
 
         public void OnNetworkAddressChange()
         {
-            NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
+            //NetworkManager.singleton.networkAddress = inputNetworkAddress.text;
         }
 
         public void OnTransportPortChange()
         {
-            try
-            {
-                transport.port = ushort.Parse(inputTransportPort.text);
-            }
-            catch
-            {
-                Debug.Log("Invalid port format!");
-            }
+            //try
+            //{
+            //    transport.port = ushort.Parse(inputTransportPort.text);
+            //}
+            //catch
+            //{
+            //    Debug.Log("Invalid port format!");
+            //}
         }
 
         private void Update()
         {
             RefreshHUD();
-            Debug.Log(NetworkManager.singleton.networkAddress + " " + transport.port.ToString());
+            //Debug.Log(NetworkManager.singleton.networkAddress + " " + transport.port.ToString());
         }
 
         /* This does not work because we can't register the handler.

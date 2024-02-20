@@ -79,17 +79,18 @@ public class GameAudioManager : MonoBehaviour
     public void PlayVictoryMusic()
     {
         m_mainLevelAudioSource.Stop();
-        m_mainLevelAudioSource.PlayOneShot(m_victoryMusic);
+        m_mainLevelPlayerAudioSource.PlayOneShot(m_victoryMusic);
     }
 
     public void PlayLoseMusic()
     {
         m_mainLevelAudioSource.Stop();
-        m_mainLevelAudioSource.PlayOneShot(m_loseMusic);
+        m_mainLevelPlayerAudioSource.PlayOneShot(m_loseMusic);
     }
 
     public void PlayKnockedOutSFX()
     {
-        m_mainLevelAudioSource.PlayOneShot(m_knockedOutSFX);
+        //m_mainLevelAudioSource.PlayOneShot(m_knockedOutSFX);
+        m_mainLevelPlayerAudioSource.PlayOneShot(m_knockedOutSFX);
     }
 }

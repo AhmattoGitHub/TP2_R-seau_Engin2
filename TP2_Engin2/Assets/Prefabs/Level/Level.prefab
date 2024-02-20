@@ -4824,7 +4824,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <RotationSpeed>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 3
 --- !u!114 &3259070009005468387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5532,7 +5532,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <RotationSpeed>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 3
 --- !u!114 &9223150094548539171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10907,7 +10907,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <RotationSpeed>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 3
 --- !u!114 &5340098222580284269
 MonoBehaviour:
   m_ObjectHideFlags: 0

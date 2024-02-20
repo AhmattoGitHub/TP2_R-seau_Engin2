@@ -995,7 +995,7 @@ PrefabInstance:
       objectReference: {fileID: 1898128726}
     - target: {fileID: 658949067169873248, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayButtonClickOnLobby
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 658949067169873248, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1007,7 +1007,7 @@ PrefabInstance:
       objectReference: {fileID: 1898128726}
     - target: {fileID: 749342912705511509, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayButtonClickOnLobby
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 749342912705511509, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1039,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 1898128726}
     - target: {fileID: 3320909751904822314, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayButtonClickOnLobby
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3320909751904822314, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1131,7 +1131,7 @@ PrefabInstance:
       objectReference: {fileID: 1898128726}
     - target: {fileID: 6102266370005315489, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayButtonClickOnLobby
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6102266370005315489, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1147,7 +1147,7 @@ PrefabInstance:
       objectReference: {fileID: 1898128726}
     - target: {fileID: 6440606664536965429, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayButtonClickOnLobby
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6440606664536965429, guid: 0b5f456c015b2924d9e83528794e2b8c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
