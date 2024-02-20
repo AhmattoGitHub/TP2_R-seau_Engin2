@@ -80,8 +80,8 @@ public class LaunchCinematic : NetworkBehaviour
 
     private void MoveVertically()
     {
-        float y = m_horizontalCurve.Evaluate(m_timer / m_duration);
-        Vector3 movement = new Vector3(0,y,0);
+        float y = m_verticalCurve.Evaluate(m_timer / m_duration);
+        Vector3 movement = new Vector3(0 ,y/2, 0);
 
         transform.position += movement;
     }

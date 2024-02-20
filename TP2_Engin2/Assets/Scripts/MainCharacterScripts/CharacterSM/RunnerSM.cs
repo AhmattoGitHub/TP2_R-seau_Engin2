@@ -22,6 +22,8 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
     [field: SerializeField] public float MaxNoDamageFall { get; private set; } = 10.0f;
     [field: SerializeField] public float RotationSpeed { get; private set; } = 3.0f;
     [field: SerializeField] public float Stamina { get; private set; } = 100.0f;
+    [field: SerializeField] public float StaminaRecovery { get; private set; } = 0.5f;
+    [field: SerializeField] public float StaminaInverseMultiplier { get; private set; } = 500.0f;
     [field: SerializeField] public float StaminaMaxValue { get; private set; } = 100.0f;
     [field: SerializeField] public GameObject ObjectToLookAt { get; private set; }
     [field: SerializeField] public GameObject MC { get; private set; }
@@ -41,6 +43,8 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
 
     private float m_lerpedAngleX = 0;
     private bool m_isGrounded = false;
+    //private float m_staminaRecovery = 0.5f;
+    //private float m_staminaInverseMultiplier = 500.0f;
 
     // /////////////////
 
@@ -110,7 +114,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
                 return;
             }
 
-            Stamina += 0.1f;
+            Stamina += StaminaRecovery;
 
             if (Stamina > StaminaMaxValue)
             {
@@ -119,7 +123,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
             return;
         }
 
-        Stamina -= Rb.velocity.magnitude / 500.0f;
+        Stamina -= Rb.velocity.magnitude / StaminaInverseMultiplier;
         if (Stamina < 0.0f)
         {
             Stamina = 0.0f;

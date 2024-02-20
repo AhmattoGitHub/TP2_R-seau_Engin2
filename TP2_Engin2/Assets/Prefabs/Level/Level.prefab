@@ -1570,7 +1570,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -2842,7 +2842,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -3416,7 +3416,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -4824,7 +4824,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <RotationSpeed>k__BackingField: 3
+  <RotationSpeed>k__BackingField: 2
 --- !u!114 &3259070009005468387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5532,7 +5532,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <RotationSpeed>k__BackingField: 3
+  <RotationSpeed>k__BackingField: 2
 --- !u!114 &9223150094548539171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6355,7 +6355,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -7203,7 +7203,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -7461,7 +7461,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -8303,7 +8303,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -8668,7 +8668,7 @@ MonoBehaviour:
   syncInterval: 0
   m_triggered: 1
   m_timeVisible: 5
-  m_timeDisappearing: 5
+  m_timeDisappearing: 3
   m_timeInvisible: 5
   m_alphaValueBeforeDisappearing: 0
   m_fadingPace: 1
@@ -10907,7 +10907,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  <RotationSpeed>k__BackingField: 3
+  <RotationSpeed>k__BackingField: 2
 --- !u!114 &5340098222580284269
 MonoBehaviour:
   m_ObjectHideFlags: 0

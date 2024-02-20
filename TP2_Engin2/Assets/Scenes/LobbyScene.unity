@@ -228,7 +228,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3920912330637564d84863e743abe2c9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -571,23 +571,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &870845574 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2993746870238744120, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
-  m_PrefabInstance: {fileID: 1024893375}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &870845580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 870845574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5492f7dd96fa3646b1e6ba7d2df9061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1024893375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -596,6 +579,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1905772115597205873, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
+      propertyPath: m_radius
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1905772115597205873, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
       propertyPath: m_maxGameTimer
       value: 500
@@ -736,10 +723,7 @@ PrefabInstance:
     - {fileID: 276743714446949725, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2993746870238744120, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 870845580}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c33751f69d91e0b4e898a01e2b84f33c, type: 3}
 --- !u!114 &1024893376 stripped
 MonoBehaviour:
