@@ -1,8 +1,6 @@
-using Mirror;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-public class CameraController_LevelPlayer : MonoBehaviour       // Level
+public class CameraController_LevelPlayer : MonoBehaviour
 {
 
     [SerializeField] private Transform m_objectToLookAt;
@@ -18,16 +16,11 @@ public class CameraController_LevelPlayer : MonoBehaviour       // Level
     [SerializeField] private Vector2 m_clampingXRotationValues;
     [SerializeField] private Vector2 m_clampingCameraDistance;
 
-    [SerializeField] private float m_edgeDistance = 10.0f;  //new
+    [SerializeField] private float m_edgeDistance = 10.0f;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        //if (!isLocalPlayer)
-        //{
-        //    gameObject.SetActive(false);
-        //}
         m_targetDistance = m_startDistance;
     }
 
@@ -36,8 +29,7 @@ public class CameraController_LevelPlayer : MonoBehaviour       // Level
         CalculateDistance();
         CalculateTargetPosition();
 
-        RotateAroundObjectHorizontal();   //new
-        //RotateAroundObjectVertical();
+        RotateAroundObjectHorizontal();
 
         transform.position = Vector3.Lerp(transform.position, m_targetPosition, m_lerpF);
 
@@ -85,28 +77,14 @@ public class CameraController_LevelPlayer : MonoBehaviour       // Level
 
     void RotateAroundObjectVertical()
     {
-        //if (Input.mousePosition.y >= Screen.height - m_edgeDistance ||
-        //    Input.mousePosition.y <= 0 + m_edgeDistance)
-        //{
-        //    return;
-        //}
-
-
-
-        //Différence de l'angle à chaque frame
         float currentAngleY = Input.GetAxis("Mouse Y") * m_rotationSpeed;
-        //Valeur de mon transform
         var xRotationValue = transform.rotation.eulerAngles.x;
-        //Résultat de ma rotation + différence
         float comparisonAngle = xRotationValue + currentAngleY;
 
-        //S'assure que l'angle n'est pas converti à 360 lorsqu'il atteint 0 (0 étant à l'horizontal)
-        //Permet d'avoir une limite du bas en valeur négative
         if (comparisonAngle > 180)
         {
             comparisonAngle -= 360;
         }
-        //Early return si les valeurs de l'angle sortent de mon min,max (clamp)
         if ((currentAngleY < 0 && comparisonAngle < m_clampingXRotationValues.x) ||
             (currentAngleY > 0 && comparisonAngle > m_clampingXRotationValues.y))
         {

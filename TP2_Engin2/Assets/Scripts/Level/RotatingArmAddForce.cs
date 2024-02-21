@@ -9,26 +9,6 @@ public class RotatingArmAddForce : MonoBehaviour
     private float m_towerSpeed = 0.0f;
     private Rotate m_towerRotate = null;
 
-    //void OnCollisionEnter(Collision collision)
-    //{
-    //    //if (!isServer)
-    //    //{
-    //    //    return;
-    //    //}
-    //    Debug.Log("coll");
-    //    var runner = collision.gameObject.GetComponent<Rigidbody>();
-    //    //var runner = collision.gameObject.GetComponentInChildren<RunnerSM>();
-    //    Debug.Log(collision.gameObject.name);
-    //    if (runner != null)
-    //    {
-    //        Debug.Log("addforce");
-    //
-    //        runner.AddForce(m_tower.right * m_impulseForce, ForceMode.Impulse);
-    //    }
-    //
-    //    
-    //}
-
     private void Start()
     {
         m_towerRotate = m_tower.GetComponent<Rotate>();
@@ -37,19 +17,11 @@ public class RotatingArmAddForce : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (!isServer)
-        //{
-        //    return;
-        //}
-        //var runner = other.gameObject.GetComponent<Rigidbody>();
         var runner = other.gameObject.GetComponentInChildren<RunnerSM>();
         Debug.Log(other.gameObject.name);
         if (runner != null)
         {
-            Debug.Log("addforce");
-
-            //runner.Rb.AddForce(m_tower.right * m_impulseForce, ForceMode.Impulse);
-            //runner.AddImpulseForce(m_tower.right, m_impulseForce);
+            //Debug.Log("addforce");
 
             if (m_towerSpeed > 0 )
             {

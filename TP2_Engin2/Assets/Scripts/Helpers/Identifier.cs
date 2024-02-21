@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Identifier : MonoBehaviour
@@ -56,7 +53,7 @@ public class Identifier : MonoBehaviour
                 return obj.uniqueID;
             }
         }
-        Debug.Log("Didnt find ID");
+        //Debug.Log("Didnt find ID");
         return -1;
     }
 
@@ -64,7 +61,7 @@ public class Identifier : MonoBehaviour
     {
         if (index == -1)
         {
-            Debug.Log("Incorrect index");
+            //Debug.Log("Incorrect index");
             return null;
         }
 
@@ -75,7 +72,7 @@ public class Identifier : MonoBehaviour
                 return obj.gameObject;
             }
         }
-        Debug.Log("Didnt find Object");
+        //Debug.Log("Didnt find Object");
         return null;
     }
 }

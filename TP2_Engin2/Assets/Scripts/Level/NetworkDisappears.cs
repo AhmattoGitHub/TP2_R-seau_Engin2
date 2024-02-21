@@ -3,8 +3,6 @@ using Mirror;
 
 public class NetworkDisappears : NetworkBehaviour
 {
-    // On pourrait ameliorer le polish de la disparition suivant une AnimationCurve avec .Evaluate(temps)
-
     [SerializeField] private bool m_triggered = false;
     [Tooltip("Not taken into account when type triggered")]
     [SerializeField] private float m_timeVisible = 5.0f;
@@ -27,7 +25,6 @@ public class NetworkDisappears : NetworkBehaviour
     private void Start()
     {
         m_renderer = GetComponent<Renderer>();
-        // Watch out if there is more than one basic collider (a.k.a not trigger)
         Collider[] childColliders = GetComponentsInChildren<Collider>();
         foreach (Collider collider in childColliders)
         {

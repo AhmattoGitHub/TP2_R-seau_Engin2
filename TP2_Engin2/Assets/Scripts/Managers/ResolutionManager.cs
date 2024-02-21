@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ResolutionManager : MonoBehaviour
 {
@@ -10,7 +8,6 @@ public class ResolutionManager : MonoBehaviour
     [SerializeField]
     private TMPro.TMP_Dropdown m_resolutionDropdown;
 
-    // Start is called before the first frame update
     void Start()
     {
 

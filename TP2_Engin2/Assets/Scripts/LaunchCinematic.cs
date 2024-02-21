@@ -1,6 +1,4 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -35,7 +33,7 @@ public class LaunchCinematic : NetworkBehaviour
     [ClientRpc]
     public void RPC_Launch()
     {
-        Debug.Log("rpc_launch"); // passes twice
+        //Debug.Log("rpc_launch");
 
         m_timer = 0.0f;
         m_hasStarted = true;

@@ -19,8 +19,6 @@ public class Shooter : NetworkBehaviour
 
     void Update()
     {
-        //Check for nonGameplay
-
         if (!isLocalPlayer)
         {
             return;
@@ -39,7 +37,7 @@ public class Shooter : NetworkBehaviour
             else
             {
                 Vector3 mousePosition = Input.mousePosition;
-                mousePosition.z = m_camera.nearClipPlane - 15; // 5 originalement
+                mousePosition.z = m_camera.nearClipPlane - 15;
                 Vector3 screenPosition = m_camera.ScreenToWorldPoint(mousePosition);
                 direction = (transform.position - screenPosition).normalized;
             }
@@ -88,7 +86,7 @@ public class Shooter : NetworkBehaviour
         {
             if (NetManagerCustom._Instance.MatchManager.GetPermissionToShoot() == false)
             {
-                Debug.Log("Cant select weapon !");
+                //Debug.Log("Cant select weapon !");
                 return;
             }
 
@@ -122,13 +120,6 @@ public class Shooter : NetworkBehaviour
         m_camera = camera;
     }
 
-    /*
-    Va falloir genre te faire quelque chose comme :
-
-    for each playerShooter in playersList
-    if isLocalPlayer
-    shooter.GetComponentInChildren<Shooter>().GetBulletRemainingPercentage()
-    */
     public float GetBulletRemainingPercentage()
     {
         if (m_bombCooldownTimer < 0)

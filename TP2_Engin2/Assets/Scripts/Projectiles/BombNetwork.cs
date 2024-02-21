@@ -45,12 +45,12 @@ public class BombNetwork : NetworkBehaviour
         }
         if (collision.gameObject.GetComponent<BombNetwork>() != null)
         {
-            NetworkServer.Destroy(gameObject);  //EXPLODE
+            NetworkServer.Destroy(gameObject);
             return;
         }
         if (collision.gameObject.GetComponent<RotatingArmAddForce>() != null)
         {
-            NetworkServer.Destroy(gameObject);  //EXPLODE
+            NetworkServer.Destroy(gameObject);
             return;
         }
         if (m_stuck)
@@ -82,13 +82,12 @@ public class BombNetwork : NetworkBehaviour
                 CMD_Explode();
                 return;
             }
-            CMD_Expand();
+            Expand();
             m_explosionTimer -= Time.deltaTime;
         }
         
         if (m_destroyTimer < 0)
         {
-            //CMD_Explode();
             NetworkServer.Destroy(gameObject);
             return;
         }
@@ -105,13 +104,11 @@ public class BombNetwork : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CMD_Explode()
     {
-        Debug.Log("explode");
+        //Debug.Log("explode");
         var surroundingObjects = Physics.OverlapSphere(transform.position, m_explosionRadius);
 
         foreach (var obj in surroundingObjects)
         {
-            // Needs to affect only characterPlayers
-
             if (obj.GetComponent<SpawnLocalPlayer>() == null)
             {
                 continue;
@@ -168,42 +165,23 @@ public class BombNetwork : NetworkBehaviour
 
     }
 
-    //[Command(requiresAuthority = false)]
-    private void CMD_Expand()
+    private void Expand()
     {
         float expansion = Time.deltaTime / m_expansionDivider;
         transform.localScale += new Vector3(expansion * transform.localScale.x, expansion * transform.localScale.y, expansion * transform.localScale.z);
     }
 
-    //[Command(requiresAuthority = false)]
-    //private void CMD_AddExplosionForce(int collidedGoIdx)
-    //{
-    //    Debug.Log("cmd add explosion force");
-    //
-    //    var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedGoIdx);
-    //    var rb = go.GetComponent<Rigidbody>();
-    //
-    //    if (rb == null)
-    //    {
-    //        Debug.Log("no rb");
-    //        return;
-    //    }
-    //    rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);
-    //
-    //    RPC_AddExplosionForce(collidedGoIdx);
-    //}
-
     [ClientRpc]
     private void RPC_AddExplosionForce(int collidedGoIdx)
     {
-        Debug.Log("rpc add explosion force");
+        //Debug.Log("rpc add explosion force");
 
         var go = NetManagerCustom._Instance.Identifier.GetObjectAtIndex(collidedGoIdx);
         var rb = go.GetComponent<Rigidbody>();
 
         if (rb == null)
         {
-            Debug.Log("no rb");
+            //Debug.Log("no rb");
             return;
         }
         rb.AddExplosionForce(m_explosionForce, transform.position, m_explosionRadius, m_height, ForceMode.Impulse);

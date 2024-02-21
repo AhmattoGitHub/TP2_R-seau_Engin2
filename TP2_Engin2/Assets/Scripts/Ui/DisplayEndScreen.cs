@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 
 public class DisplayEndScreen : MonoBehaviour
 {
@@ -31,7 +28,6 @@ public class DisplayEndScreen : MonoBehaviour
     private Color m_targetedWinColor = Color.white;
     private float m_lerpValue = 0.15f;
 
-    // Start is called before the first frame update
     void Start()
     {
         m_losePanelImage.color = Color.clear;
@@ -40,10 +36,9 @@ public class DisplayEndScreen : MonoBehaviour
         m_winText.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(DidPlayerLose()) //TODO: Change condition to if the player lost the game
+        if(DidPlayerLose())
         {
             ActivateLoseScreen();
         }
@@ -55,14 +50,6 @@ public class DisplayEndScreen : MonoBehaviour
 
     private bool DidPlayerLose()
     {
-        /*if (m_player.transform.position.y < m_boundaryY)
-        {
-            m_staminaBar.gameObject.SetActive(false);
-            m_bulletSlots.gameObject.SetActive(false);
-            m_tiltIndicator.gameObject.SetActive(false);
-            return true;
-        }*/
-
         return false;
     }
 
@@ -80,14 +67,6 @@ public class DisplayEndScreen : MonoBehaviour
 
     private bool DidPlayerWin()
     {
-        /*if (m_player.transform.position.y < m_boundaryY)
-        {
-            m_staminaBar.gameObject.SetActive(false);
-            m_bulletSlots.gameObject.SetActive(false);
-            m_tiltIndicator.gameObject.SetActive(false);
-            return true;
-        }*/
-
         return false;
     }
 

@@ -43,7 +43,6 @@ public class NetworkElevator : NetworkBehaviour
             if (m_isMovingTowardsEnd)
             {
                 MoveTowards(m_endPoint.position);
-                // m_elevator.transform.position.Equals(m_endPoint.position)
                 if (Vector3.Distance(m_elevator.transform.position, m_endPoint.position) < m_distanceThreshold)
                 {
                     m_isMovingTowardsEnd = false;

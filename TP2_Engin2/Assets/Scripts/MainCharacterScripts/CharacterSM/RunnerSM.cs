@@ -1,4 +1,3 @@
-using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,8 +42,6 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
 
     private float m_lerpedAngleX = 0;
     private bool m_isGrounded = false;
-    //private float m_staminaRecovery = 0.5f;
-    //private float m_staminaInverseMultiplier = 500.0f;
 
     // /////////////////
 
@@ -61,7 +58,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
         m_possibleStates.Add(new JumpState());
     }
 
-    protected override void Awake() //ERASABLE
+    protected override void Awake()
     {
         base.Awake();
     }
@@ -84,7 +81,6 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
         SetForwardVectorFromGroundNormal();
 
         SetIsGroundedAnimationBool();
-        //SetTouchingGroundAnimationBool();
 
         UpdateStaminaWhileRunning();
 
@@ -102,10 +98,6 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
 
     private void UpdateStaminaWhileRunning()
     {
-        //if (!isLocalPlayer)
-        //{
-        //    return;
-        //}
 
         if (Rb.velocity.magnitude < 0.5f)
         {
@@ -132,10 +124,6 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
 
     public void UpdateStaminaWhileJumping(float value)
     {
-        //if (!isLocalPlayer)
-        //{
-        //    return;
-        //}
 
         Stamina -= value;
 
@@ -147,10 +135,6 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
 
     private void RotatePlayer()
     {
-        //if (!isLocalPlayer)
-        //{
-        //    return;
-        //}
 
         if (IsInNonGameplay)
         {
@@ -230,12 +214,9 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
             forwardMovement /= BackwardMaxVelocity;
         }
 
-        //if (isLocalPlayer)
-        //{
         Animator.SetFloat("MoveLR", lateralMovement);
         Animator.SetFloat("MoveFB", forwardMovement);
 
-        //}
     }
 
     private void SetTouchingGroundAnimationBool()
@@ -250,7 +231,7 @@ public class RunnerSM : GM_BaseStateMachine<CharacterState>
 
     public void AddImpulseForce(Vector3 direction, float impulseForce)
     {
-        Debug.Log("addimpulse");
+        //Debug.Log("addimpulse");
         Rb.AddForce(direction * impulseForce, ForceMode.Impulse);
     }
 

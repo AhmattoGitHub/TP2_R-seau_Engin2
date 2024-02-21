@@ -28,15 +28,10 @@ public class Hitbox : MonoBehaviour
         if (CanGetHit(otherHitbox))
         {
 			Vector3 contactPoint = collision.GetContact(0).point;
-			//FXManager.Instance.OnHit(AgentType, contactPoint);
 
-			Debug.Log(gameObject.name + " script hit " + otherHitbox.name);
+			//Debug.Log(gameObject.name + " script hit " + otherHitbox.name);
         }
 
-		//if (gameObject.GetComponent<TestBullet>() != null)
-		//{
-		//	Destroy(gameObject);
-		//}
     }
 
     protected bool CanGetHit(Hitbox otherHitbox)

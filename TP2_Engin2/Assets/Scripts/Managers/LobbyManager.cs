@@ -1,13 +1,6 @@
-using JetBrains.Annotations;
 using Mirror;
-using Mirror.Examples.Pong;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -307,7 +300,6 @@ public class LobbyManager : NetworkBehaviour
     {
         if(m_timer <= 1)
         {            
-            //LobbyNetworkManager.singleton.autoCreatePlayer = false;
             m_networkManager.autoCreatePlayer = false;
             ChangeScene();
             return;
@@ -317,7 +309,6 @@ public class LobbyManager : NetworkBehaviour
         m_vsText.text = ((int)m_timer).ToString();
     }
 
-    //[Server]
     private void ChangeScene()
     {        
         if (!isServer)
@@ -327,7 +318,6 @@ public class LobbyManager : NetworkBehaviour
         }
 
         //Debug.Log("Change scene");
-        //LobbyNetworkManager.singleton.ServerChangeScene("MainLevel");
         m_changeSceneCalled = true;
         m_networkManager.ServerChangeScene("MainLevel");
     }

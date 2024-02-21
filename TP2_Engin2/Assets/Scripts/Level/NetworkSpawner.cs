@@ -1,8 +1,5 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : NetworkBehaviour
 {
@@ -131,8 +128,6 @@ public class NetworkSpawner : NetworkBehaviour
             GameObject winTrigger = Instantiate(m_winBoundTrigger, transform);
             //NetworkServer.Spawn(winTrigger);
         }
-
-
 
         m_identifier.AssignAllIds(transform);
     }

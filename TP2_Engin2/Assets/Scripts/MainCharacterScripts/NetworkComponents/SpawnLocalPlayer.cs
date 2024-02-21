@@ -1,11 +1,8 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnLocalPlayer : NetworkBehaviour
 {
-    //[SerializeField] private GameObject m_localCinematicPrefab;
     [SerializeField] private GameObject m_cinematicGo;
     [SerializeField] private GameObject m_localPlayerPrefab;
     [SerializeField] private bool isRunner;

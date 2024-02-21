@@ -1,4 +1,3 @@
-using kcp2k;
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,21 +57,7 @@ public class NetManagerCustom : NetworkManager
 
                 player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
                 NetworkServer.AddPlayerForConnection(conn, player);
-
-
-                //OnServerAddPlayer(conn, shooterPrefab);
             }
-
-
-            //if (conn.identity.isLocalPlayer)
-            //{
-            //    var spawner = Instantiate(m_spawner);
-            //    NetworkServer.Spawn(spawner);
-            //
-            //    m_identifier = spawner.GetComponent<Identifier>();
-            //}
-
-
             return;
         }
 
@@ -81,7 +66,7 @@ public class NetManagerCustom : NetworkManager
             return;
         }
 
-        Debug.Log("trying to change :  " + conn.m_name);
+        //Debug.Log("trying to change :  " + conn.m_name);
         if (conn.m_tag == "Runner")
         {
             NetworkServer.ReplacePlayerForConnection(conn, Instantiate(runnerPrefab, runnerSpawns[runnerSpawnsIndex], Quaternion.identity), true);
@@ -99,22 +84,21 @@ public class NetManagerCustom : NetworkManager
         int mainLevelCounter = 0;
         foreach (var player in LobbyManager.Instance.GetList())
         {
-            Debug.Log(player.m_name + "  " + player.m_isInMainLevel);
+            //Debug.Log(player.m_name + "  " + player.m_isInMainLevel);
             if (player.m_isInMainLevel)
             {
-                Debug.Log("mainLevelCounter++");
+                //Debug.Log("mainLevelCounter++");
                 mainLevelCounter++;
             }
             else
             {
-                Debug.Log("not all ready");
+                //Debug.Log("not all ready");
                 return;
             }
         }
 
         if (mainLevelCounter == LobbyManager.Instance.GetList().Count)
         {
-            //All players ready in scene
             MatchManager.SetConnectedPlayersList(LobbyManager.Instance.GetList());
             MatchManager.LaunchGame();
             
@@ -219,10 +203,10 @@ public class NetManagerCustom : NetworkManager
         var manager = LobbyManager.Instance;
         if (manager == null)
         {
-            Debug.LogError("MANAGER IS NULL");
+            //Debug.LogError("MANAGER IS NULL");
             return;
         }
-        Debug.LogError("");
+        //Debug.LogError("There is a manager");
         manager.WaitForConfig();
     }
 

@@ -11,7 +11,7 @@ public enum E_TriggerTypes
 
 public class NetworkMatchManager : NetworkBehaviour
 {
-    public static NetworkMatchManager _Instance { get; private set; } //Nécessaire ? Déjà accessible du NetManagerCustom..
+    public static NetworkMatchManager _Instance { get; private set; }
 
     private List<NetworkConnectionToClient> ConnectedPlayers = new List<NetworkConnectionToClient>();
 
@@ -47,14 +47,10 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void Update()
     {
-        //Debug.Log("bool canShoot" + m_canShootBomb);
-        //Debug.Log("bool hasShot" + m_hasShotBomb);
-
         if (isServer)
         {
             ServerUpdate();
         }
-        //ServerUpdate();
     }
 
     private void ServerUpdate()
@@ -97,7 +93,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void LaunchGame()
     {
-        Debug.Log("Launching cinematic");
+        //Debug.Log("Launching cinematic");
         foreach (var player in ConnectedPlayers)
         {
             var cinematic = player.identity.gameObject.GetComponentInChildren<LaunchCinematic>();
@@ -117,17 +113,17 @@ public class NetworkMatchManager : NetworkBehaviour
         ConnectedPlayers = list;
     }
 
-    public int GetGameTimer()   //function to call for game timer : NetManagerCustom.Instance.MatchManager.GetGameTimer();
+    public int GetGameTimer()
     {
         return (int)m_gameTimer;
     }
 
-    public bool GetBombAvailability()   //function to call for shooting bomb availability : NetManagerCustom.Instance.MatchManager.GetBombAvailability();
+    public bool GetBombAvailability()
     {
         return m_canShootBomb;
     }
 
-    public float GetBombRemainingPercentage()   //function to call for shooting bomb timer (between 0 & 1) : NetManagerCustom.Instance.MatchManager.GetBombRemainingPercentage();
+    public float GetBombRemainingPercentage()
     {
         if (m_shootBombTimer < 0)
         {
@@ -141,7 +137,6 @@ public class NetworkMatchManager : NetworkBehaviour
         if (m_canShootBomb)
         {
             CMD_ShooterHasSelectedBomb();
-            //CMD_ResetShootBombBool();
             return true;
         }
 
