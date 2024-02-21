@@ -8,8 +8,6 @@ public class Rotate : NetworkBehaviour
     
     void FixedUpdate()
     {
-        //transform.RotateAround(transform.position, Vector3.up, m_rotationSpeed);       
-
         transform.localRotation = Quaternion.Euler(0, m_rotation, 0);
         m_rotation += RotationSpeed;
     }

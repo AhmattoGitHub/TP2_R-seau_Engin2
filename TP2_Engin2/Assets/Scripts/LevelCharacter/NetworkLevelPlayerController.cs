@@ -32,7 +32,7 @@ public class NetworkLevelPlayerController : NetworkBehaviour
     [TargetRpc]
     public void TargetMovePlayerArrow(NetworkConnectionToClient target, int index, bool selectingBomb)
     {
-        Debug.Log("in rpc target");
+        //Debug.Log("in rpc target");
 
         var manager = transform.root.GetComponentInChildren<ShooterUIManager>();
 
@@ -43,22 +43,6 @@ public class NetworkLevelPlayerController : NetworkBehaviour
         }
 
         manager.RPCMovePlayerArrow(index, selectingBomb);
-        
-        //if (selectingBomb)
-        //{
-        //    m_playerArrows[index].transform.localPosition = new Vector3(17.5f, 111, 0);
-        //}
-        //else
-        //{
-        //    if (index == 0)
-        //    {
-        //        m_playerArrows[index].transform.localPosition = m_arrowOneInitialPosition;
-        //    }
-        //    else
-        //    {
-        //        m_playerArrows[index].transform.localPosition = m_arrowTwoInitialPosition;
-        //    }
-        //}
     }
 
 }

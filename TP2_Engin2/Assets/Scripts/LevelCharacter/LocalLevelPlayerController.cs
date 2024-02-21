@@ -54,7 +54,7 @@ public class LocalLevelPlayerController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.P))    //For easier testing    //Feature ?
+        if (Input.GetKeyDown(KeyCode.P))
         {
             m_inputPaused = !m_inputPaused;
         }
@@ -110,11 +110,11 @@ public class LocalLevelPlayerController : MonoBehaviour
 
     private void SendInputsToNetworkComponent()
     {
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
+        //Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
 
         Vector3 localInput = GetLocalInput();
 
-        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
+        //Debug.DrawRay(transform.position + new Vector3(0, 1, 0), localInput * 5, Color.green);
 
         //Debug.Log("send inputs from local");        
         m_networkComponent.CMD_SendInputs(localInput);
@@ -173,9 +173,8 @@ public class LocalLevelPlayerController : MonoBehaviour
         m_cinematicCamera = go.GetComponent<Camera>();
     }
 
-    public void SetCooldownDisplay(/*DisplayProjectileCooldown DisplayScript,*/ Shooter shooterScript)
+    public void SetCooldownDisplay( Shooter shooterScript)
     {
-        //m_cooldownDisplay = DisplayScript;
         m_cooldownDisplay.SetShooterScript(shooterScript);
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +9,6 @@ public class DisplayProjectileCooldown : MonoBehaviour
     private Image m_bigBombCooldownImage;
     private Shooter m_shooterScript;
 
-    // Update is called once per frame
     void Update()
     {
         UpdateBombCooldownImage(m_shooterScript.GetBulletRemainingPercentage());

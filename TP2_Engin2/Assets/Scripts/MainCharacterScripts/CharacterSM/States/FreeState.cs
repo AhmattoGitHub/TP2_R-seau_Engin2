@@ -8,7 +8,7 @@ public class FreeState : CharacterState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering FreeState");
+        //Debug.Log("Entering FreeState");
     }
 
     public override void OnFixedUpdate()
@@ -23,7 +23,7 @@ public class FreeState : CharacterState
     void ApplySlopeForce()
     {
         RaycastHit hit;
-        int layerMask = 1 << 8; // Ground layer devrait être à 8
+        int layerMask = 1 << 8;
 
         if (Physics.Raycast(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), Vector3.down, out hit, Mathf.Infinity, layerMask))
         {            
@@ -31,16 +31,15 @@ public class FreeState : CharacterState
 
             if (groundAngle > m_stateMachine.SteepnessBeforeSlopeForce && groundAngle < 90)
             {
-                // peut-être à changer pour un lerp?
-                float slopeMultiplier = m_stateMachine.SlopeForceAngleMultiplier + (groundAngle / 90.0f); // À ajuster
+                float slopeMultiplier = m_stateMachine.SlopeForceAngleMultiplier + (groundAngle / 90.0f);
                 float forceMagnitude = m_stateMachine.SlopeForceMagnitude * slopeMultiplier * Mathf.Sin(Mathf.Deg2Rad * groundAngle);
 
-                Debug.Log("The ground angle is " + groundAngle + " the slope multiplier is " + slopeMultiplier + " the force magnitude is " + forceMagnitude);
+                //Debug.Log("The ground angle is " + groundAngle + " the slope multiplier is " + slopeMultiplier + " the force magnitude is " + forceMagnitude);
 
                 Vector3 slopeDirection = Vector3.ProjectOnPlane(-hit.normal, Vector3.up).normalized;
                 Vector3 slopeForce = -slopeDirection * forceMagnitude;
                 
-                Debug.DrawRay(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), slopeForce, Color.blue);
+                //Debug.DrawRay(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), slopeForce, Color.blue);
                 
                 m_stateMachine.Rb.AddForce(slopeForce, ForceMode.Acceleration);
             }
@@ -94,29 +93,12 @@ public class FreeState : CharacterState
 
     private void CapMaximumSpeed()
     {
-        // Retire pour le build, intéressant but needs more testing before being implemented
-        //
-        //RaycastHit hit;
-        //int layerMask = 1 << 8; // Ground layer devrait être à 8
-        //
-        //if (Physics.Raycast(m_stateMachine.MC.transform.position + new Vector3(0, 2, 0), Vector3.down, out hit, Mathf.Infinity, layerMask))
-        //{
-        //    float groundAngle = Vector3.Angle(hit.normal, Vector3.up);
-        //
-        //    if (groundAngle > m_stateMachine.SteepnessBeforeSlopeForce) 
-        //    {
-        //        SlopedTerrainCapMaximumSpeed(hit, groundAngle); // À peaufiner
-        //
-        //        return;
-        //    }
-        //}
-
         FlatTerrainCapMaximumSpeed();
     }   
 
     private void SlopedTerrainCapMaximumSpeed(RaycastHit hit, float groundAngle)
     {
-        float slopeMultiplier = 1.0f + (groundAngle / 90.0f); // À ajuster maybe
+        float slopeMultiplier = 1.0f + (groundAngle / 90.0f);
 
         float forwardMaxVelocity = 0.0f;
         float lateralMaxVelocity = 0.0f;
@@ -126,7 +108,7 @@ public class FreeState : CharacterState
         {
             float velocityDirection = Vector3.Dot(m_stateMachine.Rb.velocity.normalized, -hit.normal);
 
-            if (velocityDirection > 0) // On bouge contre la pente
+            if (velocityDirection > 0)
             {
                 forwardMaxVelocity = Mathf.Lerp(m_stateMachine.ForwardMaxVelocity, m_stateMachine.ForwardMaxVelocity * 2, slopeMultiplier);
                 lateralMaxVelocity = Mathf.Lerp(m_stateMachine.LateralMaxVelocity, m_stateMachine.LateralMaxVelocity, slopeMultiplier);

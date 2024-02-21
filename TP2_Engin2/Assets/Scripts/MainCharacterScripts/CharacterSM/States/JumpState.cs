@@ -15,8 +15,6 @@ public class JumpState : CharacterState
         m_hasDoubleJumped = false;
         Jump();
         m_currentGCDelayTimer = GROUNDCHECK_DELAY_TIMER;
-
-        //FXManager.Instance.PlaySound(EFXType.McJump, m_stateMachine.transform.position);
     }
 
     public override void OnFixedUpdate()
@@ -95,11 +93,6 @@ public class JumpState : CharacterState
     public override void OnExit()
     {
         //Debug.Log("Exiting JumpState");
-
-        //if (m_stateMachine.IsInContactWithFloor())
-        //{
-        //    FXManager.Instance.PlaySound(EFXType.McLand, m_stateMachine.transform.position);
-        //}
     }
 
     public override bool CanEnter(GM_IState currentState)

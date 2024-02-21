@@ -1,7 +1,6 @@
-using Mirror;
 using UnityEngine;
 
-public class CameraController_CharacterPlayer : MonoBehaviour        // Character
+public class CameraController_CharacterPlayer : MonoBehaviour
 {
 
     [SerializeField] private Transform m_objectToLookAt;
@@ -18,14 +17,8 @@ public class CameraController_CharacterPlayer : MonoBehaviour        // Characte
     [SerializeField] private Vector2 m_clampingCameraDistance;
 
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        //if (!isLocalPlayer)   //new
-        //{
-        //    gameObject.SetActive(false);
-        //}
         m_targetDistance = m_startDistance;
     }
 
@@ -34,9 +27,7 @@ public class CameraController_CharacterPlayer : MonoBehaviour        // Characte
         CalculateDistance();
         CalculateTargetPosition();
 
-        //RotateAroundObjectHorizontal();
-        RotateAroundObjectVertical();     //new
-
+        RotateAroundObjectVertical();
         transform.position = Vector3.Lerp(transform.position, m_targetPosition, m_lerpF);
 
         HardSetCameraZRotation();
@@ -74,20 +65,14 @@ public class CameraController_CharacterPlayer : MonoBehaviour        // Characte
 
     void RotateAroundObjectVertical()
     {
-        //Différence de l'angle à chaque frame
         float currentAngleY = Input.GetAxis("Mouse Y") * m_rotationSpeed;
-        //Valeur de mon transform
         var xRotationValue = transform.rotation.eulerAngles.x;
-        //Résultat de ma rotation + différence
         float comparisonAngle = xRotationValue + currentAngleY;
 
-        //S'assure que l'angle n'est pas converti à 360 lorsqu'il atteint 0 (0 étant à l'horizontal)
-        //Permet d'avoir une limite du bas en valeur négative
         if (comparisonAngle > 180)
         {
             comparisonAngle -= 360;
         }
-        //Early return si les valeurs de l'angle sortent de mon min,max (clamp)
         if ((currentAngleY < 0 && comparisonAngle < m_clampingXRotationValues.x) ||
             (currentAngleY > 0 && comparisonAngle > m_clampingXRotationValues.y))
         {

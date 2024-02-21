@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 
 public class DisplayLoseScreen : MonoBehaviour
 {
@@ -22,17 +19,15 @@ public class DisplayLoseScreen : MonoBehaviour
     private Color m_targetedColor = Color.black;
     private float m_lerpValue = 0.15f;
 
-    // Start is called before the first frame update
     void Start()
     {
         m_panelImage.color = Color.clear;
         m_deadText.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(DidPlayerLose()) //TODO: Change condition to if the player lost the game
+        if(DidPlayerLose())
         {
             ActivateLoseScreen();
         }

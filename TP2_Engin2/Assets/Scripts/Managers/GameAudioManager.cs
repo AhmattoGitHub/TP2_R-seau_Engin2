@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameAudioManager : MonoBehaviour
@@ -20,7 +16,6 @@ public class GameAudioManager : MonoBehaviour
     [SerializeField] private AudioClip m_loseMusic;
     [SerializeField] private AudioClip m_knockedOutSFX;
 
-    // Property to access the singleton instance
     public static GameAudioManager Instance
     {
         get
@@ -90,7 +85,6 @@ public class GameAudioManager : MonoBehaviour
 
     public void PlayKnockedOutSFX()
     {
-        //m_mainLevelAudioSource.PlayOneShot(m_knockedOutSFX);
         m_mainLevelPlayerAudioSource.PlayOneShot(m_knockedOutSFX);
     }
 }

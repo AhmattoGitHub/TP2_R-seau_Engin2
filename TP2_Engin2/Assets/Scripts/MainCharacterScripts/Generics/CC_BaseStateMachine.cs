@@ -1,6 +1,5 @@
 using Mirror;
 using System.Collections.Generic;
-using UnityEngine;
 
 public abstract class CC_BaseStateMachine<T> : NetworkBehaviour where T : CC_IState
 {

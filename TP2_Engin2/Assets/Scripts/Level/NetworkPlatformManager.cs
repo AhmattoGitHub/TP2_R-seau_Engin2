@@ -34,7 +34,6 @@ public class NetworkPlatformManager : NetworkBehaviour
             ServerUpdate();
         }
 
-        //ServerUpdate();
     }
 
     //[Server]
@@ -102,7 +101,7 @@ public class NetworkPlatformManager : NetworkBehaviour
     {
         Vector3 pivotToObjectPreviewDir = transform.position - m_previewAngleObject.transform.TransformPoint(Vector3.zero);       
         float previewObjectToPivotDirAngle = Vector3.Angle(-Vector3.up, pivotToObjectPreviewDir);
-        Debug.Log("Preview Angle is " + previewObjectToPivotDirAngle);
+        //Debug.Log("Preview Angle is " + previewObjectToPivotDirAngle);
         return previewObjectToPivotDirAngle;
     }
 
@@ -117,43 +116,5 @@ public class NetworkPlatformManager : NetworkBehaviour
         }
 
         m_playersInputs += inputs; 
-        // Le probleme de la plateforme qui reste pognee a son angle maximum se fait ici
-        // Le statement if peut-etre commente et ca permet de retrouver le comportement de la plateforme qui reste pognee
-        // Je ne sais pas si ce fix demeure bon pour le jeu en reseau avec des inputs de plus
-        // d'un joueur, a tester
     }
 }
-
-/*
- 
-// TRYING TO CHANGE TO PARENT CHILDREN ONLY
-
- if (m_playersInputs == Vector3.zero)    
-        {
-            Debug.Log("no input");
-            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, m_previewObject.transform.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, m_dampingSpeed * Time.deltaTime);            
-        }
-
-        m_playersInputs = Vector3.zero;
-
-    
-    private void ApplyRotate(GameObject gO)
-    {
-        Debug.DrawRay(transform.position, m_rotationAxis * 10, Color.magenta);
-
-        if (gO == null) return;
-
-        m_previewObject.transform.position = transform.position;
-        m_previewObject.transform.rotation = transform.rotation;
-
-        gO.transform.position = Vector3.zero - (-transform.up * m_pivotRadius);
-        gO.transform.rotation = Quaternion.Euler(gO.transform.rotation.eulerAngles.x, 0f, gO.transform.rotation.eulerAngles.z);
-        gO.transform.RotateAround(transform.position, m_rotationAxis, m_rotationSpeed * Time.deltaTime);
-    }
- 
- 
- 
- 
- */
-
